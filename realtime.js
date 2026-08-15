@@ -2,112 +2,150 @@
   const PLAYER_KEY = "aa_players_fixed_excel_v2";
   const STATE_KEY = "aa_state_fixed_excel_v2";
 
-  const isTeamViewer =
-    location.pathname.toLowerCase().includes("team-view.html");
-
   let socket = null;
-  let connected = false;
+  let reconnectTimer = null;
   let applyingRemote = false;
 
-  function send(key, value) {
-    if (!connected || applyingRemote || !socket) return;
-
-    try {
-      socket.send(JSON.stringify({
-        type: "set",
-        key,
-        value
-      }));
-    } catch (_) {}
+  function getWebSocketUrl() {
+    const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+    return `${protocol}//${location.host}/ws`;
   }
 
   function connect() {
-    const protocol = location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${location.host}/ws`;
+    if (socket && (
+      socket.readyState === WebSocket.OPEN ||
+      socket.readyState === WebSocket.CONNECTING
+    )) {
+      return;
+    }
 
     try {
-      socket = new WebSocket(wsUrl);
+      socket = new WebSocket(getWebSocketUrl());
 
-      socket.onopen = () => {
-        connected = true;
-      };
+      socket.addEventListener("open", () => {
+        console.log("[NIRMAAN] Real-time connected");
+      });
 
-      socket.onmessage = (event) => {
+      socket.addEventListener("message", (event) => {
         try {
           const msg = JSON.parse(event.data);
 
-          if (msg.type !== "snapshot" && msg.type !== "set") return;
+          if (msg.type === "snapshot") {
+            applyingRemote = true;
 
-          applyingRemote = true;
+            if (msg.players !== null && msg.players !== undefined) {
+              localStorage.setItem(
+                PLAYER_KEY,
+                String(msg.players)
+              );
+            }
 
-          if (
-            msg.type === "snapshot" &&
-            msg.players !== undefined &&
-            msg.players !== null
-          ) {
-            localStorage.setItem(
-              PLAYER_KEY,
-              typeof msg.players === "string"
-                ? msg.players
-                : JSON.stringify(msg.players)
+            if (msg.state !== null && msg.state !== undefined) {
+              localStorage.setItem(
+                STATE_KEY,
+                String(msg.state)
+              );
+            }
+
+            applyingRemote = false;
+
+            window.dispatchEvent(
+              new StorageEvent("storage", {
+                key: STATE_KEY,
+                newValue: msg.state ?? null,
+                storageArea: localStorage
+              })
+            );
+
+            window.dispatchEvent(
+              new Event("nirmaan-realtime-update")
+            );
+
+            return;
+          }
+
+          if (msg.type === "set") {
+            applyingRemote = true;
+
+            if (msg.value === null) {
+              localStorage.removeItem(msg.key);
+            } else {
+              localStorage.setItem(
+                msg.key,
+                String(msg.value)
+              );
+            }
+
+            applyingRemote = false;
+
+            window.dispatchEvent(
+              new StorageEvent("storage", {
+                key: msg.key,
+                newValue: msg.value ?? null,
+                storageArea: localStorage
+              })
+            );
+
+            window.dispatchEvent(
+              new Event("nirmaan-realtime-update")
             );
           }
-
-          if (
-            msg.type === "snapshot" &&
-            msg.state !== undefined &&
-            msg.state !== null
-          ) {
-            localStorage.setItem(
-              STATE_KEY,
-              typeof msg.state === "string"
-                ? msg.state
-                : JSON.stringify(msg.state)
-            );
-          }
-
-          if (msg.type === "set" && msg.key && msg.value !== undefined) {
-            localStorage.setItem(msg.key, msg.value);
-          }
-
+        } catch (error) {
           applyingRemote = false;
-
-          window.dispatchEvent(
-            new StorageEvent("storage", {
-              key: msg.key || null,
-              newValue: msg.value || null,
-              storageArea: localStorage
-            })
-          );
-
-          if (isTeamViewer && typeof window.loadState === "function") {
-            window.loadState();
-          }
-        } catch (_) {
-          applyingRemote = false;
+          console.error("[NIRMAAN] Realtime message error:", error);
         }
-      };
+      });
 
-      socket.onclose = () => {
-        connected = false;
+      socket.addEventListener("close", () => {
         socket = null;
+        scheduleReconnect();
+      });
 
-        setTimeout(connect, 2000);
-      };
+      socket.addEventListener("error", () => {
+        try {
+          socket.close();
+        } catch (_) {}
+      });
 
-      socket.onerror = () => {
-        connected = false;
-      };
-    } catch (_) {
-      connected = false;
-      setTimeout(connect, 2000);
+    } catch (error) {
+      console.error("[NIRMAAN] Realtime connection error:", error);
+      scheduleReconnect();
     }
+  }
+
+  function scheduleReconnect() {
+    if (reconnectTimer) return;
+
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      connect();
+    }, 2000);
+  }
+
+  function sendUpdate(key, value) {
+    if (
+      applyingRemote ||
+      !socket ||
+      socket.readyState !== WebSocket.OPEN
+    ) {
+      return;
+    }
+
+    try {
+      socket.send(
+        JSON.stringify({
+          type: "set",
+          key,
+          value
+        })
+      );
+    } catch (_) {}
   }
 
   const originalSetItem = Storage.prototype.setItem;
   const originalRemoveItem = Storage.prototype.removeItem;
 
-  Storage.prototype.setItem = function (key, value) {
+  Storage.prototype.setItem = function(key, value) {
     originalSetItem.call(this, key, value);
 
     if (
@@ -115,11 +153,11 @@
       !applyingRemote &&
       (key === PLAYER_KEY || key === STATE_KEY)
     ) {
-      send(key, String(value));
+      sendUpdate(key, String(value));
     }
   };
 
-  Storage.prototype.removeItem = function (key) {
+  Storage.prototype.removeItem = function(key) {
     originalRemoveItem.call(this, key);
 
     if (
@@ -127,13 +165,26 @@
       !applyingRemote &&
       (key === PLAYER_KEY || key === STATE_KEY)
     ) {
-      send(key, null);
+      sendUpdate(key, null);
     }
   };
 
   window.NIRMAANRealtime = {
-    isConnected: () => connected,
-    reconnect: connect
+    isConnected() {
+      return (
+        socket !== null &&
+        socket.readyState === WebSocket.OPEN
+      );
+    },
+
+    reconnect() {
+      try {
+        if (socket) socket.close();
+      } catch (_) {}
+
+      socket = null;
+      connect();
+    }
   };
 
   connect();

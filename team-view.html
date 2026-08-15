@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NIRMAAN 2K26 — Team Viewer | Sarvajanik College of Engineering</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.teamViewWrap{max-width:1120px;margin:auto;padding:28px 20px}
+.teamGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.teamCard,.teamPanel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;margin:16px 0;box-shadow:var(--shadow)}
+.stat{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:18px}
+.statLabel{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.statValue{font-size:27px;font-weight:850;margin-top:7px}
+.playerRow{display:grid;grid-template-columns:42px 1fr auto;gap:12px;padding:14px;border-bottom:1px solid var(--line)}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#e9f0ff;color:var(--navy);font-weight:800}
+.bigMsg{padding:16px;border-radius:14px;background:#eef5ff;margin-top:14px}
+.successBox{background:#e8f8ef;color:#14532d}.winnerBox{background:linear-gradient(135deg,#fff8dd,#fffdf4);border:1px solid #f0d77b;border-radius:18px;padding:20px}.hidden{display:none}
+.teamHero{margin-bottom:20px}
+@media(max-width:900px){.teamGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.teamGrid{grid-template-columns:1fr}.teamViewWrap{padding:12px}.teamCard,.teamPanel{padding:18px}}
+</style>
+</head>
+<body>
+<div class="teamViewWrap">
+<header class="teamHeader hero simpleNirmanHero">
+  <div class="simpleHeroBg" aria-hidden="true"></div>
+  <div class="simpleCollege">SARVAJANIK COLLEGE OF ENGINEERING & TECHNOLOGY</div>
+  <div class="simpleDepartment">CIVIL ENGINEERING DEPARTMENT</div>
+  <div class="simpleHeroContent">
+    <h1><span>NIRMAAN</span> <b>2K26</b></h1>
+    <p class="heroSub">Team View • Live Auction Dashboard</p>
+    <div class="heroActions">
+      
+      <span class="livePill"><i></i> LIVE UPDATES</span>
+    </div>
+  </div>
+</header>
+
+<section id="globalFinalResult" class="teamPanel hidden">
+<h2>🏆 Auction Result</h2>
+<div id="globalFinalResultContent"></div>
+</section>
+
+<section id="selectCard" class="teamCard accessCard"><div class="sectionKicker">TEAM ACCESS</div><h2>Select Your Team</h2>
+<select id="teamSelect"><option value="">Select Your Team</option></select>
+<div id="selectMsg" class="msg"></div>
+</section>
+
+<section id="pinCard" class="teamCard hidden accessCard">
+<h2 id="pinTitle">Team PIN</h2>
+<input id="teamPinInput" type="password" placeholder="Enter Team PIN">
+<div class="actions"><button id="showPinBtn" type="button">👁️ Show / Hide PIN</button><button id="continueBtn" type="button" class="primary">Continue</button></div>
+<div id="pinMsg" class="msg"></div>
+</section>
+
+<section id="teamApp" class="hidden">
+<div class="teamPanel dashboardPanel">
+<div class="actions"><button id="changeTeamBtn" type="button">Change Team</button><button id="logoutBtn" type="button">Logout</button></div>
+<h2 id="welcome"></h2>
+<div id="auctionStatus" class="bigMsg"></div>
+<div class="teamGrid">
+<div class="stat"><div class="statLabel">Starting Budget</div><div id="startBudget" class="statValue">—</div></div>
+<div class="stat"><div class="statLabel">Remaining Budget</div><div id="remainingBudget" class="statValue">—</div></div>
+<div class="stat"><div class="statLabel">Players Bought</div><div id="playersBought" class="statValue">—</div></div>
+<div class="stat"><div class="statLabel">Players Remaining</div><div id="playersRemaining" class="statValue">—</div></div>
+</div>
+<div id="teamMessage" class="bigMsg"></div>
+</div>
+
+<div class="teamPanel"><h2>🏏 Purchased Players</h2><div id="playersList"></div></div>
+<div id="finalResult" class="teamPanel hidden"></div>
+</section>
+</div>
+
+<script>
+const PLAYER_KEY="aa_players_fixed_excel_v2", STATE_KEY="aa_state_fixed_excel_v2";
+let players=JSON.parse(localStorage.getItem(PLAYER_KEY)||"[]");
+let state=JSON.parse(localStorage.getItem(STATE_KEY)||'{"teams":[],"sold":[],"auctionComplete":false}');
+let selectedTeamName="", authenticated=false;
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN");
+
+function loadState(){
+ players=JSON.parse(localStorage.getItem(PLAYER_KEY)||"[]");
+ state=JSON.parse(localStorage.getItem(STATE_KEY)||'{"teams":[],"sold":[],"auctionComplete":false}');
+ state.auctionComplete=Boolean(state.auctionComplete);
+ renderTeamSelect();
+ renderGlobalFinalResult();
+ if(authenticated)renderTeam();
+}
+function renderTeamSelect(){
+ $("teamSelect").innerHTML='<option value="">Select Your Team</option>'+
+   state.teams.map(t=>`<option value="${esc(t.name)}">${esc(t.name)}</option>`).join("");
+}
+function renderGlobalFinalResult(){
+ const box=$("globalFinalResult");
+ const content=$("globalFinalResultContent");
+ if(!box||!content)return;
+ if(!state.auctionComplete || !state.resultVisibleToTeams){
+   box.classList.add("hidden");
+   content.innerHTML="";
+   return;
+ }
+ const ranking=[...state.teams].sort((a,b)=>Number(b.points||0)-Number(a.points||0));
+ box.classList.remove("hidden");
+ content.innerHTML=
+   "<div class='winnerBox'><h2>🏆 Winner Celebration</h2>"+
+   "<p>Congratulations to our Champions!</p>"+
+   "<h3>🏆 Final Ranking</h3>"+
+   ranking.map((x,i)=>`<div class="rank"><b>${i<3?["🥇","🥈","🥉"][i]:i+1}</b><b>${esc(x.name)}</b><span>${Number(x.points||0).toLocaleString("en-IN")} Points</span></div>`).join("")+
+   "</div>";
+}
+function currentTeam(){return state.teams.find(t=>t.name===selectedTeamName)||null}
+$("teamSelect").onchange=()=>{
+ const t=currentTeamFromSelect();
+ if(!t)return;
+ selectedTeamName=t.name;
+ $("pinTitle").textContent=t.name+" — Enter PIN";
+ $("teamPinInput").value="";
+ $("pinMsg").textContent="";
+ $("selectCard").classList.add("hidden");
+ $("pinCard").classList.remove("hidden");
+};
+function currentTeamFromSelect(){return state.teams.find(t=>t.name===$("teamSelect").value)||null}
+$("showPinBtn").onclick=()=>{$("teamPinInput").type=$("teamPinInput").type==="password"?"text":"password"};
+$("continueBtn").onclick=()=>{
+ const t=currentTeam();
+ if(!t)return;
+ if(String($("teamPinInput").value)!==String(t.pin||"")){
+   $("pinMsg").textContent="❌ Incorrect PIN";
+   return;
+ }
+ authenticated=true;
+ $("pinCard").classList.add("hidden");
+ $("teamApp").classList.remove("hidden");
+ $("welcome").textContent=`🎉 Welcome, ${t.name}!`;
+ renderTeam();
+};
+function changeTeam(){
+ authenticated=false;selectedTeamName="";
+ $("teamApp").classList.add("hidden");
+ $("pinCard").classList.add("hidden");
+ $("selectCard").classList.remove("hidden");
+ $("teamSelect").value="";
+}
+$("changeTeamBtn").onclick=changeTeam;
+$("logoutBtn").onclick=()=>{
+ if(confirm("Are you sure you want to logout?"))changeTeam();
+};
+function renderTeam(){
+ if(!authenticated)return;
+ const t=currentTeam();
+ if(!t){changeTeam();return}
+ const sold=state.sold.filter(s=>s.team===t.name);
+ const complete=t.players.length>=4 || Number(t.budget)<=0;
+ $("startBudget").textContent=money(t.startBudget);
+ $("remainingBudget").textContent=money(t.budget);
+ $("playersBought").textContent=`${t.players.length} / 4`;
+ $("playersRemaining").textContent=Math.max(0,4-t.players.length);
+
+ if(state.auctionComplete){
+   $("auctionStatus").innerHTML="🏁 <b>Auction Complete.</b> Final result is now available.";
+ }else{
+   $("auctionStatus").innerHTML="🟢 <b>Auction is in progress.</b> Your team updates automatically.";
+ }
+
+ if(complete){
+   $("teamMessage").className="bigMsg successBox";
+   $("teamMessage").innerHTML=t.players.length>=4
+     ? "<b>🎉 Your Team is Full!</b><br>🏆 Best Wishes for Your Team!<br>⏳ Now wait for the final result!"
+     : "<b>💰 Your Budget is Complete!</b><br>You have completed your auction.";
+ }else{
+   $("teamMessage").className="bigMsg";
+   $("teamMessage").innerHTML="🔥 <b>Build Your Best Team!</b><br>Make smart choices and give your best to build the strongest team.<br>🏆 All the best — your team could be the champion!";
+ }
+
+ $("playersList").innerHTML=sold.length
+   ? sold.map((s,i)=>`<div class="playerRow"><b>${i+1}</b><div><b>${esc(s.name)}</b><br><span class="muted">${esc(s.category)}</span></div><span class="badge">${money(s.bid)}</span></div>`).join("")
+   : '<div class="empty">No players purchased yet.</div>';
+
+ if(state.auctionComplete && state.resultVisibleToTeams){
+   const ranking=[...state.teams].sort((a,b)=>Number(b.points||0)-Number(a.points||0));
+   $("finalResult").classList.remove("hidden");
+   $("finalResult").innerHTML="<div class='winnerBox'><h2>🏆 Winner Celebration</h2><p>Congratulations to our Champions!</p><p>🙌 Thank you to all participating teams!</p><h3>🏆 Final Ranking</h3>"+
+     ranking.map((x,i)=>`<div class="rank"><b>${i<3?["🥇","🥈","🥉"][i]:i+1}</b><b>${esc(x.name)}</b><span>${Number(x.points||0).toLocaleString("en-IN")} Points</span></div>`).join("")+
+     "</div>";
+ }else{
+   $("finalResult").classList.add("hidden");
+ }
+}
+window.addEventListener("storage",loadState);
+setInterval(loadState,1000);
+loadState();
+</script>
+</body>
+</html>

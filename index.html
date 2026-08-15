@@ -1,0 +1,63 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NIRMAAN 2K26 — Sarvajanik College of Engineering</title><link rel="stylesheet" href="style.css"></head><body><div class="wrap">
+<header class="hero simpleNirmanHero">
+  <div class="simpleHeroBg" aria-hidden="true"></div>
+  <div class="simpleCollege">SARVAJANIK COLLEGE OF ENGINEERING & TECHNOLOGY</div>
+  <div class="simpleDepartment">CIVIL ENGINEERING DEPARTMENT</div>
+  <div class="simpleHeroContent">
+    <h1><span>NIRMAAN</span> <b>2K26</b></h1>
+    <p class="heroSub">Inter-Team Auction Arena • Official Event Management Portal</p>
+    <div class="heroActions">
+      <a class="fileBtn" href="team-view.html">👥 Open Team Viewer</a>
+      <span class="livePill"><i></i> LIVE AUCTION CONTROL</span>
+    </div>
+  </div>
+</header>
+<section class="card"><div class="sectionKicker">01 • MASTER DATA</div><h2>📊 Player Master Data</h2><p class="muted">Use the exact Excel template. All rows are checked before import.</p><div class="actions"><button id="downloadTemplate">⬇ Download Excel Template</button><label class="fileBtn">📤 Upload Player Excel<input id="excelFile" type="file" accept=".xlsx,.xls,.csv"></label><button id="replaceExcel" class="danger">🗑️ Remove Current Excel &amp; Replace</button></div><div id="importMsg" class="msg"></div></section>
+<section class="card"><div class="sectionKicker">02 • TEAMS</div><h2>👥 Team Management</h2><div class="grid3"><input id="teamName" placeholder="Team Name"><input id="teamBudget" type="number" min="1" placeholder="Starting Budget"><div style="display:flex;gap:8px"><input id="teamPin" type="password" placeholder="Team PIN" style="flex:1"><button id="showTeamPin" type="button" onclick="window.toggleTeamManagementPin()">👁️ Show</button></div><button id="addTeam">+ Add Team</button></div><div id="teamMsg" class="msg"></div></section>
+<section class="card featuredCard"><div class="sectionKicker">03 • LIVE AUCTION</div><h2>🔨 Auction Entry</h2><div class="grid3"><div class="playerSearchWrap"><label>Player Name</label><input id="playerName" list="playerList" placeholder="Search player..." autocomplete="off"><div id="playerDropdown" class="playerDropdown"></div><datalist id="playerList"></datalist><div id="playerSuggestions" class="playerSuggestions"></div></div><div><label>Team Name</label><select id="auctionTeam"></select></div><div><label>Bid Price</label><input id="bidPrice" type="number" min="0" placeholder="Bid amount"></div></div><div id="playerInfo" class="info hidden"></div><button id="sellPlayer" class="primary">🔨 SOLD</button><div id="auctionMsg" class="msg"></div></section>
+<section class="card"><div class="sectionKicker">04 • LIVE STANDINGS</div><h2>📋 Team Summary</h2><div class="tableWrap"><table id="teamTable"><thead><tr><th>Team</th><th>Start Budget</th><th>Remaining</th><th>Players</th><th>Spent</th><th>Total Points</th><th>Status</th><th>Actions</th></tr></thead><tbody></tbody></table></div></section>
+<section class="card"><div class="sectionKicker">05 • CONTROL ROOM</div><h2>🔴 Auction Status</h2><div id="auctionStatus" class="info">🟢 Auction is active.</div></section><section class="card winnerCard"><div class="sectionKicker">06 • FINAL RESULT</div><h2>🏆 Final Winner</h2><p class="muted">Ranking appears only after the auction is completed.</p><button id="completeAuction" class="primary">🏁 Auction Complete — Show Winner</button>
+<button id="toggleTeamResult" type="button">👁️ Show Result to Teams</button><button id="resumeAuction" type="button">▶ Resume Auction</button><div id="winnerBox" class="hidden"></div></section>
+<section class="card"><div class="sectionKicker">07 • AUDIT TRAIL</div><h2>🧾 Sold History</h2><div class="tableWrap"><table id="soldTable"><thead><tr><th>#</th><th>Player</th><th>Team</th><th>Bid</th><th>Points</th><th>Category</th><th>Actions</th></tr></thead><tbody></tbody></table></div></section>
+<section class="card dangerCard"><div><div class="sectionKicker">SYSTEM</div><span class="muted">Reset all auction teams and sold history. Player Master Excel remains safe.</span></div><button id="resetAuction" class="danger">Reset Auction Data</button></section><footer class="siteFooter"><b>NIRMAAN 2K26</b><span>Sarvajanik College of Engineering & Technology</span><span>Official Auction Management Portal</span></footer></div>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script><div id="editSoldModal" class="editModal hidden">
+  <div class="editCard"><button type="button" id="closeEditX" class="closeEditX" aria-label="Close">×</button>
+    <h2>✏️ Edit Sold Player</h2>
+    <input type="hidden" id="editSoldId">
+    <label>Player Name</label>
+    <select id="editSoldPlayer"></select>
+    <label>Team Name</label>
+    <select id="editSoldTeam"></select>
+    <label>Bid Price</label>
+    <input id="editSoldBid" type="number" min="0">
+    <div class="editActions">
+      <button type="button" id="saveSoldEdit">Save Changes</button>
+      <button type="button" id="cancelSoldEdit">Cancel</button>
+    </div>
+    <div id="editSoldMsg"></div>
+  </div>
+</div>
+
+<div id="teamEditor" class="modal" style="display:none">
+  <div class="modal-content">
+    <h3>✏️ Team Editor</h3>
+    <label>Team</label>
+    <select id="editTeamSelect" onchange="window.changeTeamEditor(this.value)"></select>
+    <label>Team Name</label>
+    <input id="editTeamName" placeholder="Team Name">
+    <label>Starting Budget</label>
+    <input id="editTeamBudget" type="number" min="1" placeholder="Starting Budget">
+    <label>Team PIN</label>
+    <div style="display:flex;gap:8px;align-items:center">
+      <input id="editTeamPin" type="password" placeholder="Team PIN" style="flex:1">
+      <button type="button" id="editPinShow" onclick="window.toggleTeamPin()">👁️ Show</button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button type="button" id="editTeamSave" onclick="window.saveTeamEditor()">💾 Save Changes</button>
+      <button type="button" id="editTeamClose" onclick="window.closeTeamEditor()">✖ Close</button>
+    </div>
+    <div id="editTeamMsg" class="msg"></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body></html>

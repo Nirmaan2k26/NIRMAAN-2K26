@@ -1,0 +1,550 @@
+const PLAYER_KEY="aa_players_fixed_excel_v2",STATE_KEY="aa_state_fixed_excel_v2";
+let players=JSON.parse(localStorage.getItem(PLAYER_KEY)||"[]");
+let state=JSON.parse(localStorage.getItem(STATE_KEY)||'{"teams":[],"sold":[],"auctionComplete":false,"resultVisibleToTeams":false}');
+state.auctionComplete=Boolean(state.auctionComplete); state.resultVisibleToTeams=Boolean(state.resultVisibleToTeams);
+const $=id=>document.getElementById(id), money=n=>"₹"+Number(n||0).toLocaleString("en-IN");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const cats=["Batsman","Bowler","All Rounder","WK"];
+function save(){localStorage.setItem(PLAYER_KEY,JSON.stringify(players));localStorage.setItem(STATE_KEY,JSON.stringify(state))}
+function setMsg(id,text,cls){const e=$(id);e.className="msg "+(cls||"");e.innerHTML=text}
+function render(){
+ const playerDatalist=document.getElementById("playerList")||document.getElementById("playerOptions")||document.getElementById("playerNameList");
+ if(playerDatalist){
+   const availablePlayers=players.filter(p=>!state.sold.some(s=>String(s.playerId)===String(p.id)));
+   playerDatalist.innerHTML=availablePlayers.map(p=>`<option value="${esc(p.name)}"></option>`).join("");
+ }
+
+ const activeTeams=state.teams.filter(t=>t.players.length<4 && Number(t.budget)>0);
+ $("auctionTeam").innerHTML=activeTeams.length
+   ? activeTeams.map(t=>`<option>${esc(t.name)} (${t.players.length}/4)</option>`).join("")
+   : "<option>No active teams</option>";
+
+ $("teamTable").querySelector("tbody").innerHTML=state.teams.length
+   ? state.teams.map((t,i)=>{
+      const complete=t.players.length>=4 || Number(t.budget)<=0;
+      return `<tr>
+        <td>${esc(t.name)}</td>
+        <td>${money(t.startBudget)}</td>
+        <td>${money(t.budget)}</td>
+        <td>${t.players.length}</td>
+        <td>${money(t.spent)}</td>
+        <td>${Number(t.points).toLocaleString("en-IN")}</td>
+        <td>${complete?"<b class='ok'>Complete</b>":"<span class='muted'>Active</span>"}</td>
+        <td>
+          <button type="button" class="editBtn teamAction" onclick="window.openTeamEditor(${i}); return false;">✏️ Edit</button>
+          <button type="button" class="deleteBtn teamAction" onclick="window.deleteTeam(${i}); return false;">🗑️ Delete</button>
+        </td>
+      </tr>`;
+   }).join("")
+   : '<tr><td colspan="8">No teams added.</td></tr>';
+
+ $("soldTable").querySelector("tbody").innerHTML=state.sold.length
+   ? state.sold.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(s.name)}</td><td>${esc(s.team)}</td><td>${money(s.bid)}</td><td>${s.points}</td><td>${esc(s.category)}</td><td><button type="button" class="editBtn" data-edit-sold="${i}">✏️ Edit</button><button type="button" class="deleteBtn" data-delete-sold="${i}">🗑️ Delete</button></td></tr>`).join("")
+   : '<tr><td colspan="7">No sold players.</td></tr>';
+
+ const resultBtn=$("toggleTeamResult");
+ if(resultBtn){
+   resultBtn.textContent=state.resultVisibleToTeams?"🙈 Hide Result from Teams":"👁️ Show Result to Teams";
+   resultBtn.disabled=!state.auctionComplete;
+ }
+ const statusBox=$("auctionStatus");
+ if(statusBox){
+   statusBox.innerHTML=state.auctionComplete
+     ? "🏁 <b>Auction Complete.</b> Final ranking is published below."
+     : activeTeams.length ? "🟢 <b>Auction is active.</b> Only teams with budget remaining and fewer than 4 players appear in Auction Entry."
+     : "⏳ <b>No active teams.</b> All teams are complete.";
+ }
+}
+
+function refreshPlayerDropdown(query=""){
+ const box=document.getElementById("playerDropdown");
+ if(!box)return;
+ const q=String(query||"").trim().toLowerCase();
+ const availablePlayers=players.filter(p=>!state.sold.some(s=>String(s.playerId)===String(p.id)));
+ const matches=q ? availablePlayers.filter(p=>String(p.name||"").toLowerCase().includes(q)).slice(0,50) : availablePlayers.slice(0,50);
+ if(!matches.length){box.innerHTML="";box.classList.remove("show");return;}
+ box.innerHTML=matches.map(p=>`<button type="button" class="playerDropItem" data-player-id="${p.id}"><span class="playerDropSr">${esc(p.srNo||"")}</span>${esc(p.name)}</button>`).join("");
+ box.classList.add("show");
+}
+function choosePlayer(id){
+ const p=players.find(x=>String(x.id)===String(id) && !state.sold.some(s=>String(s.playerId)===String(x.id)));
+ if(!p)return;
+ const input=document.getElementById("playerName");
+ input.value=p.name;
+ const box=document.getElementById("playerDropdown");
+ if(box){box.innerHTML="";box.classList.remove("show");}
+ input.dispatchEvent(new Event("input",{bubbles:true}));
+}
+const getPlayer=n=>{
+ const q=String(n??"").trim().toLowerCase();
+ return q ? players.find(p=>p.name.toLowerCase()===q && !state.sold.some(s=>String(s.playerId)===String(p.id))) : null;
+};
+$("playerName").oninput=()=>{
+ const value=$("playerName").value.trim(),p=getPlayer(value),b=$("playerInfo");
+ refreshPlayerDropdown(value);
+ if(!p){
+   if(value){b.classList.remove("hidden");b.innerHTML=`<span style="color:#b91c1c"><b>⚠️ Player not selected.</b> Select a player from the dropdown.</span>`;}
+   else b.classList.add("hidden");
+   return;
+ }
+ b.classList.remove("hidden");
+ b.innerHTML=`<b>${esc(p.name)}</b> · Base ${money(p.basePrice)} · ${esc(p.category)} · ${p.points} Points · ${esc(p.iplTeam||"")}`;
+};
+
+$("addTeam").onclick=()=>{
+ const name=$("teamName").value.trim();
+ const budget=Number($("teamBudget").value);
+ const pin=$("teamPin").value.trim();
+ if(!name)return setMsg("teamMsg","Team Name is required.","err");
+ if(!budget||budget<=0)return setMsg("teamMsg","Starting Budget must be a positive number.","err");
+ if(!pin)return setMsg("teamMsg","Team PIN is required.","err");
+ if(state.teams.some(t=>t.name.toLowerCase()===name.toLowerCase()))return setMsg("teamMsg","This team already exists.","err");
+ state.teams.push({name,startBudget:budget,budget,spent:0,points:0,players:[],pin});
+ save();render();
+ $("teamName").value="";$("teamBudget").value="";$("teamPin").value="";
+ setMsg("teamMsg","Team added successfully.","ok");
+};
+$("sellPlayer").onclick=()=>{
+ if(state.auctionComplete)return setMsg("auctionMsg","🏁 Auction is already complete.","err");
+ const p=getPlayer($("playerName").value);
+ const selectedTeam=$("auctionTeam").value;
+ const t=state.teams.find(x=>x.name===selectedTeam.replace(/ \(\d+\/4\)$/,""));
+ const bid=Number($("bidPrice").value);
+ if(!p)return setMsg("auctionMsg","Select a valid player.","err");
+ if(!t)return setMsg("auctionMsg","No active team is available. Add a team or finish with another team first.","err");
+ if(t.players.length>=4 || Number(t.budget)<=0)return setMsg("auctionMsg",`❌ ${esc(t.name)} is complete and is no longer available for bidding.`,"err");
+ if(state.sold.some(s=>s.playerId===p.id))return setMsg("auctionMsg","Player already sold.","err");
+ if(!bid||bid<p.basePrice)return setMsg("auctionMsg","Bid must be at least Base Price.","err");
+ if(bid>t.budget)return setMsg("auctionMsg","Insufficient team budget.","err");
+ t.budget-=bid;t.spent+=bid;t.points+=p.points;t.players.push(p.id);
+ state.sold.push({playerId:p.id,name:p.name,team:t.name,bid,points:p.points,category:p.category});
+ save();render();
+ $("playerName").value="";$("bidPrice").value="";$("playerInfo").classList.add("hidden");
+ const completedNow=t.players.length>=4 || Number(t.budget)<=0;
+ setMsg("auctionMsg",completedNow?`${esc(p.name)} SOLD to ${esc(t.name)} for ${money(bid)}. <b>${esc(t.name)} is now complete and has been removed from the team dropdown.</b>`:`${esc(p.name)} SOLD to ${esc(t.name)} for ${money(bid)}.`,"ok");
+};
+$("completeAuction").onclick=()=>{
+ if(!state.teams.length)return setMsg("auctionMsg","Add teams first.","err");
+ state.auctionComplete=true;
+ state.resultVisibleToTeams=false;
+ save();render();
+ const r=[...state.teams].sort((a,b)=>b.points-a.points);
+ $("winnerBox").classList.remove("hidden");
+ $("winnerBox").innerHTML="<h3>🏆 Final Ranking</h3>"+r.map((t,i)=>`<div class="rank"><b>${i<3?["🥇","🥈","🥉"][i]:i+1}</b><b>${esc(t.name)}</b><span>${Number(t.points).toLocaleString("en-IN")} Points</span></div>`).join("");
+};
+$("toggleTeamResult").onclick=()=>{
+ if(!state.auctionComplete)return setMsg("auctionMsg","Complete the auction first.","err");
+ state.resultVisibleToTeams=!state.resultVisibleToTeams;
+ save();render();
+ setMsg("auctionMsg",state.resultVisibleToTeams?"👁️ Result is now visible to teams.":"🙈 Result is hidden from teams.","ok");
+};
+
+$("resumeAuction").onclick=()=>{
+ state.auctionComplete=false;
+ save();render();
+ $("winnerBox").classList.add("hidden");
+ setMsg("auctionMsg","▶ Auction resumed.","ok");
+};
+$("resetAuction").onclick=()=>{
+ if(confirm("Reset teams and sold history? Player master Excel remains safe.")){
+   state={teams:[],sold:[],auctionComplete:false,resultVisibleToTeams:false};
+   save();render();$("winnerBox").classList.add("hidden");
+ }
+};
+$("downloadTemplate").onclick=()=>{const ws=XLSX.utils.aoa_to_sheet([["Player Name","Base Price","Category","IPL Team","Total Points"],["Example Player","10K","Batsman","Example Team",500]]);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Players");XLSX.writeFile(wb,"Auction_Arena_Player_Template.xlsx")};
+
+
+function parseBasePrice(value){
+  const s=String(value??"").trim().toUpperCase().replace(/₹/g,"").replace(/,/g,"");
+  if(!s) return NaN;
+  const m=s.match(/^(\d+(?:\.\d+)?)\s*([KL])$/);
+  if(m){
+    const n=Number(m[1]);
+    return m[2]==="K" ? n*1000 : n*100000;
+  }
+  // Plain numbers are also accepted for convenience.
+  const n=Number(s);
+  return Number.isFinite(n) ? n : NaN;
+}
+function formatPriceInput(value){
+  const n=parseBasePrice(value);
+  return Number.isFinite(n) ? n : NaN;
+}
+function showImportErrors(errors){
+ setMsg("importMsg",`<b>❌ Import stopped — ${errors.length} error${errors.length===1?"":"s"} found.</b><div style="margin-top:8px">${errors.map(e=>`<div style="margin:5px 0">• ${esc(e)}</div>`).join("")}</div><div style="margin-top:10px"><b>No data was changed.</b> Fix these errors and upload again.</div>`,"err");
+}
+$("replaceExcel").onclick=()=>{
+  if(!players.length){
+    return setMsg("importMsg","No current player Excel data is loaded.","err");
+  }
+  const ok=confirm("⚠️ Replace Current Player Excel?\n\nThe current player list will be removed and the next Excel you upload will become the new player list.\n\nTeams, budgets and auction history will NOT be deleted.\n\nContinue?");
+  if(!ok)return;
+  players=[];
+  localStorage.removeItem(PLAYER_KEY);
+  render();
+  $("playerName").value="";
+  $("bidPrice").value="";
+  $("playerInfo").classList.add("hidden");
+  $("excelFile").value="";
+  setMsg("importMsg","🗑️ Current player data removed. Upload your new Excel now. Teams and auction history are still safe.","ok");
+};
+
+$("excelFile").onchange=async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{
+  const wb=XLSX.read(await file.arrayBuffer(),{type:"array"});
+  const errors=[];
+  const norm=v=>String(v??"").replace(/\u00a0/g," ").replace(/\s+/g," ").trim().toLowerCase();
+
+  // Supports both the new fixed template and the user's existing Player Database.
+  let rows=null, selectedName="", map=null, formatLabel="";
+  for(const sheetName of wb.SheetNames){
+    const candidate=XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{header:1,defval:""});
+    if(!candidate.length) continue;
+    const h=candidate[0].map(norm);
+    const idx={
+      sr:h.findIndex(x=>["sr no","sr. no","sr.no","serial no","serial number","sr number"].includes(x)),
+      player:h.indexOf("player name"),
+      base:h.indexOf("base price"),
+      category:h.indexOf("category"),
+      ipl:h.indexOf("ipl team"),
+      points:h.indexOf("total points"),
+      pdfPoints:h.indexOf("pdf total points")
+    };
+
+    if(idx.player>=0 && idx.base>=0 && idx.category>=0 && idx.points>=0){
+      rows=candidate; selectedName=sheetName; map=idx; formatLabel="Fixed Player Template"; break;
+    }
+    if(idx.player>=0 && idx.base>=0 && idx.category>=0 && idx.pdfPoints>=0){
+      rows=candidate; selectedName=sheetName; map={...idx,points:idx.pdfPoints}; formatLabel="Existing Player Database"; break;
+    }
+  }
+
+  if(!rows){
+    return showImportErrors([
+      `Player sheet not found. Available sheets: ${wb.SheetNames.join(", ")}.`,
+      "Required fields: Player Name, Base Price, Category and Total Points (or PDF Total Points).",
+      "Use the Download Excel Template for the new fixed format."
+    ]);
+  }
+
+  const clean=[];
+  const seen=new Map();
+
+  rows.slice(1).forEach((r,i)=>{
+    const line=i+2;
+    const name=String(r[map.player]??"").replace(/\s+/g," ").trim();
+    const baseRaw=String(r[map.base]??"").replace(/\s+/g," ").trim();
+    let category=String(r[map.category]??"").replace(/\s+/g," ").trim();
+    const ipl=map.ipl>=0 ? String(r[map.ipl]??"").replace(/\s+/g," ").trim() : "";
+    const ptsRaw=String(r[map.points]??"").replace(/\s+/g," ").trim();
+
+    if(!name&&!baseRaw&&!category&&!ipl&&!ptsRaw)return;
+
+    const base=parseBasePrice(r[map.base]);
+    const pts=Number(r[map.points]);
+
+    const aliases={
+      "all-rounder":"All Rounder",
+      "all rounder":"All Rounder",
+      "wicket-keeper":"WK",
+      "wicket keeper":"WK",
+      "wicketkeeper":"WK",
+      "batsman":"Batsman",
+      "bowler":"Bowler",
+      "wk":"WK"
+    };
+    if(aliases[category.toLowerCase()]) category=aliases[category.toLowerCase()];
+
+    const key=name.toLowerCase();
+    if(name&&seen.has(key)) errors.push(`Row ${line}: Duplicate Player Name "${name}" (already in row ${seen.get(key)}).`);
+    else if(name) seen.set(key,line);
+
+    if(!name)errors.push(`Row ${line}: Player Name is missing.`);
+    if(!baseRaw)errors.push(`Row ${line}: Base Price is missing.`);
+    else if(!Number.isFinite(base)||base<=0)errors.push(`Row ${line}: Base Price "${baseRaw}" is invalid. Use 10K, 50K, 1L, 1.5L, etc.`);
+
+    if(!category)errors.push(`Row ${line}: Category is missing.`);
+    else if(!cats.includes(category))errors.push(`Row ${line}: Category "${category}" is invalid. Use Batsman, Bowler, All Rounder or WK.`);
+
+    if(!ptsRaw)errors.push(`Row ${line}: Total Points is missing.`);
+    else if(!Number.isFinite(pts)||pts<0)errors.push(`Row ${line}: Total Points "${ptsRaw}" is invalid. Enter 0 or more.`);
+
+    const excelSr = map.sr>=0 ? String(r[map.sr]??"").trim() : "";
+    const srNo = excelSr || String(clean.length+1);
+    clean.push({srNo,name,basePrice:base,category,iplTeam:ipl,points:pts});
+  });
+
+    if(errors.length)return showImportErrors(errors);
+  // Replace the entire player master only after ALL validation passes.
+  // This guarantees the uploaded Excel is the single source of player data.
+  const oldCount=players.length;
+  players=clean.map((p,i)=>({...p,id:i+1,srNo:p.srNo||String(i+1)}));
+  save();
+  render();
+  setMsg("importMsg",`<b>✅ Import successful.</b><br>Replaced ${oldCount} old players with ${players.length} players from "${esc(selectedName)}" (${esc(formatLabel)}).<br>Player search refreshed: ${players.length} players available.`,"ok");
+ }catch(err){showImportErrors([`Excel Read Error: ${err.message||"Could not read file."}`,"Use the .xlsx template downloaded from this website."])}
+};
+render();
+
+document.addEventListener("focusin",e=>{
+ if(e.target && e.target.id==="playerName") refreshPlayerDropdown(e.target.value);
+});
+document.addEventListener("click",e=>{
+ const item=e.target.closest && e.target.closest(".playerDropItem");
+ if(item){e.preventDefault();choosePlayer(item.dataset.playerId);return;}
+ if(!e.target.closest?.("#playerName")&&!e.target.closest?.("#playerDropdown")){
+   const box=document.getElementById("playerDropdown");
+   if(box){box.classList.remove("show");box.innerHTML="";}
+ }
+});
+
+function openSoldEdit(index){
+ const s=state.sold[index];
+ if(!s)return;
+ const modal=document.getElementById("editSoldModal");
+ document.getElementById("editSoldId").value=index;
+
+ const playerSel=document.getElementById("editSoldPlayer");
+ playerSel.innerHTML=players.map(p=>`<option value="${esc(p.name)}">${esc(p.srNo||"")}. ${esc(p.name)}</option>`).join("");
+ playerSel.value=s.name||"";
+
+ const teamSel=document.getElementById("editSoldTeam");
+ teamSel.innerHTML=state.teams.map(t=>`<option value="${esc(t.name)}">${esc(t.name)}</option>`).join("");
+ teamSel.value=s.team||"";
+
+ document.getElementById("editSoldBid").value=Number(s.bid||0);
+ document.getElementById("editSoldMsg").textContent="";
+ modal.classList.remove("hidden");
+}
+function closeSoldEdit(){
+ document.getElementById("editSoldModal")?.classList.add("hidden");
+}
+function syncAuctionFromSoldHistory(){
+ state.teams.forEach(t=>{ t.pin=t.pin||"";
+   t.players=[];
+   t.spent=0;
+   t.budget=Number(t.startBudget||0);
+   t.points=0;
+ });
+ state.sold.forEach(s=>{
+   const t=state.teams.find(x=>x.name===s.team);
+   if(!t)return;
+   const bid=Number(s.bid||0);
+   t.players.push(s.name);
+   t.spent+=bid;
+   t.budget=Number(t.startBudget||0)-t.spent;
+   t.points+=Number(s.points||0);
+ });
+ players.forEach(p=>{
+   const sold=state.sold.find(s=>s.name===p.name);
+   p.status=sold?"Sold":"Available";
+   p.soldTeam=sold?sold.team:"";
+   p.soldPrice=sold?Number(sold.bid||0):0;
+ });
+ save();
+ render();
+}
+function recalcAfterSoldEdit(){
+ syncAuctionFromSoldHistory();
+}
+document.addEventListener("click",e=>{
+ const b=e.target.closest && e.target.closest("[data-edit-sold]");
+ if(b){e.preventDefault();openSoldEdit(Number(b.dataset.editSold));}
+});
+document.getElementById("cancelSoldEdit").addEventListener("click",closeSoldEdit);
+document.getElementById("saveSoldEdit").addEventListener("click",function(){
+ const msg=document.getElementById("editSoldMsg");
+ const index=Number(document.getElementById("editSoldId").value);
+ const old=state.sold[index];
+ if(!old){msg.textContent="Sold entry not found.";return;}
+
+ const playerName=document.getElementById("editSoldPlayer").value;
+ const team=document.getElementById("editSoldTeam").value;
+ const bid=Number(document.getElementById("editSoldBid").value);
+
+ const selectedPlayer=players.find(p=>p.name===playerName);
+ if(!selectedPlayer){msg.textContent="Select a valid player.";return;}
+ if(!team){msg.textContent="Select a team.";return;}
+ if(!Number.isFinite(bid)||bid<=0){msg.textContent="Enter a valid bid price.";return;}
+
+ if(state.sold.some((x,i)=>i!==index && String(x.playerId)===String(selectedPlayer.id))){
+   msg.textContent="This player is already sold.";
+   return;
+ }
+
+ if(state.sold.filter((x,i)=>i!==index && x.team===team).length>=4){
+   msg.textContent="This team already has 4 players.";
+   return;
+ }
+
+ // Update the sold record completely, including player identity.
+ old.playerId=selectedPlayer.id;
+ old.name=selectedPlayer.name;
+ old.team=team;
+ old.bid=bid;
+ old.points=Number(selectedPlayer.points||0);
+ old.category=selectedPlayer.category||"";
+
+ // Rebuild every team's totals from the edited sold history.
+ state.teams.forEach(t=>{
+   t.players=[];
+   t.spent=0;
+   t.budget=Number(t.startBudget||0);
+   t.points=0;
+ });
+
+ state.sold.forEach(s=>{
+   const t=state.teams.find(x=>x.name===s.team);
+   if(!t)return;
+   t.players.push(s.playerId || s.name);
+   t.spent+=Number(s.bid||0);
+   t.budget=Number(t.startBudget||0)-t.spent;
+   t.points+=Number(s.points||0);
+ });
+
+ // Rebuild player sold status from player ID, so the edit persists correctly.
+ players.forEach(p=>{
+   const sold=state.sold.find(s=>String(s.playerId)===String(p.id));
+   p.status=sold?"Sold":"Available";
+   p.soldTeam=sold?sold.team:"";
+   p.soldPrice=sold?Number(sold.bid||0):0;
+ });
+
+ save();
+ render();
+ msg.textContent="✅ Changes saved successfully.";
+ setTimeout(function(){closeSoldEdit();},500);
+});
+
+function deleteSoldPlayer(index){
+ const s=state.sold[index];
+ if(!s)return;
+ const ok=window.confirm(`Delete sold entry for "${s.name}"? This will also remove the player from that team's summary, budget, points and player count.`);
+ if(!ok)return;
+ state.sold.splice(index,1);
+ syncAuctionFromSoldHistory();
+}
+document.addEventListener("click",e=>{
+ const b=e.target.closest && e.target.closest("[data-delete-sold]");
+ if(b){e.preventDefault();deleteSoldPlayer(Number(b.dataset.deleteSold));}
+});
+
+document.getElementById("closeEditX").addEventListener("click",function(){
+ closeSoldEdit();
+});
+
+
+
+
+
+
+
+// ================= TEAM EDIT / DELETE =================
+window.openTeamEditor = function(index){
+  const t = state.teams[Number(index)];
+  const editor = document.getElementById("teamEditor");
+  if(!t || !editor) return;
+
+  const select = document.getElementById("editTeamSelect");
+  select.innerHTML = state.teams.map((team,i)=>
+    `<option value="${i}">${esc(team.name)}</option>`
+  ).join("");
+  select.value = String(index);
+
+  document.getElementById("editTeamName").value = t.name || "";
+  document.getElementById("editTeamBudget").value = Number(t.startBudget || 0);
+  document.getElementById("editTeamPin").value = t.pin || "";
+  document.getElementById("editTeamPin").type = "password";
+  document.getElementById("editPinShow").textContent = "👁️ Show";
+  document.getElementById("editTeamMsg").textContent = "";
+
+  editor.style.display = "flex";
+  editor.style.zIndex = "99999";
+};
+
+window.changeTeamEditor = function(index){
+  const t = state.teams[Number(index)];
+  if(!t) return;
+  document.getElementById("editTeamName").value = t.name || "";
+  document.getElementById("editTeamBudget").value = Number(t.startBudget || 0);
+  document.getElementById("editTeamPin").value = t.pin || "";
+  document.getElementById("editTeamPin").type = "password";
+  document.getElementById("editPinShow").textContent = "👁️ Show";
+  document.getElementById("editTeamMsg").textContent = "";
+};
+
+window.toggleTeamPin = function(){
+  const pin = document.getElementById("editTeamPin");
+  const btn = document.getElementById("editPinShow");
+  pin.type = pin.type === "password" ? "text" : "password";
+  btn.textContent = pin.type === "password" ? "👁️ Show" : "🙈 Hide";
+};
+
+window.closeTeamEditor = function(){
+  const editor = document.getElementById("teamEditor");
+  if(editor) editor.style.display = "none";
+};
+
+window.saveTeamEditor = function(){
+  const select = document.getElementById("editTeamSelect");
+  const msg = document.getElementById("editTeamMsg");
+  const index = Number(select.value);
+  const t = state.teams[index];
+
+  if(!t){ msg.textContent="Team not found."; return; }
+
+  const oldName=t.name;
+  const newName=document.getElementById("editTeamName").value.trim();
+  const newBudget=Number(String(document.getElementById("editTeamBudget").value).replace(/,/g,""));
+  const newPin=document.getElementById("editTeamPin").value.trim();
+
+  if(!newName){msg.textContent="Team Name is required.";return;}
+  if(!Number.isFinite(newBudget)||newBudget<=0){msg.textContent="Starting Budget must be a positive number.";return;}
+  if(!newPin){msg.textContent="Team PIN is required.";return;}
+
+  if(state.teams.some((x,i)=>i!==index&&String(x.name).trim().toLowerCase()===newName.toLowerCase())){
+    msg.textContent="This team already exists.";return;
+  }
+
+  const spent=Number(t.spent||0);
+  t.name=newName;
+  t.startBudget=newBudget;
+  t.budget=Math.max(0,newBudget-spent);
+  t.pin=newPin;
+
+  state.sold.forEach(s=>{if(s.team===oldName)s.team=newName;});
+
+  save();
+  render();
+  window.closeTeamEditor();
+  setMsg("teamMsg",`✅ ${esc(newName)} updated successfully.`,"ok");
+};
+
+window.deleteTeam = function(index){
+  index=Number(index);
+  const t=state.teams[index];
+  if(!t)return;
+  const soldCount=state.sold.filter(s=>s.team===t.name).length;
+  const warning=soldCount?`\n\n${t.name} has ${soldCount} sold player(s). Those records will also be removed.`:"";
+  if(!window.confirm(`Delete team "${t.name}"?${warning}`))return;
+
+  state.sold=state.sold.filter(s=>s.team!==t.name);
+  state.teams.splice(index,1);
+  save();
+  render();
+  setMsg("teamMsg",`🗑️ ${esc(t.name)} deleted successfully.`,"ok");
+};
+
+window.toggleTeamManagementPin = function(){
+  const pin = document.getElementById("teamPin");
+  const btn = document.getElementById("showTeamPin");
+  if(!pin || !btn) return;
+  if(pin.type === "password"){
+    pin.type = "text";
+    btn.textContent = "🙈 Hide";
+  }else{
+    pin.type = "password";
+    btn.textContent = "👁️ Show";
+  }
+};

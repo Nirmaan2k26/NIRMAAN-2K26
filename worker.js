@@ -1,42 +1,48 @@
+import { DurableObject } from "cloudflare:workers";
+
+const PLAYER_KEY = "players";
+const STATE_KEY = "state";
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
     if (url.pathname === "/ws") {
+      if (request.headers.get("Upgrade") !== "websocket") {
+        return new Response("WebSocket endpoint", { status: 426 });
+      }
+
       const id = env.AUCTION.idFromName("nirmaan-2k26");
-      return env.AUCTION.get(id).fetch(request);
+      const room = env.AUCTION.get(id);
+
+      return room.fetch(request);
     }
 
     return env.ASSETS.fetch(request);
   }
 };
 
-export class AuctionRoom {
-  constructor(state) {
-    this.state = state;
+export class AuctionRoom extends DurableObject {
+  constructor(ctx, env) {
+    super(ctx, env);
+    this.ctx = ctx;
+    this.env = env;
   }
 
   async fetch(request) {
-    if (request.headers.get("Upgrade") !== "websocket") {
-      return new Response("WebSocket endpoint", { status: 426 });
-    }
-
     const pair = new WebSocketPair();
-    const client = pair[0];
-    const server = pair[1];
+    const [client, server] = Object.values(pair);
 
-    this.state.acceptWebSocket(server);
+    this.ctx.acceptWebSocket(server);
 
-    const snapshot = await this.state.storage.get([
-      "players",
-      "state"
-    ]);
+    const players = await this.ctx.storage.get(PLAYER_KEY);
+    const state = await this.ctx.storage.get(STATE_KEY);
 
     server.send(
       JSON.stringify({
         type: "snapshot",
-        players: snapshot.players ?? null,
-        state: snapshot.state ?? null
+        players: players ?? null,
+        state: state ?? null
       })
     );
 
@@ -48,52 +54,65 @@ export class AuctionRoom {
 
   async webSocketMessage(ws, message) {
     try {
-      const msg = JSON.parse(message);
+      const msg =
+        typeof message === "string"
+          ? JSON.parse(message)
+          : JSON.parse(new TextDecoder().decode(message));
 
       if (msg.type !== "set") return;
 
-      const allowedKeys = [
-        "players",
-        "state",
-        "aa_players_fixed_excel_v2",
-        "aa_state_fixed_excel_v2"
-      ];
+      let storageKey = null;
+      let clientKey = null;
 
-      if (!allowedKeys.includes(msg.key)) return;
-
-      const key =
+      if (
+        msg.key === "players" ||
         msg.key === "aa_players_fixed_excel_v2"
-          ? "players"
-          : msg.key === "aa_state_fixed_excel_v2"
-            ? "state"
-            : msg.key;
-
-      if (msg.value === null) {
-        await this.state.storage.delete(key);
-      } else {
-        await this.state.storage.put(key, String(msg.value));
+      ) {
+        storageKey = PLAYER_KEY;
+        clientKey = "aa_players_fixed_excel_v2";
       }
 
-      const out = JSON.stringify({
+      if (
+        msg.key === "state" ||
+        msg.key === "aa_state_fixed_excel_v2"
+      ) {
+        storageKey = STATE_KEY;
+        clientKey = "aa_state_fixed_excel_v2";
+      }
+
+      if (!storageKey) return;
+
+      if (msg.value === null) {
+        await this.ctx.storage.delete(storageKey);
+      } else {
+        await this.ctx.storage.put(storageKey, String(msg.value));
+      }
+
+      const outgoing = JSON.stringify({
         type: "set",
-        key:
-          key === "players"
-            ? "aa_players_fixed_excel_v2"
-            : "aa_state_fixed_excel_v2",
+        key: clientKey,
         value: msg.value
       });
 
-      for (const peer of this.state.getWebSockets()) {
-        if (peer !== ws) {
-          try {
-            peer.send(out);
-          } catch (_) {}
-        }
+      for (const peer of this.ctx.getWebSockets()) {
+        if (peer === ws) continue;
+
+        try {
+          peer.send(outgoing);
+        } catch (_) {}
       }
     } catch (_) {}
   }
 
-  async webSocketClose() {}
+  async webSocketClose(ws, code, reason, wasClean) {
+    try {
+      ws.close(code, reason);
+    } catch (_) {}
+  }
 
-  async webSocketError() {}
+  async webSocketError(ws) {
+    try {
+      ws.close(1011, "WebSocket error");
+    } catch (_) {}
+  }
 }

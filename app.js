@@ -3386,3 +3386,47 @@ window.toggleTeamManagementPin=function(){
  );
 
 })();
+/* =========================================================
+   NIRMAAN ADMIN CROSS-BROWSER REALTIME UPDATE
+   ========================================================= */
+
+window.addEventListener(
+  "nirmaan-realtime-update",
+  function () {
+
+    try {
+
+      players = JSON.parse(
+        localStorage.getItem(PLAYER_KEY) || "[]"
+      );
+
+      state = JSON.parse(
+        localStorage.getItem(STATE_KEY) ||
+        '{"teams":[],"sold":[],"auctionComplete":false,"resultVisibleToTeams":false}'
+      );
+
+      state.auctionComplete =
+        Boolean(state.auctionComplete);
+
+      state.resultVisibleToTeams =
+        Boolean(state.resultVisibleToTeams);
+
+      /*
+        Rebuild the complete Admin screen
+        immediately when another browser
+        changes the auction.
+      */
+
+      render();
+
+    } catch (error) {
+
+      console.error(
+        "[NIRMAAN] Admin realtime refresh error:",
+        error
+      );
+
+    }
+
+  }
+);

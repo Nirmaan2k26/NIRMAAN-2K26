@@ -548,3 +548,339 @@ window.toggleTeamManagementPin = function(){
     btn.textContent = "👁️ Show";
   }
 };
+/* =========================================================
+   SEARCHABLE DROPDOWNS + PURCHASED PLAYER FILTER
+   Added without changing existing auction logic
+   ========================================================= */
+
+(function () {
+  "use strict";
+
+  const PLAYER_KEY = "aa_players_fixed_excel_v2";
+  const STATE_KEY = "aa_state_fixed_excel_v2";
+
+  function getPlayers() {
+    try {
+      return JSON.parse(localStorage.getItem(PLAYER_KEY) || "[]");
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function getState() {
+    try {
+      return JSON.parse(
+        localStorage.getItem(STATE_KEY) ||
+        '{"teams":[],"sold":[],"auctionComplete":false,"resultVisibleToTeams":false}'
+      );
+    } catch (_) {
+      return {
+        teams: [],
+        sold: [],
+        auctionComplete: false,
+        resultVisibleToTeams: false
+      };
+    }
+  }
+
+  function isSold(playerId, exceptSoldIndex = -1) {
+    const state = getState();
+
+    return state.sold.some((s, i) =>
+      i !== exceptSoldIndex &&
+      String(s.playerId) === String(playerId)
+    );
+  }
+
+  /* ---------------------------------------------------------
+     SEARCHABLE SELECT
+     --------------------------------------------------------- */
+
+  function makeSearchable(select) {
+    if (!select || select.dataset.searchableReady === "1") return;
+
+    select.dataset.searchableReady = "1";
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "searchable-select-wrapper";
+    wrapper.style.position = "relative";
+    wrapper.style.width = "100%";
+
+    const input = document.createElement("input");
+
+    input.type = "text";
+    input.className = "searchable-select-input";
+    input.placeholder = "Search...";
+    input.autocomplete = "off";
+
+    input.style.width = "100%";
+    input.style.boxSizing = "border-box";
+
+    const list = document.createElement("div");
+
+    list.className = "searchable-select-list";
+
+    list.style.position = "absolute";
+    list.style.left = "0";
+    list.style.right = "0";
+    list.style.top = "100%";
+    list.style.zIndex = "100000";
+    list.style.background = "#fff";
+    list.style.border = "1px solid #ccc";
+    list.style.borderRadius = "6px";
+    list.style.maxHeight = "220px";
+    list.style.overflowY = "auto";
+    list.style.display = "none";
+    list.style.boxShadow = "0 5px 15px rgba(0,0,0,.15)";
+
+    select.parentNode.insertBefore(wrapper, select);
+    wrapper.appendChild(input);
+    wrapper.appendChild(list);
+
+    select.style.display = "none";
+    wrapper.appendChild(select);
+
+    function getOptions() {
+      return Array.from(select.options)
+        .filter(o => o.value && o.value !== "No active teams")
+        .map(o => ({
+          value: o.value,
+          text: o.textContent.trim()
+        }));
+    }
+
+    function syncInput() {
+      const option = select.options[select.selectedIndex];
+
+      if (option) {
+        input.value = option.textContent.trim();
+      } else {
+        input.value = "";
+      }
+    }
+
+    function showOptions(query) {
+      const q = String(query || "").trim().toLowerCase();
+      const options = getOptions();
+
+      const matches = options
+        .filter(o => !q || o.text.toLowerCase().includes(q))
+        .slice(0, 50);
+
+      list.innerHTML = "";
+
+      if (!matches.length) {
+        list.style.display = "none";
+        return;
+      }
+
+      matches.forEach(item => {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.textContent = item.text;
+
+        button.style.display = "block";
+        button.style.width = "100%";
+        button.style.textAlign = "left";
+        button.style.padding = "9px 10px";
+        button.style.border = "0";
+        button.style.background = "#fff";
+        button.style.cursor = "pointer";
+
+        button.addEventListener("mouseenter", () => {
+          button.style.background = "#f1f5f9";
+        });
+
+        button.addEventListener("mouseleave", () => {
+          button.style.background = "#fff";
+        });
+
+        button.addEventListener("mousedown", e => {
+          e.preventDefault();
+
+          select.value = item.value;
+
+          select.dispatchEvent(
+            new Event("change", { bubbles: true })
+          );
+
+          input.value = item.text;
+          list.style.display = "none";
+        });
+
+        list.appendChild(button);
+      });
+
+      list.style.display = "block";
+    }
+
+    input.addEventListener("focus", () => {
+      showOptions(input.value);
+    });
+
+    input.addEventListener("input", () => {
+      showOptions(input.value);
+
+      const exact = getOptions().find(
+        o => o.text.toLowerCase() === input.value.trim().toLowerCase()
+      );
+
+      if (exact) {
+        select.value = exact.value;
+        select.dispatchEvent(
+          new Event("change", { bubbles: true })
+        );
+      }
+    });
+
+    select.addEventListener("change", syncInput);
+
+    document.addEventListener("click", e => {
+      if (!wrapper.contains(e.target)) {
+        list.style.display = "none";
+      }
+    });
+
+    syncInput();
+  }
+
+  /* ---------------------------------------------------------
+     PLAYER FILTER FOR SOLD EDIT
+     Already sold players must not appear.
+     Current player being edited remains available.
+     --------------------------------------------------------- */
+
+  function refreshSoldPlayerOptions() {
+    const select = document.getElementById("editSoldPlayer");
+
+    if (!select) return;
+
+    const idInput = document.getElementById("editSoldId");
+
+    const currentIndex = idInput
+      ? Number(idInput.value)
+      : -1;
+
+    const players = getPlayers();
+    const state = getState();
+
+    const currentSold =
+      currentIndex >= 0
+        ? state.sold[currentIndex]
+        : null;
+
+    const currentPlayerId =
+      currentSold
+        ? String(currentSold.playerId)
+        : "";
+
+    const available = players.filter(p => {
+      const soldByOther = state.sold.some((s, i) => {
+        if (i === currentIndex) return false;
+
+        return String(s.playerId) === String(p.id);
+      });
+
+      return !soldByOther ||
+        String(p.id) === currentPlayerId;
+    });
+
+    const oldValue = select.value;
+
+    select.innerHTML = available
+      .map(p =>
+        `<option value="${escSearch(p.name)}">
+          ${escSearch(p.srNo || "")}. ${escSearch(p.name)}
+        </option>`
+      )
+      .join("");
+
+    if (
+      available.some(
+        p => String(p.name) === String(oldValue)
+      )
+    ) {
+      select.value = oldValue;
+    } else if (currentSold) {
+      select.value = currentSold.name || "";
+    }
+
+    select.dispatchEvent(
+      new Event("change", { bubbles: true })
+    );
+  }
+
+  function escSearch(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  /* ---------------------------------------------------------
+     ADD SEARCH TO CURRENT ADMIN DROPDOWNS
+     --------------------------------------------------------- */
+
+  function initSearchableDropdowns() {
+    [
+      "auctionTeam",
+      "editSoldPlayer",
+      "editSoldTeam",
+      "editTeamSelect"
+    ].forEach(id => {
+      makeSearchable(document.getElementById(id));
+    });
+  }
+
+  /* ---------------------------------------------------------
+     RE-CHECK AFTER EXISTING RENDER / MODALS
+     --------------------------------------------------------- */
+
+  const originalOpenSoldEdit =
+    window.openSoldEdit;
+
+  if (typeof originalOpenSoldEdit === "function") {
+    window.openSoldEdit = function (index) {
+
+      originalOpenSoldEdit(index);
+
+      refreshSoldPlayerOptions();
+
+      setTimeout(() => {
+        initSearchableDropdowns();
+      }, 0);
+    };
+  }
+
+  /* ---------------------------------------------------------
+     OBSERVE DOM CHANGES
+     Existing render() rebuilds dropdown options.
+     --------------------------------------------------------- */
+
+  const observer = new MutationObserver(() => {
+    initSearchableDropdowns();
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+  /* ---------------------------------------------------------
+     INITIAL START
+     --------------------------------------------------------- */
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      initSearchableDropdowns();
+    }, 100);
+  });
+
+  setTimeout(() => {
+    initSearchableDropdowns();
+  }, 500);
+
+})();

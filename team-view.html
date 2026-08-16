@@ -1406,21 +1406,27 @@ function openTeamReport(teamName){
     ${
       sold.length
         ? sold.map(s => `
-            <div class="playerRow">
+           <div class="playerRow">
 
-              <b>${esc(s.name)}</b>
+  <b>${esc(s.name)}</b>
 
-              <div>
-                <span class="muted">
-                  ${esc(s.category)}
-                </span>
-              </div>
+  <div>
+    <span class="muted">
+      ${esc(s.category)}
+    </span>
 
-              <span class="badge">
-                ${Number(s.points || 0).toLocaleString("en-IN")} Points
-              </span>
+    <br>
 
-            </div>
+    <span class="muted">
+      💰 Purchased: ${money(s.bid)}
+    </span>
+  </div>
+
+  <span class="badge">
+    ${Number(s.points || 0).toLocaleString("en-IN")} Points
+  </span>
+
+</div>
           `).join("")
         : "<p>No players purchased.</p>"
     }

@@ -688,12 +688,189 @@ $("completeAuction").onclick=()=>{
 
  render();
 
+const getWinnerRoleData = (team) => {
 
- const r=
-   [...state.teams]
-     .sort(
-       (a,b)=>b.points-a.points
-     );
+  const teamSold = state.sold.filter(
+    s => s.team === team.name
+  );
+
+  const normalizeRole = (value) =>
+    String(value || "")
+      .toLowerCase()
+      .replace(/[\s_-]+/g, "")
+      .trim();
+
+  const isRole = (category, role) => {
+    const c = normalizeRole(category);
+
+    if(role === "batsman"){
+      return c.includes("batsman") ||
+             c.includes("batter");
+    }
+
+    if(role === "bowler"){
+      return c.includes("bowler") ||
+             c.includes("bowling");
+    }
+
+    if(role === "wicketkeeper"){
+      return c.includes("wicketkeeper") ||
+             c.includes("keeper") ||
+             c.includes("wk");
+    }
+
+    if(role === "allrounder"){
+      return c.includes("allrounder") ||
+             c.includes("allround");
+    }
+
+    return false;
+  };
+
+
+  const batsmen =
+    teamSold.filter(s =>
+      isRole(s.category,"batsman")
+    );
+
+  const bowlers =
+    teamSold.filter(s =>
+      isRole(s.category,"bowler")
+    );
+
+  const wicketkeepers =
+    teamSold.filter(s =>
+      isRole(s.category,"wicketkeeper")
+    );
+
+  const allRounders =
+    teamSold.filter(s =>
+      isRole(s.category,"allrounder")
+    );
+
+
+  const eligible =
+    batsmen.length > 0 &&
+    bowlers.length > 0 &&
+    wicketkeepers.length > 0;
+
+
+  const bestBatsman =
+    Math.max(
+      0,
+      ...batsmen.map(
+        s => Number(s.points || 0)
+      )
+    );
+
+  const bestBowler =
+    Math.max(
+      0,
+      ...bowlers.map(
+        s => Number(s.points || 0)
+      )
+    );
+
+  const bestWicketkeeper =
+    Math.max(
+      0,
+      ...wicketkeepers.map(
+        s => Number(s.points || 0)
+      )
+    );
+
+
+  return {
+    eligible,
+
+    allRounder:
+      allRounders.length > 0,
+
+    rolePoints:
+      bestBatsman +
+      bestBowler +
+      bestWicketkeeper,
+
+    totalPoints:
+      Number(team.points || 0),
+
+    remainingBudget:
+      Number(team.budget || 0),
+
+    totalSpent:
+      Number(team.spent || 0)
+  };
+};
+
+
+const winnerData = new Map();
+
+state.teams.forEach(team => {
+
+  winnerData.set(
+    team.name,
+    getWinnerRoleData(team)
+  );
+
+});
+
+
+const r =
+  [...state.teams].sort((a,b) => {
+
+    const A = winnerData.get(a.name);
+    const B = winnerData.get(b.name);
+
+
+    /* 1. Required roles compulsory */
+
+    if(A.eligible !== B.eligible){
+      return A.eligible ? -1 : 1;
+    }
+
+
+    /* 2. Total Points */
+
+    if(A.totalPoints !== B.totalPoints){
+      return B.totalPoints - A.totalPoints;
+    }
+
+
+    /* 3. Remaining Budget */
+
+    if(A.remainingBudget !== B.remainingBudget){
+      return B.remainingBudget - A.remainingBudget;
+    }
+
+
+    /* 4. All-rounder */
+
+    if(A.allRounder !== B.allRounder){
+      return A.allRounder ? -1 : 1;
+    }
+
+
+    /* 5. Batsman + Bowler + Wicketkeeper
+          best player points */
+
+    if(A.rolePoints !== B.rolePoints){
+      return B.rolePoints - A.rolePoints;
+    }
+
+
+    /* 6. Total Spent - lower is better */
+
+    if(A.totalSpent !== B.totalSpent){
+      return A.totalSpent - B.totalSpent;
+    }
+
+
+    /* 7. Everything same = Tie */
+
+    return 0;
+
+  });
+
 
 
  $("winnerBox")

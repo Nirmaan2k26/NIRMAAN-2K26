@@ -279,17 +279,36 @@
     line-height:1.2;
   }
 
-  .teamReportTable{
-    width:100%;
-    table-layout:fixed;
-    font-size:12px;
-  }
+.teamReportTable{
+  width:100% !important;
+  max-width:100% !important;
+  table-layout:fixed !important;
+  border-collapse:collapse;
+  font-size:12px;
+}
 
-  .teamReportTable td{
-   padding:3px 4px;
-    word-break:break-word;
-    overflow-wrap:anywhere;
-  }
+.teamReportTable td{
+  padding:4px 4px !important;
+  min-width:0 !important;
+  width:50% !important;
+  max-width:50% !important;
+  white-space:normal !important;
+  word-break:break-word !important;
+  overflow-wrap:anywhere !important;
+  vertical-align:middle;
+}
+
+.teamReportTable td:first-child{
+  width:55% !important;
+  max-width:55% !important;
+  text-align:left;
+}
+
+.teamReportTable td:last-child{
+  width:45% !important;
+  max-width:45% !important;
+  text-align:right;
+}
 
   .teamReportClose{
     position:absolute;

@@ -821,54 +821,53 @@ const r =
     const A = winnerData.get(a.name);
     const B = winnerData.get(b.name);
 
+/* 1. Required roles compulsory */
 
-    /* 1. Required roles compulsory */
-
-    if(A.eligible !== B.eligible){
-      return A.eligible ? -1 : 1;
-    }
-
-
-    /* 2. Total Points */
-
-    if(A.totalPoints !== B.totalPoints){
-      return B.totalPoints - A.totalPoints;
-    }
+if(A.eligible !== B.eligible){
+  return A.eligible ? -1 : 1;
+}
 
 
-    /* 3. Remaining Budget */
+/* 2. Remaining Budget */
 
-    if(A.remainingBudget !== B.remainingBudget){
-      return B.remainingBudget - A.remainingBudget;
-    }
-
-
-    /* 4. All-rounder */
-
-    if(A.allRounder !== B.allRounder){
-      return A.allRounder ? -1 : 1;
-    }
+if(A.remainingBudget !== B.remainingBudget){
+  return B.remainingBudget - A.remainingBudget;
+}
 
 
-    /* 5. Batsman + Bowler + Wicketkeeper
-          best player points */
+/* 3. All-rounder */
 
-    if(A.rolePoints !== B.rolePoints){
-      return B.rolePoints - A.rolePoints;
-    }
-
-
-    /* 6. Total Spent - lower is better */
-
-    if(A.totalSpent !== B.totalSpent){
-      return A.totalSpent - B.totalSpent;
-    }
+if(A.allRounder !== B.allRounder){
+  return A.allRounder ? -1 : 1;
+}
 
 
-    /* 7. Everything same = Tie */
+/* 4. Batsman + Bowler + Wicketkeeper
+      best player points */
 
-    return 0;
+if(A.rolePoints !== B.rolePoints){
+  return B.rolePoints - A.rolePoints;
+}
 
+
+/* 5. Total Spent - lower is better */
+
+if(A.totalSpent !== B.totalSpent){
+  return A.totalSpent - B.totalSpent;
+}
+
+
+/* 6. Total Points - LAST priority */
+
+if(A.totalPoints !== B.totalPoints){
+  return B.totalPoints - A.totalPoints;
+}
+
+
+/* 7. Everything same = Tie */
+
+return 0;
+ 
   });
 
 

@@ -944,6 +944,13 @@ const ranking =
               .toLocaleString("en-IN")}
             Points
           </span>
+          <button
+  type="button"
+  class="teamPdfBtn"
+  onclick="openTeamReport('${esc(x.name)}')"
+>
+  📄 PDF
+</button>
         </div>`
       )
       .join("")+
@@ -959,7 +966,323 @@ function currentTeam(){
   )||null;
 
 }
+function openTeamReport(teamName){
 
+  const team =
+    state.teams.find(
+      t => String(t.name) === String(teamName)
+    );
+
+  if(!team)
+    return;
+
+  const sold =
+    state.sold.filter(
+      s => s.team === team.name
+    );
+
+  const normalize = value =>
+    String(value || "")
+      .toLowerCase()
+      .replace(/[\s_-]+/g,"");
+
+  const hasRole = (category,type) => {
+
+    const c = normalize(category);
+
+    if(type === "batsman")
+      return c.includes("batsman") ||
+             c.includes("batter");
+
+    if(type === "bowler")
+      return c.includes("bowler") ||
+             c.includes("bowling");
+
+    if(type === "wicketkeeper")
+      return c.includes("wicketkeeper") ||
+             c.includes("keeper") ||
+             c.includes("wk");
+
+    if(type === "allrounder")
+      return c.includes("allrounder") ||
+             c.includes("allround");
+
+    return false;
+  };
+
+  const batsmen =
+    sold.filter(
+      s => hasRole(s.category,"batsman")
+    );
+
+  const bowlers =
+    sold.filter(
+      s => hasRole(s.category,"bowler")
+    );
+
+  const wicketkeepers =
+    sold.filter(
+      s => hasRole(s.category,"wicketkeeper")
+    );
+
+  const allRounders =
+    sold.filter(
+      s => hasRole(s.category,"allrounder")
+    );
+
+  const eligible =
+    batsmen.length > 0 &&
+    bowlers.length > 0 &&
+    wicketkeepers.length > 0;
+
+  const rolePoints =
+    Math.max(
+      0,
+      ...batsmen.map(
+        s => Number(s.points || 0)
+      )
+    )
+    +
+    Math.max(
+      0,
+      ...bowlers.map(
+        s => Number(s.points || 0)
+      )
+    )
+    +
+    Math.max(
+      0,
+      ...wicketkeepers.map(
+        s => Number(s.points || 0)
+      )
+    );
+
+  const rank =
+    [...state.teams]
+      .sort((a,b) => {
+
+        const getData = team => {
+
+          const teamSold =
+            state.sold.filter(
+              s => s.team === team.name
+            );
+
+          const b =
+            teamSold.filter(
+              s => hasRole(s.category,"batsman")
+            );
+
+          const bo =
+            teamSold.filter(
+              s => hasRole(s.category,"bowler")
+            );
+
+          const wk =
+            teamSold.filter(
+              s => hasRole(s.category,"wicketkeeper")
+            );
+
+          const ar =
+            teamSold.filter(
+              s => hasRole(s.category,"allrounder")
+            );
+
+          return {
+            eligible:
+              b.length > 0 &&
+              bo.length > 0 &&
+              wk.length > 0,
+
+            remainingBudget:
+              Number(team.budget || 0),
+
+            allRounder:
+              ar.length > 0,
+
+            rolePoints:
+              Math.max(
+                0,
+                ...b.map(
+                  s => Number(s.points || 0)
+                )
+              )
+              +
+              Math.max(
+                0,
+                ...bo.map(
+                  s => Number(s.points || 0)
+                )
+              )
+              +
+              Math.max(
+                0,
+                ...wk.map(
+                  s => Number(s.points || 0)
+                )
+              ),
+
+            totalSpent:
+              Number(team.spent || 0),
+
+            totalPoints:
+              Number(team.points || 0)
+          };
+        };
+
+        const A = getData(a);
+        const B = getData(b);
+
+        if(A.eligible !== B.eligible)
+          return A.eligible ? -1 : 1;
+
+        if(A.remainingBudget !== B.remainingBudget)
+          return B.remainingBudget - A.remainingBudget;
+
+        if(A.allRounder !== B.allRounder)
+          return A.allRounder ? -1 : 1;
+
+        if(A.rolePoints !== B.rolePoints)
+          return B.rolePoints - A.rolePoints;
+
+        if(A.totalSpent !== B.totalSpent)
+          return A.totalSpent - B.totalSpent;
+
+        if(A.totalPoints !== B.totalPoints)
+          return B.totalPoints - A.totalPoints;
+
+        return 0;
+      })
+      .findIndex(
+        t => t.name === team.name
+      ) + 1;
+
+
+  let missing = [];
+
+  if(!batsmen.length)
+    missing.push("❌ Batsman નથી");
+
+  if(!bowlers.length)
+    missing.push("❌ Bowler નથી");
+
+  if(!wicketkeepers.length)
+    missing.push("❌ Wicketkeeper નથી");
+
+  if(!allRounders.length)
+    missing.push("❌ All-Rounder નથી");
+
+
+  if(!missing.length)
+    missing.push("✅ Required roles complete");
+
+
+  $("teamReportContent").innerHTML = `
+
+    <h2 class="teamReportTitle">
+      📄 ${esc(team.name)} — Final Report
+    </h2>
+
+    <table class="teamReportTable">
+
+      <tr>
+        <td><b>Final Rank</b></td>
+        <td>#${rank}</td>
+      </tr>
+
+      <tr>
+        <td><b>Total Points</b></td>
+        <td>${Number(team.points || 0).toLocaleString("en-IN")}</td>
+      </tr>
+
+      <tr>
+        <td><b>Starting Budget</b></td>
+        <td>${money(team.startBudget)}</td>
+      </tr>
+
+      <tr>
+        <td><b>Remaining Budget</b></td>
+        <td>${money(team.budget)}</td>
+      </tr>
+
+      <tr>
+        <td><b>Total Spent</b></td>
+        <td>${money(team.spent)}</td>
+      </tr>
+
+      <tr>
+        <td><b>Batsman</b></td>
+        <td>${batsmen.length ? "✅" : "❌"}</td>
+      </tr>
+
+      <tr>
+        <td><b>Bowler</b></td>
+        <td>${bowlers.length ? "✅" : "❌"}</td>
+      </tr>
+
+      <tr>
+        <td><b>Wicketkeeper</b></td>
+        <td>${wicketkeepers.length ? "✅" : "❌"}</td>
+      </tr>
+
+      <tr>
+        <td><b>All-Rounder</b></td>
+        <td>${allRounders.length ? "✅" : "❌"}</td>
+      </tr>
+
+      <tr>
+        <td><b>Role Points</b></td>
+        <td>${rolePoints}</td>
+      </tr>
+
+    </table>
+
+    <h3>🏏 Players</h3>
+
+    ${
+      sold.length
+        ? sold.map(s => `
+            <div class="playerRow">
+
+              <b>${esc(s.name)}</b>
+
+              <div>
+                <span class="muted">
+                  ${esc(s.category)}
+                </span>
+              </div>
+
+              <span class="badge">
+                ${Number(s.points || 0).toLocaleString("en-IN")} Points
+              </span>
+
+            </div>
+          `).join("")
+        : "<p>No players purchased.</p>"
+    }
+
+    <div class="teamReportMissing">
+
+      <b>📌 Team Status</b>
+
+      <div style="margin-top:8px">
+        ${missing.join("<br>")}
+      </div>
+
+    </div>
+  `;
+
+  $("teamReportModal")
+    .classList.remove("hidden");
+}
+
+
+function closeTeamReport(){
+
+  $("teamReportModal")
+    .classList.add("hidden");
+
+}
 
 function currentTeamFromSelect(){
 

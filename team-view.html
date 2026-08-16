@@ -216,16 +216,19 @@
 .teamReportModal.hidden{
   display:none !important;
 }
-
 .teamReportCard{
   position:relative;
-  width:min(700px,95vw);
+  width:min(700px,calc(100vw - 30px));
+  max-width:700px;
+  height:min(85vh,850px);
   max-height:85vh;
-  overflow:auto;
+  box-sizing:border-box;
+  overflow-y:auto;
+  overflow-x:hidden;
   background:var(--surface,#fff);
   color:inherit;
   border-radius:20px;
-  padding:25px;
+  padding:60px 24px 24px;
   box-shadow:0 20px 60px rgba(0,0,0,.3);
 }
 

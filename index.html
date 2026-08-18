@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
+
 .websiteCredit{
   width:100%;
   text-align:center;
@@ -15,11 +16,102 @@
   font-weight:700;
   letter-spacing:.05em;
 }
+
+
+/* ================================
+   ADMIN LOGIN
+   ================================ */
+
+.adminLogin{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  box-sizing:border-box;
+  background:#0f172a;
+}
+
+.adminLoginCard{
+  width:min(400px,100%);
+  box-sizing:border-box;
+  padding:30px;
+  border-radius:20px;
+  background:#fff;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.adminLoginLogo{
+  font-size:42px;
+  margin-bottom:8px;
+}
+
+.adminLoginCard h2{
+  margin:0 0 8px;
+}
+
+.adminLoginCard p{
+  margin:0 0 18px;
+  color:#666;
+}
+
+.adminLoginCard input{
+  width:100%;
+  box-sizing:border-box;
+  padding:13px 14px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:16px;
+  margin-bottom:12px;
+}
+
+.adminLoginCard button{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+#adminLoginMsg{
+  margin-top:12px;
+  font-weight:700;
+}
+
 </style>
 
 </head>
-
 <body>
+
+<div id="adminLogin" class="adminLogin">
+  <div class="adminLoginCard">
+
+    <div class="adminLoginLogo">🔐</div>
+
+    <h2>Admin Login</h2>
+
+    <p>Enter Admin Password</p>
+
+    <input
+      id="adminPassword"
+      type="password"
+      placeholder="Enter password"
+      autocomplete="off"
+    >
+
+    <button id="adminLoginBtn" type="button">
+      🔓 Login
+    </button>
+
+    <div id="adminLoginMsg"></div>
+
+  </div>
+</div>
 
 <div class="wrap">
 
@@ -517,6 +609,68 @@
 <script src="realtime.js"></script>
 
 <script src="app.js"></script>
+<script>
+(function(){
 
+  const ADMIN_PASSWORD = "YDSD@2K26";
+
+  const loginBox = document.getElementById("adminLogin");
+  const passwordInput = document.getElementById("adminPassword");
+  const loginBtn = document.getElementById("adminLoginBtn");
+  const loginMsg = document.getElementById("adminLoginMsg");
+  const adminPage = document.querySelector(".wrap");
+
+  /* Admin panel hidden until correct password */
+  if(adminPage){
+    adminPage.style.display = "none";
+  }
+
+  function login(){
+
+    const enteredPassword = passwordInput.value;
+
+    if(enteredPassword === ADMIN_PASSWORD){
+
+      /* Hide login screen */
+      loginBox.style.display = "none";
+
+      /* Show Admin panel */
+      if(adminPage){
+        adminPage.style.display = "";
+      }
+
+      /* Clear password field */
+      passwordInput.value = "";
+
+      loginMsg.textContent = "";
+
+    }else{
+
+      loginMsg.textContent = "❌ Incorrect Admin Password.";
+      loginMsg.style.color = "#dc2626";
+
+      passwordInput.value = "";
+      passwordInput.focus();
+
+    }
+  }
+
+  /* Login button */
+  loginBtn.addEventListener("click", login);
+
+  /* Press Enter to login */
+  passwordInput.addEventListener("keydown", function(e){
+
+    if(e.key === "Enter"){
+      login();
+    }
+
+  });
+
+  /* Automatically focus password box */
+  passwordInput.focus();
+
+})();
+</script>
 </body>
 </html>

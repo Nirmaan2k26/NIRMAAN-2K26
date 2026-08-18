@@ -772,6 +772,7 @@ const srNoIndex =
   pin
 });
 
+       });
     /* Check duplicate with existing teams */
 
     clean.forEach(team=>{

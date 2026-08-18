@@ -2023,7 +2023,23 @@ document.getElementById(
       return;
     }
 
+const categoryAlreadyTaken =
+  state.sold.some(
+    (x,i)=>
+      i!==index &&
+      x.team===team &&
+      String(x.category || "").trim() ===
+      String(selectedPlayer.category || "").trim()
+  );
 
+if(categoryAlreadyTaken){
+
+  msg.textContent =
+    `❌ ${team} already has a ${selectedPlayer.category}. ` +
+    `Only one player from each category is allowed.`;
+
+  return;
+}
     /*
        Update the sold record completely,
        including player identity.

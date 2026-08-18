@@ -524,16 +524,18 @@ $("downloadTeamTemplate").onclick=()=>{
 
   const ws=
     XLSX.utils.aoa_to_sheet([
-      [
-        "Team Name",
-        "Starting Budget",
-        "Team PIN"
-      ],
-      [
-        "Example Team",
-        10000000,
-        "TEAM@01"
-      ]
+     [
+  "SR NO",
+  "Team Name",
+  "Starting Budget",
+  "Team PIN"
+],
+[
+  1,
+  "Example Team",
+  10000000,
+  "TEAM@01"
+]
     ]);
 
   const wb=
@@ -968,24 +970,27 @@ $("teamExcelFile").onchange=async e=>{
     const headers =
       rows[0].map(norm);
 
-    const teamNameIndex =
-      headers.indexOf("team name");
+   const srNoIndex =
+  headers.indexOf("sr no");
 
-    const budgetIndex =
-      headers.indexOf("starting budget");
+const teamNameIndex =
+  headers.indexOf("team name");
 
-    const pinIndex =
-      headers.indexOf("team pin");
+const budgetIndex =
+  headers.indexOf("starting budget");
 
-    if(
-      teamNameIndex < 0 ||
-      budgetIndex < 0 ||
-      pinIndex < 0
-    ){
+const pinIndex =
+  headers.indexOf("team pin"); 
+   if(
+  srNoIndex < 0 ||
+  teamNameIndex < 0 ||
+  budgetIndex < 0 ||
+  pinIndex < 0
+)
 
       return setMsg(
         "teamMsg",
-        "❌ Invalid Team Excel format. Required columns: Team Name, Starting Budget, Team PIN.",
+       "❌ Invalid Team Excel format. Required columns: Team Name, Starting Budget, Team PIN."
         "err"
       );
 

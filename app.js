@@ -4049,7 +4049,7 @@ window.toggleTeamManagementPin=function(){
  function initSearchableDropdowns(){
 
    [
-     "auctionTeam",
+    
      "editSoldPlayer",
      "editSoldTeam",
      "editTeamSelect"

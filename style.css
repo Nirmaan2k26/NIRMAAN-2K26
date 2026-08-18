@@ -99,6 +99,76 @@ tbody tr:hover{background:#fafcff}
 .playerDropItem:hover{background:#eef5ff}
 .playerDropSr{display:inline-block;min-width:34px;font-weight:800}
 #playerDropdown{margin-top:2px}
+/* =========================================================
+   TEAM SEARCH DROPDOWN
+   ========================================================= */
+
+.teamSearchWrap{
+  position:relative;
+  width:100%;
+}
+
+#auctionTeamSearch{
+  width:100%;
+  box-sizing:border-box;
+}
+
+.teamDropdown{
+  position:absolute;
+  top:calc(100% + 5px);
+  left:0;
+  right:0;
+  width:100%;
+  max-height:260px;
+  overflow-y:auto;
+
+  background:#fff;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+  display:none;
+  z-index:9999;
+}
+
+.teamDropdown.show{
+  display:block;
+}
+
+.teamSearchOption{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+
+  padding:12px 14px;
+
+  cursor:pointer;
+  border-bottom:1px solid #eee;
+
+  background:#fff;
+}
+
+.teamSearchOption:hover{
+  background:#eef5ff;
+}
+
+.teamSearchOption b{
+  font-weight:700;
+}
+
+.teamSearchOption span{
+  white-space:nowrap;
+  font-size:.85rem;
+  opacity:.7;
+}
+
+.teamSearchEmpty{
+  padding:14px;
+  text-align:center;
+  opacity:.65;
+}
 .editModal,.modal{position:fixed;inset:0;background:rgba(8,18,42,.62);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px)}
 .editModal.hidden{display:none}
 .editCard,.modal-content{position:relative;background:#fff;border:1px solid var(--line);border-radius:20px;padding:25px;min-width:320px;max-width:560px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.25)}

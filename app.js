@@ -623,7 +623,9 @@ $("teamExcelFile").onchange=async e=>{
     const headers=
       rows[0].map(norm);
 
-
+const srNoIndex =
+  headers.indexOf("sr no");
+   
     const teamNameIndex=
       headers.indexOf("team name");
 
@@ -760,13 +762,15 @@ $("teamExcelFile").onchange=async e=>{
 
 
         clean.push({
-          name,
-          budget,
-          pin
-        });
+  srNo:
+    srNoIndex >= 0
+      ? String(row[srNoIndex] ?? "").trim()
+      : String(i + 1),
 
-      });
-
+  name,
+  budget,
+  pin
+});
 
     /* Check duplicate with existing teams */
 
@@ -824,7 +828,8 @@ $("teamExcelFile").onchange=async e=>{
     clean.forEach(team=>{
 
       state.teams.push({
-
+srNo:
+  team.srNo,
         name:
           team.name,
 

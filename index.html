@@ -228,7 +228,34 @@
     <button id="addTeam">
       + Add Team
     </button>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
 
+  <button
+    id="downloadTeamTemplate"
+    type="button"
+  >
+    ⬇ Download Team Excel Template
+  </button>
+
+  <label class="fileBtn">
+    📤 Upload Team Excel
+    <input
+      id="teamExcelFile"
+      type="file"
+      accept=".xlsx,.xls,.csv"
+      hidden
+    >
+  </label>
+
+  <button
+    id="replaceTeamExcel"
+    type="button"
+    class="danger"
+  >
+    🗑️ Remove Current Team Excel &amp; Replace
+  </button>
+
+</div>
   </div>
 
   <div id="teamMsg" class="msg"></div>

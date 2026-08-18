@@ -875,6 +875,68 @@ $("teamExcelFile").onchange=async e=>{
 
 };
 /* =========================================================
+   TEAM EXCEL - REMOVE & REPLACE
+   ========================================================= */
+
+$("replaceTeamExcel").onclick = () => {
+
+  const teamFileInput =
+    $("teamExcelFile");
+
+  if(!teamFileInput){
+    return setMsg(
+      "teamMsg",
+      "❌ Team Excel input not found.",
+      "err"
+    );
+  }
+
+  if(!state.teams.length){
+    return setMsg(
+      "teamMsg",
+      "❌ No current teams found to replace.",
+      "err"
+    );
+  }
+
+  const ok =
+    confirm(
+      "⚠️ Replace Current Team Excel?\n\n" +
+      "All current teams will be removed.\n\n" +
+      "Player Excel and sold history will remain safe.\n\n" +
+      "Continue?"
+    );
+
+  if(!ok)
+    return;
+
+  /* Remove old teams */
+
+  state.teams = [];
+
+  save();
+  render();
+
+  /* Clear file input */
+
+  teamFileInput.value = "";
+
+  setMsg(
+    "teamMsg",
+    "🗑️ Current teams removed. Select your new Team Excel file.",
+    "ok"
+  );
+
+  /* Open Excel picker */
+
+  setTimeout(() => {
+
+    teamFileInput.click();
+
+  }, 100);
+
+};
+/* =========================================================
    TEAM EXCEL - DOWNLOAD TEMPLATE
    ========================================================= */
 

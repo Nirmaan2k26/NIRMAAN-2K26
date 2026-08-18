@@ -516,7 +516,356 @@ $("addTeam").onclick=()=>{
    "ok"
  );
 };
+/* =========================================================
+   TEAM EXCEL TEMPLATE + IMPORT
+   ========================================================= */
 
+$("downloadTeamTemplate").onclick=()=>{
+
+  const ws=
+    XLSX.utils.aoa_to_sheet([
+      [
+        "Team Name",
+        "Starting Budget",
+        "Team PIN"
+      ],
+      [
+        "Example Team",
+        10000000,
+        "TEAM@01"
+      ]
+    ]);
+
+  const wb=
+    XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    wb,
+    ws,
+    "Teams"
+  );
+
+  XLSX.writeFile(
+    wb,
+    "Auction_Arena_Team_Template.xlsx"
+  );
+};
+
+
+$("teamExcelFile").onchange=async e=>{
+
+  const file=
+    e.target.files[0];
+
+  if(!file)
+    return;
+
+  try{
+
+    const wb=
+      XLSX.read(
+        await file.arrayBuffer(),
+        {type:"array"}
+      );
+
+    const sheetName=
+      wb.SheetNames[0];
+
+    if(!sheetName){
+
+      return setMsg(
+        "teamMsg",
+        "❌ No worksheet found in Team Excel.",
+        "err"
+      );
+
+    }
+
+    const ws=
+      wb.Sheets[sheetName];
+
+    const rows=
+      XLSX.utils.sheet_to_json(
+        ws,
+        {
+          header:1,
+          defval:""
+        }
+      );
+
+    if(rows.length<2){
+
+      return setMsg(
+        "teamMsg",
+        "❌ Team Excel has no team data.",
+        "err"
+      );
+
+    }
+
+
+    const norm=v=>
+      String(v??"")
+        .replace(/\u00a0/g," ")
+        .replace(/\s+/g," ")
+        .trim()
+        .toLowerCase();
+
+
+    const headers=
+      rows[0].map(norm);
+
+
+    const teamNameIndex=
+      headers.indexOf("team name");
+
+    const budgetIndex=
+      headers.indexOf("starting budget");
+
+    const pinIndex=
+      headers.indexOf("team pin");
+
+
+    if(
+      teamNameIndex<0 ||
+      budgetIndex<0 ||
+      pinIndex<0
+    ){
+
+      return setMsg(
+        "teamMsg",
+        "❌ Invalid Team Excel format. Required columns: Team Name, Starting Budget, Team PIN.",
+        "err"
+      );
+
+    }
+
+
+    const errors=[];
+    const clean=[];
+    const seen=new Map();
+
+
+    rows
+      .slice(1)
+      .forEach((row,i)=>{
+
+        const line=i+2;
+
+
+        const name=
+          String(
+            row[teamNameIndex]??""
+          )
+          .replace(/\s+/g," ")
+          .trim();
+
+
+        const budgetRaw=
+          String(
+            row[budgetIndex]??""
+          )
+          .replace(/₹/g,"")
+          .replace(/,/g,"")
+          .trim();
+
+
+        const pin=
+          String(
+            row[pinIndex]??""
+          ).trim();
+
+
+        /* Ignore completely blank rows */
+
+        if(
+          !name &&
+          !budgetRaw &&
+          !pin
+        )
+          return;
+
+
+        /* Duplicate team inside Excel */
+
+        const key=
+          name.toLowerCase();
+
+
+        if(!name){
+
+          errors.push(
+            `Row ${line}: Team Name is missing.`
+          );
+
+        }else if(
+          seen.has(key)
+        ){
+
+          errors.push(
+            `Row ${line}: Duplicate Team Name "${name}" in Excel.`
+          );
+
+        }else{
+
+          seen.set(
+            key,
+            line
+          );
+
+        }
+
+
+        /* Budget validation */
+
+        const budget=
+          Number(budgetRaw);
+
+
+        if(!budgetRaw){
+
+          errors.push(
+            `Row ${line}: Starting Budget is missing.`
+          );
+
+        }else if(
+          !Number.isFinite(budget) ||
+          budget<=0
+        ){
+
+          errors.push(
+            `Row ${line}: Starting Budget "${budgetRaw}" is invalid.`
+          );
+
+        }
+
+
+        /* PIN validation */
+
+        if(!pin){
+
+          errors.push(
+            `Row ${line}: Team PIN is missing.`
+          );
+
+        }
+
+
+        clean.push({
+          name,
+          budget,
+          pin
+        });
+
+      });
+
+
+    /* Check duplicate with existing teams */
+
+    clean.forEach(team=>{
+
+      if(
+        state.teams.some(
+          t=>
+            String(t.name)
+              .trim()
+              .toLowerCase()===
+            team.name
+              .trim()
+              .toLowerCase()
+        )
+      ){
+
+        errors.push(
+          `Team "${team.name}" already exists.`
+        );
+
+      }
+
+    });
+
+
+    /* Do not change anything if errors exist */
+
+    if(errors.length){
+
+      return setMsg(
+        "teamMsg",
+        `<b>❌ Team Import stopped — ${errors.length} error${errors.length===1?"":"s"} found.</b>
+        <div style="margin-top:8px">
+          ${errors
+            .map(
+              e=>
+                `<div style="margin:5px 0">
+                  • ${esc(e)}
+                </div>`
+            )
+            .join("")}
+        </div>
+        <div style="margin-top:10px">
+          <b>No team data was changed.</b>
+        </div>`,
+        "err"
+      );
+
+    }
+
+
+    /* Add validated teams */
+
+    clean.forEach(team=>{
+
+      state.teams.push({
+
+        name:
+          team.name,
+
+        startBudget:
+          team.budget,
+
+        budget:
+          team.budget,
+
+        spent:0,
+
+        points:0,
+
+        players:[],
+
+        pin:
+          team.pin
+
+      });
+
+    });
+
+
+    save();
+
+    render();
+
+
+    $("teamExcelFile").value="";
+
+
+    setMsg(
+      "teamMsg",
+      `✅ ${clean.length} team${clean.length===1?"":"s"} imported successfully from "${esc(sheetName)}".`,
+      "ok"
+    );
+
+
+  }catch(err){
+
+    setMsg(
+      "teamMsg",
+      `❌ Team Excel Read Error: ${esc(err.message||"Could not read file.")}`,
+      "err"
+    );
+
+  }
+
+};
 
 $("sellPlayer").onclick=()=>{
 

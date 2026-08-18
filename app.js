@@ -96,21 +96,27 @@ function render(){
 
  const auctionTeams=state.teams;
 
+const auctionTeamOptions =
+  auctionTeams.map(
+    (t,index)=>{
 
- $("auctionTeam").innerHTML=
-   auctionTeams.length
+      const srNo =
+        t.srNo ||
+        index + 1;
 
-     ? auctionTeams
-         .map(
-           t=>
-             `<option value="${esc(t.name)}">
-               ${esc(t.name)} (${t.players.length}/4)
-             </option>`
-         )
-         .join("")
+      return `
+        <option value="${esc(t.name)}">
+          ${esc(srNo)} — ${esc(t.name)}
+          (${t.players.length}/4)
+        </option>
+      `;
+    }
+  ).join("");
 
-     : '<option value="">No teams</option>';
-
+$("auctionTeam").innerHTML =
+  auctionTeamOptions ||
+  '<option value="">No teams</option>';
+ 
 
  /*
     Keep searchable dropdown display synchronized
@@ -1206,6 +1212,175 @@ $("replaceTeamExcel").onclick=()=>{
   );
 
 };
+/* =========================================================
+   TEAM SEARCH
+   Search by SR NO or Team Name
+   ========================================================= */
+
+const teamSearch =
+  $("auctionTeamSearch");
+
+const teamDropdown =
+  $("auctionTeamDropdown");
+
+
+function refreshTeamSearch(query=""){
+
+  if(!teamSearch || !teamDropdown)
+    return;
+
+  const q =
+    String(query || "")
+      .trim()
+      .toLowerCase();
+
+  const teams =
+    state.teams.filter(
+      (t,index)=>{
+
+        const srNo =
+          String(t.srNo || index+1);
+
+        const name =
+          String(t.name || "");
+
+        return !q ||
+          srNo.includes(q) ||
+          name.toLowerCase().includes(q);
+
+      }
+    );
+
+  if(!teams.length){
+
+    teamDropdown.innerHTML =
+      `<div class="teamSearchEmpty">
+        No team found
+      </div>`;
+
+    teamDropdown.classList.add("show");
+
+    return;
+  }
+
+
+  teamDropdown.innerHTML =
+    teams.map(
+      (t,index)=>{
+
+        const realIndex =
+          state.teams.indexOf(t);
+
+        const srNo =
+          t.srNo || realIndex+1;
+
+        return `
+          <div
+            class="teamSearchOption"
+            data-team-index="${realIndex}"
+          >
+            <b>${esc(srNo)} — ${esc(t.name)}</b>
+            <span>${t.players.length}/4</span>
+          </div>
+        `;
+
+      }
+    ).join("");
+
+
+  teamDropdown.classList.add("show");
+
+}
+
+
+/* Search while typing */
+
+teamSearch?.addEventListener(
+  "input",
+  function(){
+
+    refreshTeamSearch(
+      this.value
+    );
+
+  }
+);
+
+
+/* Select team */
+
+teamDropdown?.addEventListener(
+  "click",
+  function(e){
+
+    const option =
+      e.target.closest(
+        ".teamSearchOption"
+      );
+
+    if(!option)
+      return;
+
+    const index =
+      Number(
+        option.dataset.teamIndex
+      );
+
+    const team =
+      state.teams[index];
+
+    if(!team)
+      return;
+
+    teamSearch.value =
+      `${team.srNo || index+1} — ${team.name}`;
+
+    $("auctionTeam").value =
+      team.name;
+
+    teamDropdown.classList.remove(
+      "show"
+    );
+
+  }
+);
+
+
+/* Open dropdown */
+
+teamSearch?.addEventListener(
+  "focus",
+  function(){
+
+    refreshTeamSearch(
+      this.value
+    );
+
+  }
+);
+
+
+/* Close dropdown */
+
+document.addEventListener(
+  "click",
+  function(e){
+
+    if(
+      teamSearch &&
+      teamDropdown &&
+      !teamSearch.contains(e.target) &&
+      !teamDropdown.contains(e.target)
+    ){
+
+      teamDropdown.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
 $("sellPlayer").onclick=()=>{
 
  if(state.auctionComplete)

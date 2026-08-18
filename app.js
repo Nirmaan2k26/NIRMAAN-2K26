@@ -584,7 +584,20 @@ $("sellPlayer").onclick=()=>{
      `❌ ${esc(t.name)} is complete and is no longer available for bidding.`,
      "err"
    );
+const teamSoldPlayers = state.sold.filter(
+  s => s.team === t.name
+);
 
+const categoryAlreadyTaken = teamSoldPlayers.some(
+  s => String(s.category || "").trim() === String(p.category || "").trim()
+);
+
+if(categoryAlreadyTaken)
+  return setMsg(
+    "auctionMsg",
+    `❌ ${esc(t.name)} already has a ${esc(p.category)}. Only one player from each category is allowed.`,
+    "err"
+  );
 
  if(
    state.sold.some(

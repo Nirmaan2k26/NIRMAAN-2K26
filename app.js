@@ -1313,241 +1313,373 @@ if(categoryAlreadyTaken)
 
 $("completeAuction").onclick=()=>{
 
- if(!state.teams.length)
-   return setMsg(
-     "auctionMsg",
-     "Add teams first.",
-     "err"
-   );
+  if(!state.teams.length)
+    return setMsg(
+      "auctionMsg",
+      "Add teams first.",
+      "err"
+    );
 
 
- state.auctionComplete=true;
+  /*
+    FINAL WINNER RULES
 
- state.resultVisibleToTeams=false;
+    1. Exactly 4 players
+    2. 1 Batsman
+    3. 1 Bowler
+    4. 1 WK
+    5. 1 All Rounder
+    6. Highest Total Points
+    7. Same Points -> Higher Remaining Budget
+    8. Same Budget -> Lower Total Spent
+    9. Everything same -> Tie
+  */
 
 
- save();
+  const getTeamWinnerData = (team) => {
 
- render();
+    const sold =
+      state.sold.filter(
+        s => s.team === team.name
+      );
 
-const getWinnerRoleData = (team) => {
 
-  const teamSold = state.sold.filter(
-    s => s.team === team.name
-  );
+    const normalize = value =>
+      String(value || "")
+        .toLowerCase()
+        .replace(/[\s_-]+/g,"")
+        .trim();
 
-  const normalizeRole = (value) =>
-    String(value || "")
-      .toLowerCase()
-      .replace(/[\s_-]+/g, "")
-      .trim();
 
-  const isRole = (category, role) => {
-    const c = normalizeRole(category);
+    const hasCategory = (category, type) => {
 
-    if(role === "batsman"){
-      return c.includes("batsman") ||
-             c.includes("batter");
-    }
+      const c = normalize(category);
 
-    if(role === "bowler"){
-      return c.includes("bowler") ||
-             c.includes("bowling");
-    }
 
-    if(role === "wicketkeeper"){
-      return c.includes("wicketkeeper") ||
-             c.includes("keeper") ||
-             c.includes("wk");
-    }
+      if(type === "batsman")
+        return (
+          c.includes("batsman") ||
+          c.includes("batter")
+        );
 
-    if(role === "allrounder"){
-      return c.includes("allrounder") ||
-             c.includes("allround");
-    }
 
-    return false;
+      if(type === "bowler")
+        return (
+          c.includes("bowler") ||
+          c.includes("bowling")
+        );
+
+
+      if(type === "wicketkeeper")
+        return (
+          c.includes("wicketkeeper") ||
+          c.includes("keeper") ||
+          c === "wk"
+        );
+
+
+      if(type === "allrounder")
+        return (
+          c.includes("allrounder") ||
+          c.includes("allround")
+        );
+
+
+      return false;
+    };
+
+
+    const batsman =
+      sold.some(
+        s => hasCategory(s.category,"batsman")
+      );
+
+
+    const bowler =
+      sold.some(
+        s => hasCategory(s.category,"bowler")
+      );
+
+
+    const wicketkeeper =
+      sold.some(
+        s => hasCategory(s.category,"wicketkeeper")
+      );
+
+
+    const allRounder =
+      sold.some(
+        s => hasCategory(s.category,"allrounder")
+      );
+
+
+    const eligible =
+      team.players.length === 4 &&
+      batsman &&
+      bowler &&
+      wicketkeeper &&
+      allRounder;
+
+
+    return {
+
+      eligible,
+
+      totalPoints:
+        Number(team.points || 0),
+
+      remainingBudget:
+        Number(team.budget || 0),
+
+      totalSpent:
+        Number(team.spent || 0)
+
+    };
+
   };
 
 
-  const batsmen =
-    teamSold.filter(s =>
-      isRole(s.category,"batsman")
+  /*
+    Calculate winner data
+  */
+
+  const winnerData = new Map();
+
+
+  state.teams.forEach(team => {
+
+    winnerData.set(
+      team.name,
+      getTeamWinnerData(team)
     );
 
-  const bowlers =
-    teamSold.filter(s =>
-      isRole(s.category,"bowler")
-    );
-
-  const wicketkeepers =
-    teamSold.filter(s =>
-      isRole(s.category,"wicketkeeper")
-    );
-
-  const allRounders =
-    teamSold.filter(s =>
-      isRole(s.category,"allrounder")
-    );
-
-
-  const eligible =
-    batsmen.length > 0 &&
-    bowlers.length > 0 &&
-    wicketkeepers.length > 0;
-
-
-  const bestBatsman =
-    Math.max(
-      0,
-      ...batsmen.map(
-        s => Number(s.points || 0)
-      )
-    );
-
-  const bestBowler =
-    Math.max(
-      0,
-      ...bowlers.map(
-        s => Number(s.points || 0)
-      )
-    );
-
-  const bestWicketkeeper =
-    Math.max(
-      0,
-      ...wicketkeepers.map(
-        s => Number(s.points || 0)
-      )
-    );
-
-
-  return {
-    eligible,
-
-    allRounder:
-      allRounders.length > 0,
-
-    rolePoints:
-      bestBatsman +
-      bestBowler +
-      bestWicketkeeper,
-
-    totalPoints:
-      Number(team.points || 0),
-
-    remainingBudget:
-      Number(team.budget || 0),
-
-    totalSpent:
-      Number(team.spent || 0)
-  };
-};
-
-
-const winnerData = new Map();
-
-state.teams.forEach(team => {
-
-  winnerData.set(
-    team.name,
-    getWinnerRoleData(team)
-  );
-
-});
-
-
-const r =
-  [...state.teams].sort((a,b) => {
-
-    const A = winnerData.get(a.name);
-    const B = winnerData.get(b.name);
-
-/* 1. Required roles compulsory */
-
-if(A.eligible !== B.eligible){
-  return A.eligible ? -1 : 1;
-}
-
-
-/* 2. Remaining Budget */
-
-if(A.remainingBudget !== B.remainingBudget){
-  return B.remainingBudget - A.remainingBudget;
-}
-
-
-/* 3. All-rounder */
-
-if(A.allRounder !== B.allRounder){
-  return A.allRounder ? -1 : 1;
-}
-
-
-/* 4. Batsman + Bowler + Wicketkeeper
-      best player points */
-
-if(A.rolePoints !== B.rolePoints){
-  return B.rolePoints - A.rolePoints;
-}
-
-
-/* 5. Total Spent - lower is better */
-
-if(A.totalSpent !== B.totalSpent){
-  return A.totalSpent - B.totalSpent;
-}
-
-
-/* 6. Total Points - LAST priority */
-
-if(A.totalPoints !== B.totalPoints){
-  return B.totalPoints - A.totalPoints;
-}
-
-
-/* 7. Everything same = Tie */
-
-return 0;
- 
   });
 
 
+  /*
+    FINAL RANKING
+  */
 
- $("winnerBox")
-   .classList.remove("hidden");
+  const ranking =
+    [...state.teams].sort((a,b) => {
+
+      const A =
+        winnerData.get(a.name);
+
+      const B =
+        winnerData.get(b.name);
 
 
- $("winnerBox").innerHTML=
-   "<h3>🏆 Final Ranking</h3>"+
+      /* 1. COMPLETE TEAM FIRST */
 
-   r
-     .map(
-       (t,i)=>
-         `<div class="rank">
+      if(A.eligible !== B.eligible){
 
-           <b>
-             ${
-               i<3
-                 ? ["🥇","🥈","🥉"][i]
-                 : i+1
-             }
-           </b>
+        return A.eligible
+          ? -1
+          : 1;
 
-           <b>${esc(t.name)}</b>
+      }
 
-           <span>
-             ${Number(t.points)
-               .toLocaleString("en-IN")}
-             Points
-           </span>
 
-         </div>`
-     )
-     .join("");
+      /* 2. TOTAL POINTS */
+
+      if(
+        A.totalPoints !==
+        B.totalPoints
+      ){
+
+        return (
+          B.totalPoints -
+          A.totalPoints
+        );
+
+      }
+
+
+      /* 3. REMAINING BUDGET */
+
+      if(
+        A.remainingBudget !==
+        B.remainingBudget
+      ){
+
+        return (
+          B.remainingBudget -
+          A.remainingBudget
+        );
+
+      }
+
+
+      /* 4. LOWER TOTAL SPENT */
+
+      if(
+        A.totalSpent !==
+        B.totalSpent
+      ){
+
+        return (
+          A.totalSpent -
+          B.totalSpent
+        );
+
+      }
+
+
+      /* 5. EXACT TIE */
+
+      return 0;
+
+    });
+
+
+  /*
+    Mark auction complete
+  */
+
+  state.auctionComplete = true;
+
+  state.resultVisibleToTeams = false;
+
+
+  save();
+
+  render();
+
+
+  /*
+    Find actual winner
+  */
+
+  const eligibleTeams =
+    ranking.filter(
+      team =>
+        winnerData.get(team.name)?.eligible
+    );
+
+
+  let winnerText = "";
+
+
+  if(!eligibleTeams.length){
+
+    winnerText = `
+      <div style="
+        padding:14px;
+        margin-bottom:14px;
+        border-radius:10px;
+        background:#fff7ed;
+        border:1px solid #fdba74;
+      ">
+        ⚠️ <b>No eligible winner yet.</b><br>
+        No team has completed all 4 required categories.
+      </div>
+    `;
+
+  }else{
+
+    const winner =
+      eligibleTeams[0];
+
+    const winnerInfo =
+      winnerData.get(winner.name);
+
+
+    winnerText = `
+      <div style="
+        padding:16px;
+        margin-bottom:16px;
+        border-radius:12px;
+        background:#ecfdf5;
+        border:2px solid #10b981;
+      ">
+
+        <div style="
+          font-size:14px;
+          font-weight:700;
+          margin-bottom:5px;
+        ">
+          🏆 WINNER
+        </div>
+
+        <div style="
+          font-size:24px;
+          font-weight:900;
+        ">
+          ${esc(winner.name)}
+        </div>
+
+        <div style="
+          margin-top:8px;
+        ">
+          ${winnerInfo.totalPoints.toLocaleString("en-IN")}
+          Points
+        </div>
+
+      </div>
+    `;
+
+  }
+
+
+  /*
+    Final ranking display
+  */
+
+  $("winnerBox")
+    .classList.remove("hidden");
+
+
+  $("winnerBox").innerHTML =
+    winnerText +
+
+    "<h3>🏆 Final Ranking</h3>" +
+
+    ranking
+      .map((team,i) => {
+
+        const info =
+          winnerData.get(team.name);
+
+
+        const status =
+          info.eligible
+            ? "✅ Eligible"
+            : "❌ Incomplete";
+
+
+        return `
+          <div class="rank">
+
+            <b>
+              ${
+                i < 3
+                  ? ["🥇","🥈","🥉"][i]
+                  : i + 1
+              }
+            </b>
+
+            <b>
+              ${esc(team.name)}
+            </b>
+
+            <span>
+              ${Number(team.points || 0)
+                .toLocaleString("en-IN")}
+              Points
+            </span>
+
+            <span>
+              ${status}
+            </span>
+
+          </div>
+        `;
+
+      })
+      .join("");
+
 };
-
-
 $("toggleTeamResult").onclick=()=>{
 
  if(!state.auctionComplete)

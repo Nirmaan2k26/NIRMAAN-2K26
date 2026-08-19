@@ -1348,17 +1348,19 @@ document.addEventListener("click", e => {
   openTeamReport(teamName);
 
 });
-  document.addEventListener("click", (event) => {
+ document.addEventListener("click", e => {
 
   const button =
-    event.target.closest(".teamPdfBtn");
+    e.target.closest(".teamPdfBtn");
 
-  if (!button) return;
+  if(!button)
+    return;
 
   const teamName =
     button.getAttribute("data-team-name");
 
-  if (!teamName) return;
+  if(!teamName)
+    return;
 
   openTeamReport(teamName);
 

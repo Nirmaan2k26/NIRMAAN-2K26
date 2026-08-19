@@ -1089,6 +1089,7 @@ const ranking = getFinalRanking();
   type="button"
   class="teamPdfBtn"
   data-team-name="${esc(x.name)}"
+  onclick="openTeamReport(this.dataset.teamName); return false;"
 >
   📄 PDF
 </button>
@@ -1331,38 +1332,7 @@ const rank =
     .classList.remove("hidden");
 }
 
-document.addEventListener("click", e => {
-
-  const button =
-    e.target.closest(".teamPdfBtn");
-
-  if(!button)
-    return;
-
-  const teamName =
-    button.getAttribute("data-team-name");
-
-  if(!teamName)
-    return;
-
-  openTeamReport(teamName);
-
-});
-  document.addEventListener("click", (event) => {
-
-  const button =
-    event.target.closest(".teamPdfBtn");
-
-  if (!button) return;
-
-  const teamName =
-    button.getAttribute("data-team-name");
-
-  if (!teamName) return;
-
-  openTeamReport(teamName);
-
-});
+  
 function closeTeamReport(){
 
   $("teamReportModal")

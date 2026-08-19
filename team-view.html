@@ -986,11 +986,12 @@ const getWinnerData = (team) => {
 
   return {
 
-    eligible:
-      batsmen.length > 0 &&
-      bowlers.length > 0 &&
-      wicketkeepers.length > 0,
-
+   eligible:
+  sold.length === 4 &&
+  batsmen.length === 1 &&
+  bowlers.length === 1 &&
+  wicketkeepers.length === 1 &&
+  allRounders.length === 1,
     allRounder:
       allRounders.length > 0,
 
@@ -1021,7 +1022,30 @@ const getWinnerData = (team) => {
   };
 };
 
+function getFinalRanking(){
 
+  return [...state.teams].sort((a,b) => {
+
+    const A = getWinnerData(a);
+    const B = getWinnerData(b);
+
+    if(A.eligible !== B.eligible)
+      return A.eligible ? -1 : 1;
+
+    if(A.totalPoints !== B.totalPoints)
+      return B.totalPoints - A.totalPoints;
+
+    if(A.remainingBudget !== B.remainingBudget)
+      return B.remainingBudget - A.remainingBudget;
+
+    if(A.totalSpent !== B.totalSpent)
+      return A.totalSpent - B.totalSpent;
+
+    return 0;
+
+  });
+
+}
 const winnerData = new Map();
 
 state.teams.forEach(team => {
@@ -1032,53 +1056,7 @@ state.teams.forEach(team => {
 });
 
 
-const ranking =
-  [...state.teams].sort((a,b) => {
-
-    const A = winnerData.get(a.name);
-    const B = winnerData.get(b.name);
-
-    /* 1. Required roles */
-
-    if(A.eligible !== B.eligible)
-      return A.eligible ? -1 : 1;
-
-
-    /* 2. Total Points */
-
-    if(A.totalPoints !== B.totalPoints)
-      return B.totalPoints - A.totalPoints;
-
-
-    /* 3. Remaining Budget */
-
-    if(A.remainingBudget !== B.remainingBudget)
-      return B.remainingBudget - A.remainingBudget;
-
-
-    /* 4. All-rounder */
-
-    if(A.allRounder !== B.allRounder)
-      return A.allRounder ? -1 : 1;
-
-
-    /* 5. Role Points */
-
-    if(A.rolePoints !== B.rolePoints)
-      return B.rolePoints - A.rolePoints;
-
-
-    /* 6. Lower Total Spent */
-
-    if(A.totalSpent !== B.totalSpent)
-      return A.totalSpent - B.totalSpent;
-
-
-    /* 7. Exact tie */
-
-    return 0;
-  });
-
+const ranking = getFinalRanking();
 
 
   box.classList.remove("hidden");
@@ -1220,106 +1198,14 @@ function openTeamReport(teamName){
         s => Number(s.points || 0)
       )
     );
+const finalRanking =
+  getFinalRanking();
 
-  const rank =
-    [...state.teams]
-      .sort((a,b) => {
 
-        const getData = team => {
-
-          const teamSold =
-            state.sold.filter(
-              s => s.team === team.name
-            );
-
-          const b =
-            teamSold.filter(
-              s => hasRole(s.category,"batsman")
-            );
-
-          const bo =
-            teamSold.filter(
-              s => hasRole(s.category,"bowler")
-            );
-
-          const wk =
-            teamSold.filter(
-              s => hasRole(s.category,"wicketkeeper")
-            );
-
-          const ar =
-            teamSold.filter(
-              s => hasRole(s.category,"allrounder")
-            );
-
-          return {
-            eligible:
-              b.length > 0 &&
-              bo.length > 0 &&
-              wk.length > 0,
-
-            remainingBudget:
-              Number(team.budget || 0),
-
-            allRounder:
-              ar.length > 0,
-
-            rolePoints:
-              Math.max(
-                0,
-                ...b.map(
-                  s => Number(s.points || 0)
-                )
-              )
-              +
-              Math.max(
-                0,
-                ...bo.map(
-                  s => Number(s.points || 0)
-                )
-              )
-              +
-              Math.max(
-                0,
-                ...wk.map(
-                  s => Number(s.points || 0)
-                )
-              ),
-
-            totalSpent:
-              Number(team.spent || 0),
-
-            totalPoints:
-              Number(team.points || 0)
-          };
-        };
-
-        const A = getData(a);
-        const B = getData(b);
-
-        if(A.eligible !== B.eligible)
-          return A.eligible ? -1 : 1;
-
-        if(A.remainingBudget !== B.remainingBudget)
-          return B.remainingBudget - A.remainingBudget;
-
-        if(A.allRounder !== B.allRounder)
-          return A.allRounder ? -1 : 1;
-
-        if(A.rolePoints !== B.rolePoints)
-          return B.rolePoints - A.rolePoints;
-
-        if(A.totalSpent !== B.totalSpent)
-          return A.totalSpent - B.totalSpent;
-
-        if(A.totalPoints !== B.totalPoints)
-          return B.totalPoints - A.totalPoints;
-
-        return 0;
-      })
-      .findIndex(
-        t => t.name === team.name
-      ) + 1;
+const rank =
+  finalRanking.findIndex(
+    t => t.name === team.name
+  ) + 1;
 
 
   let missing = [];
@@ -1692,162 +1578,7 @@ function renderTeam(){
   ){
 
    
-const ranking =
-  [...state.teams].sort((a,b) => {
-
-    const getData = (team) => {
-
-      const sold = state.sold.filter(
-        s => s.team === team.name
-      );
-
-      const normalize = value =>
-        String(value || "")
-          .toLowerCase()
-          .replace(/[\s_-]+/g,"");
-
-      const hasRole = (category,type) => {
-
-        const c = normalize(category);
-
-        if(type === "batsman")
-          return c.includes("batsman") ||
-                 c.includes("batter");
-
-        if(type === "bowler")
-          return c.includes("bowler") ||
-                 c.includes("bowling");
-
-        if(type === "wicketkeeper")
-          return c.includes("wicketkeeper") ||
-                 c.includes("keeper") ||
-                 c.includes("wk");
-
-        if(type === "allrounder")
-          return c.includes("allrounder") ||
-                 c.includes("allround");
-
-        return false;
-      };
-
-
-      const batsmen =
-        sold.filter(s =>
-          hasRole(s.category,"batsman")
-        );
-
-      const bowlers =
-        sold.filter(s =>
-          hasRole(s.category,"bowler")
-        );
-
-      const wicketkeepers =
-        sold.filter(s =>
-          hasRole(s.category,"wicketkeeper")
-        );
-
-      const allRounders =
-        sold.filter(s =>
-          hasRole(s.category,"allrounder")
-        );
-
-
-      return {
-
-        eligible:
-          batsmen.length > 0 &&
-          bowlers.length > 0 &&
-          wicketkeepers.length > 0,
-
-        allRounder:
-          allRounders.length > 0,
-
-        rolePoints:
-
-          Math.max(
-            0,
-            ...batsmen.map(
-              s => Number(s.points || 0)
-            )
-          )
-
-          +
-
-          Math.max(
-            0,
-            ...bowlers.map(
-              s => Number(s.points || 0)
-            )
-          )
-
-          +
-
-          Math.max(
-            0,
-            ...wicketkeepers.map(
-              s => Number(s.points || 0)
-            )
-          ),
-
-        totalPoints:
-          Number(team.points || 0),
-
-        remainingBudget:
-          Number(team.budget || 0),
-
-        totalSpent:
-          Number(team.spent || 0)
-
-      };
-
-    };
-
-
-    const A = getData(a);
-    const B = getData(b);
-
-
-    /* 1. Required roles */
-
-    if(A.eligible !== B.eligible)
-      return A.eligible ? -1 : 1;
-
-
-    /* 2. Total Points */
-
-    if(A.totalPoints !== B.totalPoints)
-      return B.totalPoints - A.totalPoints;
-
-
-    /* 3. Remaining Budget */
-
-    if(A.remainingBudget !== B.remainingBudget)
-      return B.remainingBudget - A.remainingBudget;
-
-
-    /* 4. All-rounder */
-
-    if(A.allRounder !== B.allRounder)
-      return A.allRounder ? -1 : 1;
-
-
-    /* 5. Role Points */
-
-    if(A.rolePoints !== B.rolePoints)
-      return B.rolePoints - A.rolePoints;
-
-
-    /* 6. Lower Total Spent */
-
-    if(A.totalSpent !== B.totalSpent)
-      return A.totalSpent - B.totalSpent;
-
-
-    /* 7. Exact Tie */
-
-    return 0;
-
-  });
+const ranking = getFinalRanking();
 
     $("finalResult").classList.remove(
       "hidden"

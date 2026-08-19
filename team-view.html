@@ -1198,9 +1198,100 @@ function openTeamReport(teamName){
         s => Number(s.points || 0)
       )
     );
-const finalRanking =
-  getFinalRanking();
+const finalRanking = [...state.teams].sort((a,b) => {
 
+  const getData = (team) => {
+
+    const sold =
+      state.sold.filter(
+        s => s.team === team.name
+      );
+
+    const normalize = value =>
+      String(value || "")
+        .toLowerCase()
+        .replace(/[\s_-]+/g,"");
+
+    const hasRole = (category,type) => {
+
+      const c = normalize(category);
+
+      if(type === "batsman")
+        return c.includes("batsman") ||
+               c.includes("batter");
+
+      if(type === "bowler")
+        return c.includes("bowler") ||
+               c.includes("bowling");
+
+      if(type === "wicketkeeper")
+        return c.includes("wicketkeeper") ||
+               c.includes("keeper") ||
+               c.includes("wk");
+
+      if(type === "allrounder")
+        return c.includes("allrounder") ||
+               c.includes("allround");
+
+      return false;
+    };
+
+    const batsmen =
+      sold.filter(
+        s => hasRole(s.category,"batsman")
+      );
+
+    const bowlers =
+      sold.filter(
+        s => hasRole(s.category,"bowler")
+      );
+
+    const wicketkeepers =
+      sold.filter(
+        s => hasRole(s.category,"wicketkeeper")
+      );
+
+    const allRounders =
+      sold.filter(
+        s => hasRole(s.category,"allrounder")
+      );
+
+    return {
+      eligible:
+        sold.length === 4 &&
+        batsmen.length === 1 &&
+        bowlers.length === 1 &&
+        wicketkeepers.length === 1 &&
+        allRounders.length === 1,
+
+      totalPoints:
+        Number(team.points || 0),
+
+      remainingBudget:
+        Number(team.budget || 0),
+
+      totalSpent:
+        Number(team.spent || 0)
+    };
+  };
+
+  const A = getData(a);
+  const B = getData(b);
+
+  if(A.eligible !== B.eligible)
+    return A.eligible ? -1 : 1;
+
+  if(A.totalPoints !== B.totalPoints)
+    return B.totalPoints - A.totalPoints;
+
+  if(A.remainingBudget !== B.remainingBudget)
+    return B.remainingBudget - A.remainingBudget;
+
+  if(A.totalSpent !== B.totalSpent)
+    return A.totalSpent - B.totalSpent;
+
+  return 0;
+});
 
 const rank =
   finalRanking.findIndex(

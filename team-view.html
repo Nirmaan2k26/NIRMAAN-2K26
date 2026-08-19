@@ -646,7 +646,6 @@
 
 </div>
 
-
 <script>
 
 const PLAYER_KEY="aa_players_fixed_excel_v2",
@@ -1089,7 +1088,6 @@ const ranking = getFinalRanking();
           <button
   type="button"
   class="teamPdfBtn"
-  onclick="openTeamReport('${esc(x.name)}')"
 >
   📄 PDF
 </button>
@@ -1332,7 +1330,23 @@ const rank =
     .classList.remove("hidden");
 }
 
+document.addEventListener("click", e => {
 
+  const button =
+    e.target.closest(".teamPdfBtn");
+
+  if(!button)
+    return;
+
+  const teamName =
+    button.getAttribute("data-team-name");
+
+  if(!teamName)
+    return;
+
+  openTeamReport(teamName);
+
+});
 function closeTeamReport(){
 
   $("teamReportModal")

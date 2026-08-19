@@ -1088,6 +1088,7 @@ const ranking = getFinalRanking();
           <button
   type="button"
   class="teamPdfBtn"
+  data-team-name="${esc(x.name)}"
 >
   📄 PDF
 </button>
@@ -1343,6 +1344,21 @@ document.addEventListener("click", e => {
 
   if(!teamName)
     return;
+
+  openTeamReport(teamName);
+
+});
+  document.addEventListener("click", (event) => {
+
+  const button =
+    event.target.closest(".teamPdfBtn");
+
+  if (!button) return;
+
+  const teamName =
+    button.getAttribute("data-team-name");
+
+  if (!teamName) return;
 
   openTeamReport(teamName);
 

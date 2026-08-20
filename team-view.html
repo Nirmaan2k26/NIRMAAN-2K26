@@ -1053,21 +1053,6 @@ const getWinnerData = (team) => {
     allRounder:
       allRounders.length > 0,
 
-    rolePoints:
-      Math.max(
-        0,
-        ...batsmen.map(s => Number(s.points||0))
-      ) +
-
-      Math.max(
-        0,
-        ...bowlers.map(s => Number(s.points||0))
-      ) +
-
-      Math.max(
-        0,
-        ...wicketkeepers.map(s => Number(s.points||0))
-      ),
 
     totalPoints:
       Number(team.points||0),
@@ -1236,27 +1221,7 @@ function openTeamReport(teamName){
     bowlers.length > 0 &&
     wicketkeepers.length > 0;
 
-  const rolePoints =
-    Math.max(
-      0,
-      ...batsmen.map(
-        s => Number(s.points || 0)
-      )
-    )
-    +
-    Math.max(
-      0,
-      ...bowlers.map(
-        s => Number(s.points || 0)
-      )
-    )
-    +
-    Math.max(
-      0,
-      ...wicketkeepers.map(
-        s => Number(s.points || 0)
-      )
-    );
+ 
 const finalRanking = [...state.teams].sort((a,b) => {
 
   const getData = (team) => {
@@ -1430,11 +1395,7 @@ const rank =
         <td>${allRounders.length ? "✅" : "❌"}</td>
       </tr>
 
-      <tr>
-        <td><b>Role Points</b></td>
-        <td>${rolePoints}</td>
-      </tr>
-
+    
     </table>
 
     <h3>🏏 Players</h3>

@@ -93,7 +93,42 @@
 .teamHero{
   margin-bottom:20px
 }
+.teamRulesBox{
+  margin:16px 0;
+  padding:18px 20px;
+  background:var(--soft);
+  border:1px solid var(--line);
+  border-left:4px solid var(--navy);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+}
 
+.teamRulesBox h3{
+  margin:0 0 12px;
+  font-size:18px;
+}
+
+.teamRulesBox p{
+  margin:8px 0;
+  line-height:1.55;
+}
+
+.teamRulesBox strong{
+  font-weight:800;
+}
+
+@media(max-width:600px){
+
+  .teamRulesBox{
+    padding:15px;
+    font-size:13px;
+  }
+
+  .teamRulesBox h3{
+    font-size:16px;
+  }
+
+}
 
 /* =========================================================
    SEARCHABLE TEAM DROPDOWN
@@ -602,7 +637,31 @@
       id="teamMessage"
       class="bigMsg"
     ></div>
+<div class="teamRulesBox">
 
+  <h3>🏆 Team Eligibility &amp; Winner Criteria</h3>
+
+  <p>
+    Each team must purchase <strong>4 players</strong>:
+    🏏 1 Batsman • 🎯 1 Bowler • 🧤 1 Wicketkeeper • ⭐ 1 All-Rounder.
+  </p>
+
+  <p>
+    A team will be <strong>eligible</strong> only when all four required
+    categories are completed.
+  </p>
+
+  <p>
+    💰 <strong>Remaining Budget</strong> will be considered in the final
+    winner determination.
+  </p>
+
+  <p>
+    🏆 In case of a tie, the team with the
+    <strong>higher Remaining Budget</strong> will be ranked higher.
+  </p>
+
+</div>
   </div>
 
 

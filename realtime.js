@@ -85,56 +85,102 @@
             /*
               COMPLETE SERVER SNAPSHOT
             */
+if (msg.type === "snapshot") {
 
-            if (msg.type === "snapshot") {
+  const localPlayers =
+    localStorage.getItem(PLAYER_KEY);
 
-              applyingRemote = true;
+  const localState =
+    localStorage.getItem(STATE_KEY);
 
-              try {
+  let keepLocalPlayers = false;
+  let keepLocalState = false;
 
-                if (
-                  msg.players !== null &&
-                  msg.players !== undefined
-                ) {
+  try {
+    const lp =
+      JSON.parse(localPlayers || "[]");
 
-                  localStorage.setItem(
-                    PLAYER_KEY,
-                    String(msg.players)
-                  );
+    const rp =
+      JSON.parse(msg.players || "[]");
 
-                }
+    keepLocalPlayers =
+      Array.isArray(lp) &&
+      lp.length > 0 &&
+      Array.isArray(rp) &&
+      rp.length === 0;
 
-                if (
-                  msg.state !== null &&
-                  msg.state !== undefined
-                ) {
+  } catch (_) {}
 
-                  localStorage.setItem(
-                    STATE_KEY,
-                    String(msg.state)
-                  );
+  try {
+    const ls =
+      JSON.parse(localState || "{}");
 
-                }
+    const rs =
+      JSON.parse(msg.state || "{}");
 
-              } finally {
+    keepLocalState =
+      Array.isArray(ls.teams) &&
+      ls.teams.length > 0 &&
+      (!Array.isArray(rs.teams) ||
+       rs.teams.length === 0);
 
-                applyingRemote = false;
+  } catch (_) {}
 
-              }
+  applyingRemote = true;
 
+  try {
 
-              /*
-                IMPORTANT:
-                Immediately tell Admin + Team Viewer
-                that the remote snapshot arrived.
-              */
+    if (
+      !keepLocalPlayers &&
+      msg.players !== null &&
+      msg.players !== undefined
+    ) {
+      localStorage.setItem(
+        PLAYER_KEY,
+        String(msg.players)
+      );
+    }
 
-              dispatchRealtimeUpdate();
+    if (
+      !keepLocalState &&
+      msg.state !== null &&
+      msg.state !== undefined
+    ) {
+      localStorage.setItem(
+        STATE_KEY,
+        String(msg.state)
+      );
+    }
 
-              return;
-            }
+  } finally {
 
+    applyingRemote = false;
 
+  }
+
+  /*
+    If server is empty but local Admin data exists,
+    send local data to the server instead of losing it.
+  */
+
+  if (keepLocalPlayers) {
+    sendUpdate(
+      PLAYER_KEY,
+      localPlayers
+    );
+  }
+
+  if (keepLocalState) {
+    sendUpdate(
+      STATE_KEY,
+      localState
+    );
+  }
+
+  dispatchRealtimeUpdate();
+
+  return;
+}
             /*
               SINGLE STORAGE UPDATE
             */

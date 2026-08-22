@@ -4397,33 +4397,100 @@ window.addEventListener(
   }
  );
 /* =========================================================
-   WINNER POSTER — SAFE FOUNDATION
+   WINNER POSTER
    ========================================================= */
+
 const winnerPosterTemplate =
   "winner-poster-template.png.jpg";
 
-const winnerPosterTestImage = new Image();
 
-winnerPosterTestImage.onload = function () {
-  console.log("Winner poster template loaded successfully.");
-};
+const winnerPosterTestImage =
+  new Image();
 
-winnerPosterTestImage.onerror = function () {
-  console.error("Winner poster template could not be loaded.");
-};
 
-winnerPosterTestImage.src = winnerPosterTemplate;
-const winnerPosterButton =
+winnerPosterTestImage.onload =
+  function(){
+
+    console.log(
+      "Winner poster template loaded successfully."
+    );
+
+  };
+
+
+winnerPosterTestImage.onerror =
+  function(){
+
+    console.error(
+      "Winner poster template could not be loaded."
+    );
+
+  };
+
+
+winnerPosterTestImage.src =
+  winnerPosterTemplate;
+
+
+/* ---------------------------------------------------------
+   READ FINAL TOP 3
+   --------------------------------------------------------- */
+
+function getWinnerPosterTeams(){
+
+  const rows =
+    document.querySelectorAll(
+      "#winnerBox .rank"
+    );
+
+
+  if(
+    !rows ||
+    rows.length < 3
+  )
+    return [];
+
+
+  return Array.from(rows)
+    .slice(0,3)
+    .map(row => {
+
+      const parts =
+        row.querySelectorAll("b");
+
+
+      return {
+
+        rank:
+          parts[0]?.textContent.trim() || "",
+
+        team:
+          parts[1]?.textContent.trim() || ""
+
+      };
+
+    });
+
+}
+
+
+/* ---------------------------------------------------------
+   GENERATE WINNER POSTER
+   --------------------------------------------------------- */
+
+const posterButton =
   $("generateWinnerPoster");
 
-if(winnerPosterButton){
 
-  winnerPosterButton.addEventListener(
+if(posterButton){
+
+  posterButton.addEventListener(
     "click",
     function(){
 
       const msg =
         $("winnerPosterMsg");
+
 
       if(!state.auctionComplete){
 
@@ -4438,71 +4505,13 @@ if(winnerPosterButton){
         }
 
         return;
-      }
-
-      if(msg){
-
-        msg.style.color =
-          "#166534";
-
-        msg.textContent =
-          "✅ Winner Poster is ready for the next step.";
 
       }
 
-    }
-  );
-
-}
-/* =========================================================
-   WINNER POSTER — STEP 3
-   Read existing Final Ranking only
-   ========================================================= */
-
-function getWinnerPosterTeams(){
-
-  const rows =
-    document.querySelectorAll(
-      "#winnerBox .rank"
-    );
-
-  if(!rows || rows.length < 3)
-    return [];
-
-  return Array.from(rows)
-    .slice(0,3)
-    .map(row => {
-
-      const parts =
-        row.querySelectorAll("b");
-
-      return {
-        rank:
-          parts[0]?.textContent.trim() || "",
-
-        team:
-          parts[1]?.textContent.trim() || ""
-      };
-
-    });
-
-}
-
-
-const posterButton =
-  $("generateWinnerPoster");
-
-if(posterButton){
-
-  posterButton.addEventListener(
-    "click",
-    function(){
-
-      const msg =
-        $("winnerPosterMsg");
 
       const winners =
         getWinnerPosterTeams();
+
 
       if(winners.length < 3){
 
@@ -4520,61 +4529,65 @@ if(posterButton){
 
       }
 
-if(msg){
 
-  msg.style.color =
-    "#166534";
+      if(msg){
 
-  msg.innerHTML = `
+        msg.style.color =
+          "#166534";
 
-    <div style="
-      margin-top:12px;
-      text-align:center;
-    ">
 
-      <div style="
-        font-size:18px;
-        font-weight:800;
-        margin-bottom:12px;
-      ">
-        ✅ Top 3 confirmed
-      </div>
-
-      <img
-        src="${winnerPosterTemplate}"
-        alt="NIRMAAN 2K26 Auction Clash Winner Poster"
-        style="
-          width:100%;
-          max-width:600px;
-          display:block;
-          margin:0 auto;
-          border-radius:12px;
-          border:1px solid #ddd;
-        "
-      >
-
-    </div>
-
-  `;
-
-}
-          ✅ Top 3 confirmed.
+        msg.innerHTML = `
 
           <div style="
-            margin-top:10px;
-            line-height:1.8;
+            margin-top:12px;
+            text-align:center;
           ">
-            🥇 <b>Rank 1:</b>
-            ${esc(winners[0].team)}
-            <br>
 
-            🥈 <b>Rank 2:</b>
-            ${esc(winners[1].team)}
-            <br>
+            <div style="
+              font-size:18px;
+              font-weight:800;
+              margin-bottom:12px;
+            ">
+              ✅ Top 3 confirmed
+            </div>
 
-            🥉 <b>Rank 3:</b>
-            ${esc(winners[2].team)}
+
+            <div style="
+              margin-bottom:14px;
+              line-height:1.8;
+            ">
+
+              🥇 <b>Rank 1:</b>
+              ${esc(winners[0].team)}
+
+              <br>
+
+              🥈 <b>Rank 2:</b>
+              ${esc(winners[1].team)}
+
+              <br>
+
+              🥉 <b>Rank 3:</b>
+              ${esc(winners[2].team)}
+
+            </div>
+
+
+            <img
+              src="${winnerPosterTemplate}"
+              alt="NIRMAAN 2K26 Auction Clash Winner Poster"
+              style="
+                width:100%;
+                max-width:600px;
+                display:block;
+                margin:0 auto;
+                border-radius:12px;
+                border:1px solid #ddd;
+              "
+            >
+
           </div>
+
         `;
 
       }

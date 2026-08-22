@@ -4395,6 +4395,7 @@ window.addEventListener(
     }
 
   }
+ );
  /* =========================================================
    WINNER POSTER — STEP 7
    Uses the exact existing Final Ranking rules

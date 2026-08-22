@@ -4402,7 +4402,17 @@ window.addEventListener(
 const winnerPosterTemplate =
   "winner-poster-template.png.jpg";
 
+const winnerPosterTestImage = new Image();
 
+winnerPosterTestImage.onload = function () {
+  console.log("Winner poster template loaded successfully.");
+};
+
+winnerPosterTestImage.onerror = function () {
+  console.error("Winner poster template could not be loaded.");
+};
+
+winnerPosterTestImage.src = winnerPosterTemplate;
 const winnerPosterButton =
   $("generateWinnerPoster");
 

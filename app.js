@@ -4520,13 +4520,44 @@ if(posterButton){
 
       }
 
+if(msg){
 
-      if(msg){
+  msg.style.color =
+    "#166534";
 
-        msg.style.color =
-          "#166534";
+  msg.innerHTML = `
 
-        msg.innerHTML = `
+    <div style="
+      margin-top:12px;
+      text-align:center;
+    ">
+
+      <div style="
+        font-size:18px;
+        font-weight:800;
+        margin-bottom:12px;
+      ">
+        ✅ Top 3 confirmed
+      </div>
+
+      <img
+        src="${winnerPosterTemplate}"
+        alt="NIRMAAN 2K26 Auction Clash Winner Poster"
+        style="
+          width:100%;
+          max-width:600px;
+          display:block;
+          margin:0 auto;
+          border-radius:12px;
+          border:1px solid #ddd;
+        "
+      >
+
+    </div>
+
+  `;
+
+}
           ✅ Top 3 confirmed.
 
           <div style="

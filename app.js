@@ -4395,23 +4395,22 @@ window.addEventListener(
     }
 
   }
-);
-/* =========================================================
-   WINNER POSTER — STEP 4
-   Read existing final ranking data
+ /* =========================================================
+   WINNER POSTER — STEP 7
+   Uses the exact existing Final Ranking rules
    ========================================================= */
 
 $("generateWinnerPoster")?.addEventListener(
   "click",
   function(){
 
+    const msg = $("winnerPosterMsg");
+
     if(!state.auctionComplete){
 
-      const msg=$("winnerPosterMsg");
-
       if(msg){
-        msg.style.color="#dc2626";
-        msg.textContent=
+        msg.style.color = "#dc2626";
+        msg.textContent =
           "❌ Complete the auction first.";
       }
 
@@ -4419,101 +4418,266 @@ $("generateWinnerPoster")?.addEventListener(
     }
 
 
-    /*
-      Use the SAME team data already used by
-      the existing Final Ranking.
+    /* -----------------------------------------------
+       Build winner data exactly like Final Ranking
+       ----------------------------------------------- */
 
-      No auction data is changed here.
-    */
+    const getPosterWinnerData = (team) => {
 
-    const ranking=[...state.teams].sort(
-      (a,b)=>{
-
-        const pointsA=
-          Number(a.points||0);
-
-        const pointsB=
-          Number(b.points||0);
-
-        if(pointsA!==pointsB)
-          return pointsB-pointsA;
+      const sold =
+        state.sold.filter(
+          s => s.team === team.name
+        );
 
 
-        const budgetA=
-          Number(a.budget||0);
-
-        const budgetB=
-          Number(b.budget||0);
-
-        if(budgetA!==budgetB)
-          return budgetB-budgetA;
+      const normalize = value =>
+        String(value || "")
+          .toLowerCase()
+          .replace(/[\s_-]+/g,"")
+          .trim();
 
 
-        const spentA=
-          Number(a.spent||0);
+      const hasCategory = (category,type) => {
 
-        const spentB=
-          Number(b.spent||0);
+        const c = normalize(category);
 
-        return spentA-spentB;
+
+        if(type === "batsman")
+          return (
+            c.includes("batsman") ||
+            c.includes("batter")
+          );
+
+
+        if(type === "bowler")
+          return (
+            c.includes("bowler") ||
+            c.includes("bowling")
+          );
+
+
+        if(type === "wicketkeeper")
+          return (
+            c.includes("wicketkeeper") ||
+            c.includes("keeper") ||
+            c === "wk"
+          );
+
+
+        if(type === "allrounder")
+          return (
+            c.includes("allrounder") ||
+            c.includes("allround")
+          );
+
+
+        return false;
+      };
+
+
+      const eligible =
+        team.players.length === 4 &&
+
+        sold.some(
+          s => hasCategory(
+            s.category,
+            "batsman"
+          )
+        ) &&
+
+        sold.some(
+          s => hasCategory(
+            s.category,
+            "bowler"
+          )
+        ) &&
+
+        sold.some(
+          s => hasCategory(
+            s.category,
+            "wicketkeeper"
+          )
+        ) &&
+
+        sold.some(
+          s => hasCategory(
+            s.category,
+            "allrounder"
+          )
+        );
+
+
+      return {
+
+        eligible,
+
+        totalPoints:
+          Number(team.points || 0),
+
+        remainingBudget:
+          Number(team.budget || 0),
+
+        totalSpent:
+          Number(team.spent || 0)
+
+      };
+
+    };
+
+
+    const winnerData =
+      new Map();
+
+
+    state.teams.forEach(
+      team => {
+
+        winnerData.set(
+          team.name,
+          getPosterWinnerData(team)
+        );
 
       }
     );
 
 
-    const topThree=
-      ranking.slice(0,3);
+    /* -----------------------------------------------
+       EXACT SAME ranking order
+       ----------------------------------------------- */
+
+    const ranking =
+      [...state.teams].sort(
+        (a,b) => {
+
+          const A =
+            winnerData.get(a.name);
+
+          const B =
+            winnerData.get(b.name);
 
 
-    const msg=
-      $("winnerPosterMsg");
+          if(A.eligible !== B.eligible){
+
+            return A.eligible
+              ? -1
+              : 1;
+
+          }
 
 
-    if(!topThree.length){
+          if(
+            A.totalPoints !==
+            B.totalPoints
+          ){
+
+            return (
+              B.totalPoints -
+              A.totalPoints
+            );
+
+          }
+
+
+          if(
+            A.remainingBudget !==
+            B.remainingBudget
+          ){
+
+            return (
+              B.remainingBudget -
+              A.remainingBudget
+            );
+
+          }
+
+
+          if(
+            A.totalSpent !==
+            B.totalSpent
+          ){
+
+            return (
+              A.totalSpent -
+              B.totalSpent
+            );
+
+          }
+
+
+          return 0;
+
+        }
+      );
+
+
+    /* -----------------------------------------------
+       ONLY eligible teams can become poster winners
+       ----------------------------------------------- */
+
+    const topThree =
+      ranking
+        .filter(
+          team =>
+            winnerData
+              .get(team.name)
+              ?.eligible
+        )
+        .slice(0,3);
+
+
+    if(topThree.length < 3){
 
       if(msg){
-        msg.style.color="#dc2626";
-        msg.textContent=
-          "❌ No teams found.";
+
+        msg.style.color =
+          "#dc2626";
+
+        msg.textContent =
+          `❌ Only ${topThree.length} eligible team(s) found. Three eligible teams are required.`;
+
       }
 
       return;
     }
 
 
-    /*
-      Temporary verification only.
-      No poster is generated yet.
-    */
+    /* -----------------------------------------------
+       Verification
+       ----------------------------------------------- */
 
     if(msg){
 
-      msg.style.color="#166534";
+      msg.style.color =
+        "#166534";
 
-      msg.innerHTML=
-        `
-        ✅ Top 3 teams found:
+      msg.innerHTML = `
+
+        ✅ Winner Poster data ready.
 
         <div style="
           margin-top:10px;
-          line-height:1.8;
+          line-height:1.9;
         ">
 
           🥇 <b>Rank 1:</b>
-          ${esc(topThree[0]?.name||"—")}
+          ${esc(topThree[0].name)}
+
           <br>
 
           🥈 <b>Rank 2:</b>
-          ${esc(topThree[1]?.name||"—")}
+          ${esc(topThree[1].name)}
+
           <br>
 
           🥉 <b>Rank 3:</b>
-          ${esc(topThree[2]?.name||"—")}
+          ${esc(topThree[2].name)}
 
         </div>
-        `;
+
+      `;
 
     }
 
   }
+);
 );

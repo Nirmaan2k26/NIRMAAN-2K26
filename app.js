@@ -4406,58 +4406,40 @@ const winnerPosterTemplate =
 
 function getFinalWinnerTeams() {
 
-  try {
-
-    /*
-      Use the existing final ranking created by the auction.
-      Do NOT recalculate ranking here.
-    */
-
-    if (
-      !Array.isArray(ranking) ||
-      ranking.length < 3
-    ) {
-
-      return null;
-
-    }
-
-
-    return {
-
-      rank1:
-        String(
-          ranking[0]?.team ||
-          ranking[0]?.name ||
-          ""
-        ).trim(),
-
-      rank2:
-        String(
-          ranking[1]?.team ||
-          ranking[1]?.name ||
-          ""
-        ).trim(),
-
-      rank3:
-        String(
-          ranking[2]?.team ||
-          ranking[2]?.name ||
-          ""
-        ).trim()
-
-    };
-
-  } catch (error) {
-
-    console.error(
-      "[NIRMAAN] Winner ranking error:",
-      error
-    );
-
+  if (
+    typeof getFinalRanking !== "function"
+  ) {
     return null;
-
   }
+
+  const finalRanking =
+    getFinalRanking();
+
+  if (
+    !Array.isArray(finalRanking) ||
+    finalRanking.length < 3
+  ) {
+    return null;
+  }
+
+  return {
+
+    rank1:
+      String(
+        finalRanking[0]?.name || ""
+      ).trim(),
+
+    rank2:
+      String(
+        finalRanking[1]?.name || ""
+      ).trim(),
+
+    rank3:
+      String(
+        finalRanking[2]?.name || ""
+      ).trim()
+
+  };
 
 }
 

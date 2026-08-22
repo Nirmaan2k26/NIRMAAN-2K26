@@ -1538,7 +1538,10 @@ $("completeAuction").onclick=()=>{
   */
 
   state.auctionComplete = true;
-
+state.finalRanking =
+  ranking.map(
+    team => team.name
+  );
   state.resultVisibleToTeams = false;
 
 
@@ -4407,17 +4410,8 @@ const winnerPosterTemplate =
 function getFinalWinnerTeams() {
 
   if (
-    typeof getFinalRanking !== "function"
-  ) {
-    return null;
-  }
-
-  const finalRanking =
-    getFinalRanking();
-
-  if (
-    !Array.isArray(finalRanking) ||
-    finalRanking.length < 3
+    !Array.isArray(state.finalRanking) ||
+    state.finalRanking.length < 3
   ) {
     return null;
   }
@@ -4426,17 +4420,17 @@ function getFinalWinnerTeams() {
 
     rank1:
       String(
-        finalRanking[0]?.name || ""
+        state.finalRanking[0] || ""
       ).trim(),
 
     rank2:
       String(
-        finalRanking[1]?.name || ""
+        state.finalRanking[1] || ""
       ).trim(),
 
     rank3:
       String(
-        finalRanking[2]?.name || ""
+        state.finalRanking[2] || ""
       ).trim()
 
   };

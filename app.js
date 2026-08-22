@@ -4544,123 +4544,142 @@ async function generateWinnerPoster() {
   const winners =
     getFinalWinnerTeams();
 
-
   if (!winners) {
-
     alert(
       "Final Top 3 ranking is not available yet."
     );
-
     return;
-
   }
 
+  const img = new Image();
 
-  const img =
-    new Image();
+  img.onload = function () {
+
+    const canvas =
+      document.createElement("canvas");
+
+    canvas.width =
+      img.naturalWidth;
+
+    canvas.height =
+      img.naturalHeight;
+
+    const ctx =
+      canvas.getContext("2d");
+
+    /* Original poster */
+    ctx.drawImage(
+      img,
+      0,
+      0
+    );
+
+    /*
+      LEFT   = Rank 2
+      CENTER = Rank 1
+      RIGHT  = Rank 3
+    */
+
+    drawWinnerTeamName(
+      ctx,
+      winners.rank2,
+      520,
+      2605,
+      430
+    );
+
+    drawWinnerTeamName(
+      ctx,
+      winners.rank1,
+      1080,
+      2605,
+      430
+    );
+
+    drawWinnerTeamName(
+      ctx,
+      winners.rank3,
+      1640,
+      2605,
+      430
+    );
+
+    const posterUrl =
+      canvas.toDataURL(
+        "image/png",
+        1.0
+      );
+
+    /*
+      Open generated poster
+    */
+
+    const newWindow =
+      window.open(
+        "",
+        "_blank"
+      );
+
+    if (!newWindow) {
+
+      alert(
+        "Please allow pop-ups for this website."
+      );
+
+      return;
+    }
+
+    newWindow.document.write(`
+      <html>
+        <head>
+          <title>NIRMAAN Winner Poster</title>
+        </head>
+
+        <body style="
+          margin:0;
+          background:#111;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          min-height:100vh;
+        ">
+
+          <img
+            src="${posterUrl}"
+            style="
+              max-width:100%;
+              max-height:100vh;
+              object-fit:contain;
+            "
+          >
+
+        </body>
+      </html>
+    `);
+
+    newWindow.document.close();
+
+  };
+
+
+  img.onerror = function () {
+
+    alert(
+      "Winner poster template could not be loaded."
+    );
+
+    console.error(
+      "[NIRMAAN] Poster template failed:",
+      winnerPosterTemplate
+    );
+
+  };
+
 
   img.src =
     winnerPosterTemplate;
-
-
-  await new Promise(
-    (resolve, reject) => {
-
-      img.onload =
-        resolve;
-
-      img.onerror =
-        reject;
-
-    }
-  );
-
-
-  const canvas =
-    document.createElement(
-      "canvas"
-    );
-
-  canvas.width =
-    img.naturalWidth;
-
-  canvas.height =
-    img.naturalHeight;
-
-
-  const ctx =
-    canvas.getContext(
-      "2d"
-    );
-
-
-  /*
-    1. Draw the ORIGINAL poster.
-  */
-
-  ctx.drawImage(
-    img,
-    0,
-    0
-  );
-
-
-  /*
-    2. Put actual final teams
-       over the existing TEAM NAME
-       positions.
-       
-       LEFT  = Rank 2
-       CENTER = Rank 1
-       RIGHT = Rank 3
-  */
-
-
-  drawWinnerTeamName(
-    ctx,
-    winners.rank2,
-    520,
-    2605,
-    430
-  );
-
-
-  drawWinnerTeamName(
-    ctx,
-    winners.rank1,
-    1080,
-    2605,
-    430
-  );
-
-
-  drawWinnerTeamName(
-    ctx,
-    winners.rank3,
-    1640,
-    2605,
-    430
-  );
-
-
-  /*
-    3. Open the generated poster.
-    No automatic download.
-  */
-
-  const posterUrl =
-    canvas.toDataURL(
-      "image/png",
-      1.0
-    );
-
-
-  window.open(
-    posterUrl,
-    "_blank"
-  );
-
 }
+
 
 
 /* ---------------------------------------------------------

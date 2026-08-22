@@ -4404,7 +4404,7 @@ window.addEventListener(
    ========================================================= */
 
 const winnerPosterTemplate =
-  "winner-poster-template.png.jpg";
+  "./winner-poster-template.png.jpg";
 
 
 function getFinalWinnerTeams() {

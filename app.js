@@ -4396,3 +4396,51 @@ window.addEventListener(
 
   }
  );
+/* =========================================================
+   WINNER POSTER — SAFE FOUNDATION
+   ========================================================= */
+
+const winnerPosterTemplate =
+  "winner-poster-template.png";
+
+const winnerPosterButton =
+  $("generateWinnerPoster");
+
+if(winnerPosterButton){
+
+  winnerPosterButton.addEventListener(
+    "click",
+    function(){
+
+      const msg =
+        $("winnerPosterMsg");
+
+      if(!state.auctionComplete){
+
+        if(msg){
+
+          msg.style.color =
+            "#dc2626";
+
+          msg.textContent =
+            "❌ Complete the auction first.";
+
+        }
+
+        return;
+      }
+
+      if(msg){
+
+        msg.style.color =
+          "#166534";
+
+        msg.textContent =
+          "✅ Winner Poster is ready for the next step.";
+
+      }
+
+    }
+  );
+
+}

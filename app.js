@@ -4588,20 +4588,7 @@ function buildWinnerPosterWithNames(winners){
         approved poster unchanged.
       */
 
-      posterTeams.forEach(item => {
-
-        ctx.fillStyle =
-          "#ffffff";
-
-
-        ctx.fillRect(
-          item.x - 350,
-          2520,
-          700,
-          190
-        );
-
-      });
+     
 
 
       /*
@@ -4633,8 +4620,8 @@ function buildWinnerPosterWithNames(winners){
           fontSize > 42
         ){
 
-          ctx.font =
-            `800 ${fontSize}px Arial`;
+         ctx.font =
+  `800 ${fontSize}px "Arial Narrow", "Roboto Condensed", Impact, Arial, sans-serif`;
 
 
           if(
@@ -4663,16 +4650,16 @@ function buildWinnerPosterWithNames(winners){
         ctx.fillStyle =
           "#10264a";
 
+ctx.font =
+  `800 ${fontSize}px "Arial Narrow", "Roboto Condensed", Impact, Arial, sans-serif`;
+   
 
-        ctx.font =
-          `800 ${fontSize}px Arial`;
 
-
-        ctx.fillText(
-          name,
-          item.x,
-          2615
-        );
+     ctx.fillText(
+  name,
+  item.x,
+  2605
+);
 
       });
 

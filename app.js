@@ -4398,15 +4398,19 @@ window.addEventListener(
  );
 /* =========================================================
    WINNER POSTER
+   FINAL VERSION
    ========================================================= */
 
 const winnerPosterTemplate =
   "winner-poster-template.png.jpg";
 
 
+/* ---------------------------------------------------------
+   TEST POSTER IMAGE
+   --------------------------------------------------------- */
+
 const winnerPosterTestImage =
   new Image();
-
 
 winnerPosterTestImage.onload =
   function(){
@@ -4417,7 +4421,6 @@ winnerPosterTestImage.onload =
 
   };
 
-
 winnerPosterTestImage.onerror =
   function(){
 
@@ -4427,13 +4430,12 @@ winnerPosterTestImage.onerror =
 
   };
 
-
 winnerPosterTestImage.src =
   winnerPosterTemplate;
 
 
 /* ---------------------------------------------------------
-   READ FINAL TOP 3
+   READ ACTUAL FINAL TOP 3
    --------------------------------------------------------- */
 
 function getWinnerPosterTeams(){
@@ -4447,8 +4449,11 @@ function getWinnerPosterTeams(){
   if(
     !rows ||
     rows.length < 3
-  )
+  ){
+
     return [];
+
+  }
 
 
   return Array.from(rows)
@@ -4475,59 +4480,218 @@ function getWinnerPosterTeams(){
 
 
 /* ---------------------------------------------------------
-   GENERATE WINNER POSTER
+   BUILD FINAL 4K WINNER POSTER
    --------------------------------------------------------- */
 
-const posterButton =
-  $("generateWinnerPoster");
+function buildWinnerPosterWithNames(winners){
+
+  if(
+    !winners ||
+    winners.length < 3
+  ){
+
+    return null;
+
+  }
 
 
-if(posterButton){
+  const canvas =
+    document.createElement("canvas");
 
-  posterButton.addEventListener(
-    "click",
+
+  const ctx =
+    canvas.getContext("2d");
+
+
+  if(!ctx){
+
+    return null;
+
+  }
+
+
+  const img =
+    new Image();
+
+
+  img.onload =
     function(){
+
+      /*
+        Original poster ratio is 2:3.
+
+        Keep the same ratio instead of stretching
+        the poster.
+      */
+
+      canvas.width =
+        2160;
+
+      canvas.height =
+        3240;
+
+
+      /*
+        Draw original approved poster.
+      */
+
+      ctx.drawImage(
+        img,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+
+      /*
+        IMPORTANT:
+
+        Poster layout is:
+
+        LEFT   = RANK 2
+        CENTER = RANK 1
+        RIGHT  = RANK 3
+      */
+
+      const posterTeams = [
+
+        {
+          team:
+            winners[1].team,
+
+          x: 520
+        },
+
+        {
+          team:
+            winners[0].team,
+
+          x: 1080
+        },
+
+        {
+          team:
+            winners[2].team,
+
+          x: 1640
+        }
+
+      ];
+
+
+      /*
+        Cover only the existing
+        "TEAM NAME" text area.
+
+        This keeps the rest of the
+        approved poster unchanged.
+      */
+
+      posterTeams.forEach(item => {
+
+        ctx.fillStyle =
+          "#ffffff";
+
+
+        ctx.fillRect(
+          item.x - 350,
+          2520,
+          700,
+          190
+        );
+
+      });
+
+
+      /*
+        Draw actual team names.
+      */
+
+      posterTeams.forEach(item => {
+
+        let name =
+          String(
+            item.team || ""
+          ).trim();
+
+
+        if(!name)
+          name = "TEAM NAME";
+
+
+        let fontSize =
+          92;
+
+
+        /*
+          Automatically reduce font size
+          for long team names.
+        */
+
+        while(
+          fontSize > 42
+        ){
+
+          ctx.font =
+            `800 ${fontSize}px Arial`;
+
+
+          if(
+            ctx.measureText(name).width
+            <= 560
+          ){
+
+            break;
+
+          }
+
+
+          fontSize -= 4;
+
+        }
+
+
+        ctx.textAlign =
+          "center";
+
+
+        ctx.textBaseline =
+          "middle";
+
+
+        ctx.fillStyle =
+          "#10264a";
+
+
+        ctx.font =
+          `800 ${fontSize}px Arial`;
+
+
+        ctx.fillText(
+          name,
+          item.x,
+          2615
+        );
+
+      });
+
+
+      /*
+        Save generated poster in memory.
+      */
+
+      window.NIRMAANWinnerPoster =
+        canvas;
+
+
+      /*
+        Show generated poster,
+        NOT the original template.
+      */
 
       const msg =
         $("winnerPosterMsg");
-
-
-      if(!state.auctionComplete){
-
-        if(msg){
-
-          msg.style.color =
-            "#dc2626";
-
-          msg.textContent =
-            "❌ Complete the auction first.";
-
-        }
-
-        return;
-
-      }
-
-
-      const winners =
-        getWinnerPosterTeams();
-buildWinnerPosterWithNames(winners);
-
-      if(winners.length < 3){
-
-        if(msg){
-
-          msg.style.color =
-            "#dc2626";
-
-          msg.textContent =
-            "❌ Final Top 3 ranking is not available yet.";
-
-        }
-
-        return;
-
-      }
 
 
       if(msg){
@@ -4548,7 +4712,7 @@ buildWinnerPosterWithNames(winners);
               font-weight:800;
               margin-bottom:12px;
             ">
-              ✅ Top 3 confirmed
+              ✅ 4K Winner Poster Generated
             </div>
 
 
@@ -4574,7 +4738,7 @@ buildWinnerPosterWithNames(winners);
 
 
             <img
-              src="${winnerPosterTemplate}"
+              src="${canvas.toDataURL("image/png")}"
               alt="NIRMAAN 2K26 Auction Clash Winner Poster"
               style="
                 width:100%;
@@ -4592,86 +4756,123 @@ buildWinnerPosterWithNames(winners);
 
       }
 
-    }
-  );
+    };
 
-}
-function buildWinnerPosterWithNames(winners){
 
-  const canvas =
-    document.createElement("canvas");
+  img.onerror =
+    function(){
 
-  const ctx =
-    canvas.getContext("2d");
+      const msg =
+        $("winnerPosterMsg");
 
-  if(!ctx)
-    return null;
 
-  const img =
-    new Image();
+      if(msg){
 
-  img.onload = function(){
+        msg.style.color =
+          "#dc2626";
 
-    canvas.width = 2160;
-    canvas.height = 3840;
 
-    ctx.drawImage(
-      img,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
+        msg.textContent =
+          "❌ Winner poster template could not be loaded.";
 
-    const names = [
-      winners[0].team,
-      winners[1].team,
-      winners[2].team
-    ];
+      }
 
-    const yPositions = [
-      1800,
-      2290,
-      2780
-    ];
+    };
 
-    names.forEach((name,index)=>{
-
-      let fontSize = 92;
-
-      do{
-
-        ctx.font =
-          `800 ${fontSize}px Arial`;
-
-        if(
-          ctx.measureText(name).width <= 1500
-        )
-          break;
-
-        fontSize -= 4;
-
-      }while(fontSize > 42);
-
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#111827";
-
-      ctx.fillText(
-        name,
-        1080,
-        yPositions[index]
-      );
-
-    });
-
-    window.NIRMAANWinnerPoster =
-      canvas;
-
-  };
 
   img.src =
     winnerPosterTemplate;
 
+
   return canvas;
+
+}
+
+
+/* ---------------------------------------------------------
+   GENERATE BUTTON
+   --------------------------------------------------------- */
+
+const posterButton =
+  $("generateWinnerPoster");
+
+
+if(posterButton){
+
+  posterButton.addEventListener(
+    "click",
+    function(){
+
+      const msg =
+        $("winnerPosterMsg");
+
+
+      /*
+        Auction must be completed first.
+      */
+
+      if(
+        !state.auctionComplete
+      ){
+
+        if(msg){
+
+          msg.style.color =
+            "#dc2626";
+
+
+          msg.textContent =
+            "❌ Complete the auction first.";
+
+        }
+
+        return;
+
+      }
+
+
+      /*
+        Read FINAL ranking.
+      */
+
+      const winners =
+        getWinnerPosterTeams();
+
+
+      /*
+        Check Top 3 BEFORE
+        building the poster.
+      */
+
+      if(
+        winners.length < 3
+      ){
+
+        if(msg){
+
+          msg.style.color =
+            "#dc2626";
+
+
+          msg.textContent =
+            "❌ Final Top 3 ranking is not available yet.";
+
+        }
+
+        return;
+
+      }
+
+
+      /*
+        Generate final poster.
+      */
+
+      buildWinnerPosterWithNames(
+        winners
+      );
+
+    }
+  );
+
 }

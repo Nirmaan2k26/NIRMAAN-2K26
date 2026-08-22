@@ -4444,3 +4444,101 @@ if(winnerPosterButton){
   );
 
 }
+/* =========================================================
+   WINNER POSTER — STEP 3
+   Read existing Final Ranking only
+   ========================================================= */
+
+function getWinnerPosterTeams(){
+
+  const rows =
+    document.querySelectorAll(
+      "#winnerBox .rank"
+    );
+
+  if(!rows || rows.length < 3)
+    return [];
+
+  return Array.from(rows)
+    .slice(0,3)
+    .map(row => {
+
+      const parts =
+        row.querySelectorAll("b");
+
+      return {
+        rank:
+          parts[0]?.textContent.trim() || "",
+
+        team:
+          parts[1]?.textContent.trim() || ""
+      };
+
+    });
+
+}
+
+
+const posterButton =
+  $("generateWinnerPoster");
+
+if(posterButton){
+
+  posterButton.addEventListener(
+    "click",
+    function(){
+
+      const msg =
+        $("winnerPosterMsg");
+
+      const winners =
+        getWinnerPosterTeams();
+
+      if(winners.length < 3){
+
+        if(msg){
+
+          msg.style.color =
+            "#dc2626";
+
+          msg.textContent =
+            "❌ Final Top 3 ranking is not available yet.";
+
+        }
+
+        return;
+
+      }
+
+
+      if(msg){
+
+        msg.style.color =
+          "#166534";
+
+        msg.innerHTML = `
+          ✅ Top 3 confirmed.
+
+          <div style="
+            margin-top:10px;
+            line-height:1.8;
+          ">
+            🥇 <b>Rank 1:</b>
+            ${esc(winners[0].team)}
+            <br>
+
+            🥈 <b>Rank 2:</b>
+            ${esc(winners[1].team)}
+            <br>
+
+            🥉 <b>Rank 3:</b>
+            ${esc(winners[2].team)}
+          </div>
+        `;
+
+      }
+
+    }
+  );
+
+}

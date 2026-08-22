@@ -4511,7 +4511,7 @@ if(posterButton){
 
       const winners =
         getWinnerPosterTeams();
-
+buildWinnerPosterWithNames(winners);
 
       if(winners.length < 3){
 
@@ -4595,4 +4595,83 @@ if(posterButton){
     }
   );
 
+}
+function buildWinnerPosterWithNames(winners){
+
+  const canvas =
+    document.createElement("canvas");
+
+  const ctx =
+    canvas.getContext("2d");
+
+  if(!ctx)
+    return null;
+
+  const img =
+    new Image();
+
+  img.onload = function(){
+
+    canvas.width = 2160;
+    canvas.height = 3840;
+
+    ctx.drawImage(
+      img,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    const names = [
+      winners[0].team,
+      winners[1].team,
+      winners[2].team
+    ];
+
+    const yPositions = [
+      1800,
+      2290,
+      2780
+    ];
+
+    names.forEach((name,index)=>{
+
+      let fontSize = 92;
+
+      do{
+
+        ctx.font =
+          `800 ${fontSize}px Arial`;
+
+        if(
+          ctx.measureText(name).width <= 1500
+        )
+          break;
+
+        fontSize -= 4;
+
+      }while(fontSize > 42);
+
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "#111827";
+
+      ctx.fillText(
+        name,
+        1080,
+        yPositions[index]
+      );
+
+    });
+
+    window.NIRMAANWinnerPoster =
+      canvas;
+
+  };
+
+  img.src =
+    winnerPosterTemplate;
+
+  return canvas;
 }

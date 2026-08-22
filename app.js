@@ -4396,3 +4396,124 @@ window.addEventListener(
 
   }
 );
+/* =========================================================
+   WINNER POSTER — STEP 4
+   Read existing final ranking data
+   ========================================================= */
+
+$("generateWinnerPoster")?.addEventListener(
+  "click",
+  function(){
+
+    if(!state.auctionComplete){
+
+      const msg=$("winnerPosterMsg");
+
+      if(msg){
+        msg.style.color="#dc2626";
+        msg.textContent=
+          "❌ Complete the auction first.";
+      }
+
+      return;
+    }
+
+
+    /*
+      Use the SAME team data already used by
+      the existing Final Ranking.
+
+      No auction data is changed here.
+    */
+
+    const ranking=[...state.teams].sort(
+      (a,b)=>{
+
+        const pointsA=
+          Number(a.points||0);
+
+        const pointsB=
+          Number(b.points||0);
+
+        if(pointsA!==pointsB)
+          return pointsB-pointsA;
+
+
+        const budgetA=
+          Number(a.budget||0);
+
+        const budgetB=
+          Number(b.budget||0);
+
+        if(budgetA!==budgetB)
+          return budgetB-budgetA;
+
+
+        const spentA=
+          Number(a.spent||0);
+
+        const spentB=
+          Number(b.spent||0);
+
+        return spentA-spentB;
+
+      }
+    );
+
+
+    const topThree=
+      ranking.slice(0,3);
+
+
+    const msg=
+      $("winnerPosterMsg");
+
+
+    if(!topThree.length){
+
+      if(msg){
+        msg.style.color="#dc2626";
+        msg.textContent=
+          "❌ No teams found.";
+      }
+
+      return;
+    }
+
+
+    /*
+      Temporary verification only.
+      No poster is generated yet.
+    */
+
+    if(msg){
+
+      msg.style.color="#166534";
+
+      msg.innerHTML=
+        `
+        ✅ Top 3 teams found:
+
+        <div style="
+          margin-top:10px;
+          line-height:1.8;
+        ">
+
+          🥇 <b>Rank 1:</b>
+          ${esc(topThree[0]?.name||"—")}
+          <br>
+
+          🥈 <b>Rank 2:</b>
+          ${esc(topThree[1]?.name||"—")}
+          <br>
+
+          🥉 <b>Rank 3:</b>
+          ${esc(topThree[2]?.name||"—")}
+
+        </div>
+        `;
+
+    }
+
+  }
+);

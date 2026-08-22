@@ -4399,9 +4399,9 @@ window.addEventListener(
 /* =========================================================
    WINNER POSTER — SAFE FOUNDATION
    ========================================================= */
-
 const winnerPosterTemplate =
-  "winner-poster-template.png";
+  "winner-poster-template.png.jpg";
+
 
 const winnerPosterButton =
   $("generateWinnerPoster");

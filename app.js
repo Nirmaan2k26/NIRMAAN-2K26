@@ -4541,145 +4541,105 @@ function drawWinnerTeamName(
 
 async function generateWinnerPoster() {
 
-  const winners =
-    getFinalWinnerTeams();
+  const winners = getFinalWinnerTeams();
 
   if (!winners) {
-    alert(
-      "Final Top 3 ranking is not available yet."
-    );
+    alert("Final Top 3 ranking is not available yet.");
     return;
   }
 
-  const img = new Image();
+  const newWindow = window.open("", "_blank");
 
-  img.onload = function () {
+  if (!newWindow) {
+    alert("Please allow pop-ups for this website.");
+    return;
+  }
 
-    const canvas =
-      document.createElement("canvas");
+  newWindow.document.write(`
+    <html>
+      <head>
+        <title>NIRMAAN Winner Poster</title>
 
-    canvas.width =
-      img.naturalWidth;
+        <style>
+          html, body {
+            margin: 0;
+            padding: 0;
+            background: #111;
+          }
 
-    canvas.height =
-      img.naturalHeight;
+          .poster {
+            position: relative;
+            width: min(100vw, 1024px);
+            margin: auto;
+          }
 
-    const ctx =
-      canvas.getContext("2d");
+          .poster img {
+            display: block;
+            width: 100%;
+            height: auto;
+          }
 
-    /* Original poster */
-    ctx.drawImage(
-      img,
-      0,
-      0
-    );
+          .team-name {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            color: #10264a;
+            font-family:
+              Arial Narrow,
+              Arial,
+              sans-serif;
+            font-weight: 800;
+            font-size: clamp(20px, 4vw, 54px);
+            text-align: center;
+            white-space: nowrap;
+          }
 
-    /*
-      LEFT   = Rank 2
-      CENTER = Rank 1
-      RIGHT  = Rank 3
-    */
+          .rank2 {
+            left: 25%;
+            top: 82%;
+          }
 
-    drawWinnerTeamName(
-      ctx,
-      winners.rank2,
-      520,
-      2605,
-      430
-    );
+          .rank1 {
+            left: 50%;
+            top: 82%;
+          }
 
-    drawWinnerTeamName(
-      ctx,
-      winners.rank1,
-      1080,
-      2605,
-      430
-    );
+          .rank3 {
+            left: 75%;
+            top: 82%;
+          }
+        </style>
+      </head>
 
-    drawWinnerTeamName(
-      ctx,
-      winners.rank3,
-      1640,
-      2605,
-      430
-    );
+      <body>
 
-    const posterUrl =
-      canvas.toDataURL(
-        "image/png",
-        1.0
-      );
-
-    /*
-      Open generated poster
-    */
-
-    const newWindow =
-      window.open(
-        "",
-        "_blank"
-      );
-
-    if (!newWindow) {
-
-      alert(
-        "Please allow pop-ups for this website."
-      );
-
-      return;
-    }
-
-    newWindow.document.write(`
-      <html>
-        <head>
-          <title>NIRMAAN Winner Poster</title>
-        </head>
-
-        <body style="
-          margin:0;
-          background:#111;
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          min-height:100vh;
-        ">
+        <div class="poster">
 
           <img
-            src="${posterUrl}"
-            style="
-              max-width:100%;
-              max-height:100vh;
-              object-fit:contain;
-            "
+            src="${winnerPosterTemplate}"
+            alt="NIRMAAN Winner Poster"
           >
 
-        </body>
-      </html>
-    `);
+          <div class="team-name rank2">
+            ${winners.rank2}
+          </div>
 
-    newWindow.document.close();
+          <div class="team-name rank1">
+            ${winners.rank1}
+          </div>
 
-  };
+          <div class="team-name rank3">
+            ${winners.rank3}
+          </div>
 
+        </div>
 
-  img.onerror = function () {
+      </body>
+    </html>
+  `);
 
-    alert(
-      "Winner poster template could not be loaded."
-    );
+  newWindow.document.close();
 
-    console.error(
-      "[NIRMAAN] Poster template failed:",
-      winnerPosterTemplate
-    );
-
-  };
-
-
-  img.src =
-    winnerPosterTemplate;
 }
-
 
 
 /* ---------------------------------------------------------

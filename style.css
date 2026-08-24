@@ -373,3 +373,810 @@ tbody tr:hover{background:#fafcff}
   margin-top:18px!important;
   margin-bottom:0!important;
 }
+/* =========================================================
+   NIRMAAN 2K26 — AUCTION CLASH
+   PREMIUM LIGHT ADMIN THEME
+   Historical → Futuristic
+   Paste this at the VERY BOTTOM of style.css
+   ========================================================= */
+
+:root{
+  --navy:#071b45;
+  --navy2:#102f68;
+  --gold:#c99528;
+  --gold2:#e6bd5b;
+  --ink:#17233f;
+  --muted:#68738a;
+  --bg:#f5f8fc;
+  --surface:#ffffff;
+  --line:#dfe6f1;
+  --blue:#2858d9;
+  --green:#159a67;
+  --red:#d94b55;
+
+  --shadow:
+    0 10px 30px rgba(20,35,70,.07);
+}
+
+
+/* ================================
+   PAGE BACKGROUND
+   ================================ */
+
+body{
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(201,149,40,.10),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 95% 10%,
+      rgba(40,88,217,.08),
+      transparent 28rem
+    ),
+    #f5f8fc;
+
+  color:var(--ink);
+}
+
+
+/* ================================
+   MAIN WIDTH
+   ================================ */
+
+.wrap{
+  max-width:1240px;
+  padding:24px 22px 35px;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.simpleNirmanHero{
+
+  position:relative!important;
+
+  min-height:430px!important;
+
+  padding:28px 38px 38px!important;
+
+  overflow:hidden!important;
+
+  border-radius:26px!important;
+
+  border:1px solid rgba(201,149,40,.35)!important;
+
+  background:#fff!important;
+
+  box-shadow:
+    0 20px 55px rgba(20,35,70,.13)!important;
+
+}
+
+
+/* Historical → futuristic artwork */
+
+.simpleHeroBg{
+
+  position:absolute!important;
+
+  inset:0!important;
+
+  z-index:0!important;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.96) 0%,
+      rgba(255,255,255,.88) 34%,
+      rgba(255,255,255,.65) 54%,
+      rgba(255,255,255,.30) 76%,
+      rgba(255,255,255,.08) 100%
+    ),
+
+    url("assets/civil-hero-art.png")
+    center/cover
+    no-repeat!important;
+
+  filter:saturate(.92);
+
+}
+
+
+/* Soft premium overlay */
+
+.simpleNirmanHero:after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+
+    linear-gradient(
+      135deg,
+      rgba(201,149,40,.07),
+      transparent 35%,
+      rgba(40,88,217,.06)
+    );
+
+  z-index:1;
+
+}
+
+
+/* ================================
+   COLLEGE NAME
+   ================================ */
+
+.simpleNirmanHero .simpleCollege{
+
+  position:relative;
+
+  z-index:3;
+
+  display:inline-flex;
+
+  align-items:center;
+
+  padding:10px 17px;
+
+  border-radius:12px;
+
+  border:1px solid
+    rgba(201,149,40,.48);
+
+  background:
+    rgba(255,255,255,.88);
+
+  color:var(--navy)!important;
+
+  font-size:13px;
+
+  font-weight:900;
+
+  letter-spacing:.09em;
+
+  box-shadow:
+    0 6px 18px rgba(20,35,70,.07);
+
+}
+
+
+/* ================================
+   DEPARTMENT
+   ================================ */
+
+.simpleDepartment{
+
+  position:relative;
+
+  z-index:3;
+
+  display:inline-block;
+
+  margin-top:20px!important;
+
+  padding:9px 16px;
+
+  border-left:
+    4px solid var(--gold);
+
+  background:
+    rgba(201,149,40,.08);
+
+  color:#9a6914!important;
+
+  font-size:12px!important;
+
+  font-weight:950!important;
+
+  letter-spacing:.15em!important;
+
+}
+
+
+/* ================================
+   HERO CONTENT
+   ================================ */
+
+.simpleHeroContent{
+
+  position:relative;
+
+  z-index:3;
+
+  margin-top:34px!important;
+
+}
+
+
+/* =========================================================
+   MAIN EVENT NAME
+   AUCTION CLASH BIG
+   ========================================================= */
+
+.simpleHeroContent h1{
+
+  margin:0!important;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:4px;
+
+  font-size:clamp(
+    58px,
+    8vw,
+    104px
+  )!important;
+
+  line-height:.88!important;
+
+  letter-spacing:-.055em!important;
+
+  font-weight:950!important;
+
+}
+
+
+/* NIRMAAN SMALLER */
+
+.simpleHeroContent h1 span{
+
+  order:2;
+
+  color:var(--navy)!important;
+
+  font-size:.42em!important;
+
+  letter-spacing:.08em!important;
+
+  line-height:1!important;
+
+  margin-top:8px;
+
+}
+
+
+/* AUCTION CLASH */
+
+.simpleHeroContent h1 b{
+
+  order:1;
+
+  font-size:1em!important;
+
+  font-weight:950!important;
+
+  letter-spacing:-.055em!important;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      #071b45 0%,
+      #173c7d 48%,
+      #c99528 75%,
+      #e5b849 100%
+    )!important;
+
+  -webkit-background-clip:text!important;
+
+  background-clip:text!important;
+
+  -webkit-text-fill-color:transparent!important;
+
+}
+
+
+/* Decorative gold line */
+
+.simpleHeroContent h1:after{
+
+  content:"";
+
+  display:block;
+
+  width:150px;
+
+  height:4px;
+
+  margin-top:12px;
+
+  border-radius:10px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold),
+      var(--gold2),
+      transparent
+    );
+
+}
+
+
+/* ================================
+   HERO SUBTITLE
+   ================================ */
+
+.simpleHeroContent .heroSub{
+
+  color:#4d5b73!important;
+
+  font-size:16px!important;
+
+  font-weight:650!important;
+
+  margin-top:14px!important;
+
+}
+
+
+/* ================================
+   HERO BUTTONS
+   ================================ */
+
+.simpleHeroContent .heroActions{
+
+  margin-top:22px!important;
+
+}
+
+
+.simpleHeroContent .fileBtn{
+
+  background:
+    linear-gradient(
+      135deg,
+      #102e67,
+      #173f88
+    )!important;
+
+  border:
+    1px solid #0b285e!important;
+
+  box-shadow:
+    0 8px 22px rgba(16,46,103,.18)!important;
+
+}
+
+
+.livePill{
+
+  background:#fff!important;
+
+  color:var(--navy)!important;
+
+  border:
+    1px solid #dce3ef!important;
+
+  box-shadow:
+    0 6px 18px rgba(20,35,70,.07);
+
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.card,
+.teamCard,
+.teamPanel{
+
+  background:
+    rgba(255,255,255,.96)!important;
+
+  border:
+    1px solid #e1e7f0!important;
+
+  border-radius:18px!important;
+
+  box-shadow:
+    0 8px 28px rgba(20,35,70,.055)!important;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease;
+
+}
+
+
+.card:hover{
+
+  box-shadow:
+    0 12px 34px rgba(20,35,70,.08)!important;
+
+}
+
+
+/* ================================
+   SECTION HEADINGS
+   ================================ */
+
+.sectionKicker{
+
+  color:
+    #a7791e!important;
+
+  font-size:10px!important;
+
+  font-weight:950!important;
+
+  letter-spacing:.16em!important;
+
+}
+
+
+.card h2{
+
+  color:var(--navy);
+
+  font-size:21px;
+
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+input,
+select{
+
+  background:#fff!important;
+
+  border:
+    1px solid #d7dfeb!important;
+
+  color:var(--ink)!important;
+
+  border-radius:10px!important;
+
+}
+
+
+input:focus,
+select:focus{
+
+  border-color:
+    var(--gold)!important;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(201,149,40,.10)!important;
+
+}
+
+
+/* =========================================================
+   NORMAL BUTTONS
+   ========================================================= */
+
+button{
+
+  background:#f4f7fb;
+
+  border:
+    1px solid #d8e0ec;
+
+  color:var(--navy);
+
+}
+
+
+button:hover{
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 7px 18px rgba(20,35,70,.09);
+
+}
+
+
+/* ================================
+   PRIMARY BUTTON
+   ================================ */
+
+.primary{
+
+  background:
+    linear-gradient(
+      135deg,
+      #12346f,
+      #1d4d9b
+    )!important;
+
+  border-color:
+    #12346f!important;
+
+  color:#fff!important;
+
+  box-shadow:
+    0 8px 20px rgba(18,52,111,.16);
+
+}
+
+
+/* ================================
+   FILE BUTTON
+   ================================ */
+
+.fileBtn{
+
+  background:
+    linear-gradient(
+      135deg,
+      #2858d9,
+      #173fa8
+    )!important;
+
+}
+
+
+/* =========================================================
+   FEATURED LIVE AUCTION CARD
+   ========================================================= */
+
+.featuredCard{
+
+  border:
+    1px solid rgba(201,149,40,.30)!important;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf8,
+      #fff
+    )!important;
+
+}
+
+
+.featuredCard .sectionKicker{
+
+  color:#b37d17!important;
+
+}
+
+
+/* SOLD BUTTON */
+
+#sellPlayer{
+
+  background:
+    linear-gradient(
+      135deg,
+      #159a67,
+      #08784d
+    )!important;
+
+  border-color:#08784d!important;
+
+  font-size:15px;
+
+  padding:
+    12px 22px;
+
+}
+
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+.tableWrap{
+
+  border:
+    1px solid #e0e6ef!important;
+
+  border-radius:14px!important;
+
+}
+
+
+table{
+
+  background:#fff!important;
+
+}
+
+
+th{
+
+  background:
+    linear-gradient(
+      180deg,
+      #f8fafc,
+      #f2f5f9
+    )!important;
+
+  color:#56647c!important;
+
+}
+
+
+td{
+
+  color:#25324c;
+
+}
+
+
+tbody tr:hover{
+
+  background:
+    #f8fbff!important;
+
+}
+
+
+/* =========================================================
+   INFO BOX
+   ========================================================= */
+
+.info{
+
+  background:
+    #f1f6ff!important;
+
+  border:
+    1px solid #dce7fb!important;
+
+}
+
+
+/* =========================================================
+   WINNER SECTION
+   ========================================================= */
+
+.winnerCard{
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf7,
+      #fff
+    )!important;
+
+  border-color:
+    rgba(201,149,40,.28)!important;
+
+}
+
+
+/* =========================================================
+   DANGER CARD
+   ========================================================= */
+
+.dangerCard{
+
+  background:#fff!important;
+
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.siteFooter{
+
+  border-top:
+    1px solid #e1e6ee;
+
+  margin-top:24px;
+
+  padding-top:22px;
+
+  color:#7a869a;
+
+}
+
+
+.siteFooter b{
+
+  color:var(--navy)!important;
+
+}
+
+
+/* =========================================================
+   ADMIN LOGIN — LIGHT PREMIUM
+   ========================================================= */
+
+.adminLogin{
+
+  background:
+
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(201,149,40,.12),
+      transparent 25rem
+    ),
+
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(40,88,217,.10),
+      transparent 28rem
+    ),
+
+    #f4f7fb!important;
+
+}
+
+
+.adminLoginCard{
+
+  border:
+    1px solid #e0e6ef;
+
+  box-shadow:
+    0 25px 70px
+    rgba(20,35,70,.14)!important;
+
+}
+
+
+.adminLoginLogo{
+
+  color:var(--gold);
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:650px){
+
+  .simpleNirmanHero{
+
+    min-height:390px!important;
+
+    padding:
+      20px!important;
+
+  }
+
+  .simpleHeroContent{
+
+    margin-top:25px!important;
+
+  }
+
+  .simpleHeroContent h1{
+
+    font-size:54px!important;
+
+  }
+
+  .simpleHeroContent h1 span{
+
+    font-size:.40em!important;
+
+  }
+
+  .simpleDepartment{
+
+    font-size:9px!important;
+
+    letter-spacing:.07em!important;
+
+  }
+
+}

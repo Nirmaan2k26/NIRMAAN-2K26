@@ -1180,3 +1180,309 @@ tbody tr:hover{
   }
 
 }
+/* =========================================================
+   AUCTION CLASH — FINAL ADMIN HERO
+   ========================================================= */
+
+.simpleNirmanHero{
+  position:relative!important;
+  overflow:hidden!important;
+
+  min-height:430px!important;
+
+  padding:28px 42px 38px!important;
+
+  border-radius:24px!important;
+
+  border:1px solid rgba(190,145,55,.35)!important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.96) 0%,
+      rgba(255,255,255,.86) 38%,
+      rgba(255,255,255,.55) 63%,
+      rgba(255,255,255,.12) 100%
+    ),
+    url("assets/civil-hero-art.png")
+    center/cover no-repeat!important;
+
+  box-shadow:
+    0 18px 50px rgba(20,35,70,.12)!important;
+}
+
+
+/* Background layer */
+
+.simpleHeroBg{
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.92) 0%,
+      rgba(255,255,255,.72) 42%,
+      rgba(255,255,255,.30) 72%,
+      rgba(255,255,255,.05) 100%
+    )!important;
+
+  pointer-events:none!important;
+}
+
+
+/* College */
+
+.simpleNirmanHero .simpleCollege{
+  position:relative!important;
+  z-index:3!important;
+
+  display:inline-block!important;
+
+  padding:10px 17px!important;
+
+  color:#071b45!important;
+
+  background:rgba(255,255,255,.82)!important;
+
+  border:1px solid rgba(174,130,42,.55)!important;
+
+  border-radius:11px!important;
+
+  font-size:13px!important;
+
+  font-weight:900!important;
+
+  letter-spacing:.07em!important;
+
+  box-shadow:
+    0 6px 20px rgba(20,35,70,.07)!important;
+}
+
+
+/* Department */
+
+.simpleDepartment{
+  position:relative!important;
+  z-index:3!important;
+
+  margin-top:20px!important;
+
+  padding:9px 16px!important;
+
+  border-left:
+    4px solid #c99528!important;
+
+  background:
+    rgba(201,149,40,.09)!important;
+
+  color:#966713!important;
+
+  font-size:12px!important;
+
+  font-weight:950!important;
+
+  letter-spacing:.13em!important;
+}
+
+
+/* Hero content */
+
+.simpleHeroContent{
+  position:relative!important;
+  z-index:3!important;
+
+  margin-top:38px!important;
+}
+
+
+/* =========================================================
+   AUCTION CLASH — MAIN TITLE
+   ========================================================= */
+
+.auctionClashTitle{
+
+  margin:0!important;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif!important;
+
+  font-size:
+    clamp(58px,8vw,105px)!important;
+
+  line-height:.88!important;
+
+  font-weight:950!important;
+
+  letter-spacing:-.055em!important;
+
+  color:#071b45!important;
+
+  text-shadow:
+    0 3px 10px rgba(20,35,70,.08);
+}
+
+
+.auctionClashTitle span{
+
+  background:
+    linear-gradient(
+      135deg,
+      #b77b14,
+      #e2b84f,
+      #a86e0c
+    )!important;
+
+  -webkit-background-clip:text!important;
+  background-clip:text!important;
+
+  -webkit-text-fill-color:transparent!important;
+}
+
+
+/* Gold underline */
+
+.auctionClashTitle:after{
+
+  content:"";
+
+  display:block;
+
+  width:180px;
+
+  height:4px;
+
+  margin-top:15px;
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #c99528,
+      #e4bd5a,
+      transparent
+    );
+}
+
+
+/* =========================================================
+   NIRMAAN — SMALLER
+   ========================================================= */
+
+.nirmaanTitle{
+
+  margin-top:15px!important;
+
+  color:#071b45!important;
+
+  font-size:
+    clamp(24px,3vw,40px)!important;
+
+  font-weight:900!important;
+
+  letter-spacing:.08em!important;
+}
+
+
+.nirmaanTitle b{
+
+  color:#c99528!important;
+
+}
+
+
+/* Subtitle */
+
+.simpleHeroContent .heroSub{
+
+  margin-top:10px!important;
+
+  color:#526078!important;
+
+  font-size:16px!important;
+
+  font-weight:600!important;
+}
+
+
+/* Buttons */
+
+.simpleHeroContent .heroActions{
+
+  margin-top:20px!important;
+
+}
+
+
+.simpleHeroContent .fileBtn{
+
+  background:
+    linear-gradient(
+      135deg,
+      #09285b,
+      #1b4d99
+    )!important;
+
+  color:#fff!important;
+
+  border:
+    1px solid #09285b!important;
+
+  box-shadow:
+    0 8px 22px rgba(9,40,91,.18)!important;
+}
+
+
+.simpleHeroContent .livePill{
+
+  background:
+    rgba(255,255,255,.85)!important;
+
+  color:#092653!important;
+
+  border:
+    1px solid #dce3ed!important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:650px){
+
+  .simpleNirmanHero{
+
+    min-height:400px!important;
+
+    padding:
+      20px!important;
+
+  }
+
+  .auctionClashTitle{
+
+    font-size:
+      52px!important;
+
+  }
+
+  .nirmaanTitle{
+
+    font-size:
+      25px!important;
+
+  }
+
+  .simpleCollege{
+
+    font-size:
+      10px!important;
+
+  }
+
+}

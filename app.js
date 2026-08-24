@@ -4400,64 +4400,25 @@ window.addEventListener(
   }
  );
 /* =========================================================
-   WINNER POSTER — ORIGINAL TEMPLATE + ACTUAL FINAL RANKING
+   NIRMAAN '26 — CODE BASED WINNER POSTER
    ========================================================= */
 
-const winnerPosterTemplate =
-  "./winner-poster-template.png.jpg";
-
-
-function getFinalWinnerTeams() {
-
-  if (
-    !Array.isArray(state.finalRanking) ||
-    state.finalRanking.length < 3
-  ) {
-    return null;
-  }
-
-  return {
-
-    rank1:
-      String(
-        state.finalRanking[0] || ""
-      ).trim(),
-
-    rank2:
-      String(
-        state.finalRanking[1] || ""
-      ).trim(),
-
-    rank3:
-      String(
-        state.finalRanking[2] || ""
-      ).trim()
-
-  };
-
-}
-
-
-/* ---------------------------------------------------------
-   DRAW TEAM NAME
-   --------------------------------------------------------- */
-
-function drawWinnerTeamName(
+function posterText(
   ctx,
-  name,
+  txt,
   x,
   y,
-  maxWidth
-) {
+  size,
+  color,
+  weight = "700"
+){
+  ctx.save();
 
-  if (!name) return;
+  ctx.font =
+    `${weight} ${size}px Arial`;
 
-
-  let fontSize = 54;
-
-  const fontFamily =
-    '"Arial Narrow", "Roboto Condensed", Impact, Arial, sans-serif';
-
+  ctx.fillStyle =
+    color;
 
   ctx.textAlign =
     "center";
@@ -4465,198 +4426,83 @@ function drawWinnerTeamName(
   ctx.textBaseline =
     "middle";
 
-  ctx.fillStyle =
-    "#10264a";
-
-
-  /*
-    Automatically reduce font size
-    for long team names.
-  */
-
-  while (
-    fontSize > 28
-  ) {
-
-    ctx.font =
-      `800 ${fontSize}px ${fontFamily}`;
-
-    if (
-      ctx.measureText(name).width <=
-      maxWidth
-    ) {
-
-      break;
-
-    }
-
-    fontSize -= 2;
-
-  }
-
-
-  /*
-    Small shadow to match the
-    strong poster typography.
-  */
-
-  ctx.shadowColor =
-    "rgba(16,38,74,0.18)";
-
-  ctx.shadowBlur =
-    1;
-
-  ctx.shadowOffsetX =
-    0;
-
-  ctx.shadowOffsetY =
-    2;
-
-
   ctx.fillText(
-    name,
+    txt,
     x,
     y
   );
 
-
-  ctx.shadowColor =
-    "transparent";
-
-  ctx.shadowBlur =
-    0;
-
-  ctx.shadowOffsetX =
-    0;
-
-  ctx.shadowOffsetY =
-    0;
-
+  ctx.restore();
 }
 
 
-/* ---------------------------------------------------------
-   GENERATE WINNER POSTER
-   --------------------------------------------------------- */
+function posterLine(
+  ctx,
+  x1,
+  y1,
+  x2,
+  y2,
+  color,
+  width = 2
+){
+  ctx.save();
 
-async function generateWinnerPoster() {
+  ctx.strokeStyle =
+    color;
 
-  const winners = getFinalWinnerTeams();
+  ctx.lineWidth =
+    width;
 
-  if (!winners) {
-    alert("Final Top 3 ranking is not available yet.");
-    return;
-  }
+  ctx.beginPath();
 
-  const newWindow = window.open("", "_blank");
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y2);
 
-  if (!newWindow) {
-    alert("Please allow pop-ups for this website.");
-    return;
-  }
+  ctx.stroke();
 
-  newWindow.document.write(`
-    <html>
-      <head>
-        <title>NIRMAAN Winner Poster</title>
-
-        <style>
-          html, body {
-            margin: 0;
-            padding: 0;
-            background: #111;
-          }
-
-          .poster {
-            position: relative;
-            width: min(100vw, 1024px);
-            margin: auto;
-          }
-
-          .poster img {
-            display: block;
-            width: 100%;
-            height: auto;
-          }
-
-          .team-name {
-            position: absolute;
-            transform: translate(-50%, -50%);
-            color: #10264a;
-            font-family:
-              Arial Narrow,
-              Arial,
-              sans-serif;
-            font-weight: 800;
-            font-size: clamp(20px, 4vw, 54px);
-            text-align: center;
-            white-space: nowrap;
-          }
-
-          .rank2 {
-            left: 25%;
-            top: 82%;
-          }
-
-          .rank1 {
-            left: 50%;
-            top: 82%;
-          }
-
-          .rank3 {
-            left: 75%;
-            top: 82%;
-          }
-        </style>
-      </head>
-
-      <body>
-
-        <div class="poster">
-
-          <img
-            src="${winnerPosterTemplate}"
-            alt="NIRMAAN Winner Poster"
-          >
-
-          <div class="team-name rank2">
-            ${winners.rank2}
-          </div>
-
-          <div class="team-name rank1">
-            ${winners.rank1}
-          </div>
-
-          <div class="team-name rank3">
-            ${winners.rank3}
-          </div>
-
-        </div>
-
-      </body>
-    </html>
-  `);
-
-  newWindow.document.close();
-
+  ctx.restore();
 }
 
 
-/* ---------------------------------------------------------
-   BUTTON
-   --------------------------------------------------------- */
+function posterRoundRect(
+  ctx,
+  x,
+  y,
+  w,
+  h,
+  r,
+  fill,
+  stroke = null,
+  width = 1
+){
+  ctx.save();
 
-const winnerPosterButton =
-  document.getElementById(
-    "generateWinnerPoster"
+  ctx.beginPath();
+
+  ctx.roundRect(
+    x,
+    y,
+    w,
+    h,
+    r
   );
 
+  if(fill){
+    ctx.fillStyle =
+      fill;
 
-if (winnerPosterButton) {
+    ctx.fill();
+  }
 
-  winnerPosterButton.addEventListener(
-    "click",
-    generateWinnerPoster
-  );
+  if(stroke){
+    ctx.strokeStyle =
+      stroke;
 
+    ctx.lineWidth =
+      width;
+
+    ctx.stroke();
+  }
+
+  ctx.restore();
 }

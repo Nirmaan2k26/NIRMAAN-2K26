@@ -198,3 +198,274 @@ tbody tr:hover{background:#fafcff}
 @media(max-width:900px){.grid3,.teamGrid{grid-template-columns:1fr 1fr}.heroMark{width:72px;height:72px;font-size:40px}}
 @media(max-width:650px){.wrap{padding:14px}.grid3,.teamGrid{grid-template-columns:1fr}.hero,.teamHero{padding:22px 20px;border-radius:20px}.heroMark{display:none}.card,.teamCard,.teamPanel{padding:18px}.dangerCard{align-items:flex-start;flex-direction:column}.rank{grid-template-columns:45px 1fr}.hero h1,.teamHero h1{font-size:48px}}
 
+/* =========================================================
+   SIMPLE NIRMAAN '26 — AUCTION CLASH HEADER
+   ========================================================= */
+
+.simpleAuctionHeader{
+  position:relative;
+  overflow:hidden;
+
+  color:#fff;
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(232,184,74,.20),
+      transparent 15rem
+    ),
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy2)
+    );
+
+  border-radius:26px;
+  padding:28px 30px;
+  margin-bottom:20px;
+
+  box-shadow:
+    0 20px 50px rgba(11,23,54,.18);
+}
+
+
+.simpleAuctionHeader::after{
+  content:"";
+
+  position:absolute;
+
+  width:230px;
+  height:230px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:50%;
+
+  right:-65px;
+  bottom:-115px;
+}
+
+
+.simpleHeaderContent{
+  position:relative;
+  z-index:2;
+
+  margin-top:24px;
+}
+
+
+.simpleAuctionHeader .eyebrow{
+  margin:0 0 8px;
+
+  color:#e7c66f;
+
+  font-size:12px;
+
+  font-weight:850;
+
+  letter-spacing:.16em;
+}
+
+
+.simpleAuctionHeader h1{
+  margin:0;
+
+  font-size:
+    clamp(42px,7vw,74px);
+
+  line-height:.95;
+
+  letter-spacing:-.055em;
+
+  font-weight:950;
+}
+
+
+.simpleAuctionHeader h1 span{
+  color:var(--accent);
+}
+
+
+.auctionTitle{
+  margin-top:12px;
+
+  color:#fff;
+
+  font-size:
+    clamp(28px,4vw,48px);
+
+  line-height:1;
+
+  font-weight:950;
+
+  letter-spacing:.02em;
+}
+
+
+.simpleAuctionHeader .heroSub{
+  margin:12px 0 0;
+
+  color:#cbd5ee;
+
+  font-size:15px;
+}
+
+
+.simpleAuctionHeader .heroActions{
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  flex-wrap:wrap;
+
+  margin-top:24px;
+}
+
+
+.teamViewerHeaderBtn{
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  min-height:44px;
+
+  padding:10px 16px;
+
+  border-radius:11px;
+
+  border:1px solid #e8b84a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1a3270,
+      #244486
+    );
+
+  color:#fff;
+
+  text-decoration:none;
+
+  font-weight:850;
+
+  font-size:13px;
+
+  box-shadow:
+    0 8px 18px rgba(0,0,0,.12);
+
+  transition:.18s;
+}
+
+
+.teamViewerHeaderBtn:hover{
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 10px 22px rgba(0,0,0,.18);
+}
+
+
+.simpleAuctionHeader .livePill{
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:9px 12px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.08);
+
+  border:1px solid rgba(255,255,255,.12);
+
+  color:#fff;
+
+  font-size:11px;
+
+  font-weight:850;
+
+  letter-spacing:.06em;
+}
+
+
+.simpleAuctionHeader .livePill i{
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  background:#5ee6a9;
+
+  box-shadow:
+    0 0 0 4px rgba(94,230,169,.12);
+}
+
+
+/* Mobile */
+
+@media(max-width:650px){
+
+  .simpleAuctionHeader{
+    padding:22px 20px;
+
+    border-radius:20px;
+  }
+
+
+  .simpleAuctionHeader .brandLine{
+    display:flex;
+
+    align-items:flex-start;
+
+    flex-direction:column;
+
+    gap:8px;
+  }
+
+
+  .simpleAuctionHeader .brandBadge{
+    max-width:100%;
+
+    white-space:normal;
+
+    line-height:1.35;
+  }
+
+
+  .simpleHeaderContent{
+    margin-top:22px;
+  }
+
+
+  .simpleAuctionHeader h1{
+    font-size:48px;
+  }
+
+
+  .auctionTitle{
+    font-size:34px;
+
+    line-height:1.05;
+  }
+
+
+  .simpleAuctionHeader .heroActions{
+    width:100%;
+  }
+
+
+  .teamViewerHeaderBtn,
+  .simpleAuctionHeader .livePill{
+    width:100%;
+
+    justify-content:center;
+
+    box-sizing:border-box;
+  }
+
+}

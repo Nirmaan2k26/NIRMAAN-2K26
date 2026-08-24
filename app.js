@@ -4506,3 +4506,613 @@ function posterRoundRect(
 
   ctx.restore();
 }
+function drawPosterBackground(ctx){
+
+  ctx.fillStyle = "#fbfaf6";
+
+  ctx.fillRect(
+    0,
+    0,
+    1024,
+    1536
+  );
+
+
+  // Top-left navy corner
+  ctx.fillStyle = "#071d45";
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,0);
+  ctx.lineTo(155,0);
+  ctx.lineTo(0,155);
+
+  ctx.closePath();
+  ctx.fill();
+
+
+  // Gold diagonal lines
+  posterLine(
+    ctx,
+    0,105,
+    105,0,
+    "#c88918",
+    12
+  );
+
+  posterLine(
+    ctx,
+    0,135,
+    135,0,
+    "#c88918",
+    3
+  );
+
+
+  // Bottom-right decoration
+  posterLine(
+    ctx,
+    900,1536,
+    1024,1412,
+    "#c88918",
+    5
+  );
+
+  posterLine(
+    ctx,
+    960,1536,
+    1024,1472,
+    "#c88918",
+    12
+  );
+}
+function drawPosterHeader(ctx){
+
+  posterText(
+    ctx,
+    "CIVIL ENGINEERING DEPARTMENT",
+    512,
+    55,
+    39,
+    "#092653",
+    "800"
+  );
+
+  posterLine(
+    ctx,
+    310,108,
+    410,108,
+    "#c88918",
+    2
+  );
+
+  posterLine(
+    ctx,
+    615,108,
+    715,108,
+    "#c88918",
+    2
+  );
+
+  posterText(
+    ctx,
+    "•  PRESENTS  •",
+    512,
+    108,
+    27,
+    "#c88918",
+    "600"
+  );
+
+}
+function drawPosterTitle(ctx){
+
+  posterText(
+    ctx,
+    "NIRMAAN '26",
+    512,
+    665,
+    78,
+    "#9b6411",
+    "900"
+  );
+
+  posterLine(
+    ctx,
+    185,708,
+    840,708,
+    "#9b6411",
+    2
+  );
+
+
+  posterRoundRect(
+    ctx,
+    105,
+    745,
+    815,
+    100,
+    10,
+    "#082653"
+  );
+
+
+  const gradient =
+    ctx.createLinearGradient(
+      190,
+      750,
+      840,
+      850
+    );
+
+  gradient.addColorStop(
+    0,
+    "#8d5b08"
+  );
+
+  gradient.addColorStop(
+    .3,
+    "#f5c34c"
+  );
+
+  gradient.addColorStop(
+    .5,
+    "#fff0a0"
+  );
+
+  gradient.addColorStop(
+    .7,
+    "#d79516"
+  );
+
+  gradient.addColorStop(
+    1,
+    "#754800"
+  );
+
+
+  ctx.save();
+
+  ctx.font =
+    "900 69px Arial";
+
+  ctx.fillStyle =
+    gradient;
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+  ctx.fillText(
+    "AUCTION CLASH",
+    512,
+    795
+  );
+
+  ctx.restore();
+
+}
+function drawPosterWinners(ctx){
+
+  posterText(
+    ctx,
+    "WINNERS",
+    512,
+    910,
+    92,
+    "#092653",
+    "900"
+  );
+
+  posterLine(
+    ctx,
+    180,970,
+    845,970,
+    "#c88918",
+    2
+  );
+
+  ctx.save();
+
+  ctx.font =
+    "italic 42px Georgia";
+
+  ctx.fillStyle =
+    "#b16f0b";
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+  ctx.fillText(
+    "Congratulations!",
+    512,
+    1015
+  );
+
+  ctx.restore();
+
+  posterText(
+    ctx,
+    "★  ★  ★",
+    512,
+    1055,
+    22,
+    "#092653",
+    "700"
+  );
+
+}
+function fitTeamName(ctx, name, maxWidth) {
+
+  let size = 25;
+
+  while (size > 12) {
+
+    ctx.font =
+      `800 ${size}px Arial`;
+
+    if (
+      ctx.measureText(name).width <=
+      maxWidth
+    ) {
+      break;
+    }
+
+    size -= 1;
+  }
+
+  return size;
+}
+
+
+function drawTrophy(ctx, cx, cy, color) {
+
+  ctx.save();
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 8;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    42,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.stroke();
+
+  ctx.fillStyle = color;
+
+  ctx.fillRect(
+    cx - 38,
+    cy - 12,
+    76,
+    55
+  );
+
+  ctx.fillRect(
+    cx - 8,
+    cy + 42,
+    16,
+    35
+  );
+
+  ctx.fillRect(
+    cx - 55,
+    cy + 77,
+    110,
+    12
+  );
+
+  ctx.restore();
+}
+
+
+function drawRankCard(
+  ctx,
+  x,
+  rank,
+  color,
+  team
+) {
+
+  posterRoundRect(
+    ctx,
+    x,
+    1090,
+    285,
+    270,
+    18,
+    "#fffdf9",
+    color,
+    3
+  );
+
+  posterRoundRect(
+    ctx,
+    x + 65,
+    1070,
+    155,
+    55,
+    10,
+    color
+  );
+
+  posterText(
+    ctx,
+    rank,
+    x + 142,
+    1097,
+    25,
+    "#082653",
+    "900"
+  );
+
+  drawTrophy(
+    ctx,
+    x + 142,
+    1190,
+    color
+  );
+
+
+  /* Automatic team-name fitting */
+
+  ctx.save();
+
+  const safeName =
+    String(team || "TEAM NAME");
+
+  const fontSize =
+    fitTeamName(
+      ctx,
+      safeName,
+      225
+    );
+
+  ctx.font =
+    `800 ${fontSize}px Arial`;
+
+  ctx.fillStyle =
+    "#092653";
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+  ctx.fillText(
+    safeName,
+    x + 142,
+    1300
+  );
+
+  ctx.restore();
+
+
+  posterLine(
+    ctx,
+    x + 55,
+    1325,
+    x + 230,
+    1325,
+    color,
+    2
+  );
+}
+function generateWinnerPoster(){
+
+  if(
+    !Array.isArray(state.finalRanking) ||
+    state.finalRanking.length < 3
+  ){
+
+    alert(
+      "Please complete the auction first."
+    );
+
+    return;
+  }
+
+
+  const canvas =
+    document.createElement("canvas");
+
+  canvas.width = 1024;
+  canvas.height = 1536;
+
+  const ctx =
+    canvas.getContext("2d");
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+
+  /* Draw complete poster */
+
+  drawPosterBackground(ctx);
+
+  drawPosterHeader(ctx);
+
+  drawPosterTitle(ctx);
+
+  drawPosterWinners(ctx);
+
+
+  /* Actual final ranking */
+
+  const rank1 =
+    String(
+      state.finalRanking[0] || ""
+    ).trim();
+
+  const rank2 =
+    String(
+      state.finalRanking[1] || ""
+    ).trim();
+
+  const rank3 =
+    String(
+      state.finalRanking[2] || ""
+    ).trim();
+
+
+  /* Rank 2 — Left */
+
+  drawRankCard(
+    ctx,
+    50,
+    "RANK 2",
+    "#a9adb2",
+    rank2
+  );
+
+
+  /* Rank 1 — Center */
+
+  drawRankCard(
+    ctx,
+    370,
+    "RANK 1",
+    "#d79b20",
+    rank1
+  );
+
+
+  /* Rank 3 — Right */
+
+  drawRankCard(
+    ctx,
+    690,
+    "RANK 3",
+    "#b86d13",
+    rank3
+  );
+
+
+  /* Bottom message */
+
+  posterRoundRect(
+    ctx,
+    85,
+    1385,
+    854,
+    105,
+    15,
+    "#fffdf8",
+    "#c88918",
+    3
+  );
+
+  posterText(
+    ctx,
+    "A BIG ROUND OF APPLAUSE FOR OUR WINNERS!",
+    512,
+    1415,
+    21,
+    "#092653",
+    "800"
+  );
+
+  posterText(
+    ctx,
+    "Thank you to all the teams for participating and",
+    512,
+    1445,
+    17,
+    "#333",
+    "500"
+  );
+
+  posterText(
+    ctx,
+    "making AUCTION CLASH an unforgettable experience.",
+    512,
+    1468,
+    17,
+    "#333",
+    "500"
+  );
+
+
+  /* Open generated poster */
+
+  const posterUrl =
+    canvas.toDataURL(
+      "image/png",
+      1.0
+    );
+
+
+  const win =
+    window.open(
+      "",
+      "_blank"
+    );
+
+
+  if(!win){
+
+    alert(
+      "Please allow pop-ups for this website."
+    );
+
+    return;
+  }
+
+
+  win.document.write(`
+    <html>
+
+      <head>
+        <title>
+          NIRMAAN '26 Winner Poster
+        </title>
+      </head>
+
+      <body style="
+        margin:0;
+        background:#111;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        min-height:100vh;
+      ">
+
+        <img
+          src="${posterUrl}"
+          style="
+            max-width:100%;
+            max-height:100vh;
+            height:auto;
+          "
+        >
+
+      </body>
+
+    </html>
+  `);
+
+  win.document.close();
+
+}
+const winnerPosterButton =
+  document.getElementById(
+    "generateWinnerPoster"
+  );
+
+if(winnerPosterButton){
+
+  winnerPosterButton.onclick =
+    generateWinnerPoster;
+
+}

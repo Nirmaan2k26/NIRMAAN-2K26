@@ -1360,3 +1360,464 @@ tbody tr:hover{background:#fafcff}
   }
 
 }
+/* =========================================================
+   FINAL REFERENCE MATCH — CENTERED AUCTION CLASH HEADER
+   ========================================================= */
+
+.simpleAuctionHeader{
+  width:min(1218px, calc(100% - 28px)) !important;
+  max-width:1218px !important;
+
+  margin:18px auto 22px !important;
+  padding:40px 28px 36px !important;
+
+  box-sizing:border-box !important;
+
+  min-height:500px !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  text-align:center !important;
+
+  border-radius:24px !important;
+
+  background:
+    radial-gradient(
+      circle at 7% 88%,
+      rgba(214,169,62,.13),
+      transparent 23%
+    ),
+    radial-gradient(
+      circle at 93% 12%,
+      rgba(214,169,62,.14),
+      transparent 24%
+    ),
+    linear-gradient(
+      135deg,
+      #061735 0%,
+      #0b2149 55%,
+      #172f5b 100%
+    ) !important;
+
+  border:1px solid rgba(218,174,73,.65) !important;
+
+  box-shadow:
+    0 20px 48px rgba(5,20,48,.20),
+    inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+
+/* subtle reference-style geometry */
+
+.simpleAuctionHeader::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      45deg,
+      transparent 0 68%,
+      rgba(255,255,255,.055) 68.1%,
+      transparent 68.3%
+    ),
+    linear-gradient(
+      135deg,
+      transparent 0 78%,
+      rgba(218,174,73,.055) 78.1%,
+      transparent 78.3%
+    );
+
+  opacity:1 !important;
+}
+
+
+.simpleAuctionHeader::after{
+  width:300px !important;
+  height:300px !important;
+
+  right:-125px !important;
+  bottom:-160px !important;
+
+  border:1px solid rgba(218,174,73,.17) !important;
+
+  box-shadow:
+    0 0 0 30px rgba(218,174,73,.035),
+    0 0 0 60px rgba(255,255,255,.025),
+    0 0 0 90px rgba(218,174,73,.015) !important;
+}
+
+
+/* content stays above decoration */
+
+.simpleAuctionHeader > *,
+.simpleAuctionHeader .simpleHeaderContent{
+  position:relative;
+  z-index:3;
+}
+
+
+/* =========================================================
+   COLLEGE
+   ========================================================= */
+
+.simpleAuctionHeader .brandLine{
+  width:100% !important;
+
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+}
+
+
+.simpleAuctionHeader .brandBadge{
+  padding:12px 25px !important;
+
+  border:1px solid rgba(218,174,73,.62) !important;
+  border-radius:12px !important;
+
+  background:rgba(255,255,255,.055) !important;
+
+  color:#f5f7fc !important;
+
+  font-size:clamp(11px,1.25vw,16px) !important;
+
+  font-weight:900 !important;
+
+  letter-spacing:.075em !important;
+
+  white-space:nowrap !important;
+}
+
+
+.simpleAuctionHeader .yearBadge{
+  display:none !important;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.simpleHeaderContent{
+  width:100% !important;
+
+  margin:28px auto 0 !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+}
+
+
+.simpleAuctionHeader .eyebrow{
+  margin:0 0 13px !important;
+  padding:0 !important;
+
+  color:#e5b548 !important;
+
+  font-size:clamp(10px,1.1vw,14px) !important;
+
+  font-weight:900 !important;
+
+  letter-spacing:.18em !important;
+
+  text-align:center !important;
+}
+
+
+/* department side ornaments */
+
+.simpleAuctionHeader .eyebrow::before,
+.simpleAuctionHeader .eyebrow::after{
+  content:"";
+
+  display:inline-block;
+
+  width:45px;
+  height:1px;
+
+  margin:0 13px 4px;
+
+  background:#d9aa3f;
+}
+
+
+.simpleAuctionHeader .eyebrow::before{
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #d9aa3f
+    );
+}
+
+
+.simpleAuctionHeader .eyebrow::after{
+  background:
+    linear-gradient(
+      90deg,
+      #d9aa3f,
+      transparent
+    );
+}
+
+
+/* =========================================================
+   NIRMAAN 2K26
+   ========================================================= */
+
+.simpleAuctionHeader h1{
+  margin:0 !important;
+
+  color:#f8f9fc !important;
+
+  font-size:
+    clamp(36px,4.4vw,55px) !important;
+
+  line-height:1 !important;
+
+  font-weight:950 !important;
+
+  letter-spacing:-.045em !important;
+}
+
+
+.simpleAuctionHeader h1 span{
+  color:#e6b742 !important;
+}
+
+
+/* =========================================================
+   AUCTION CLASH
+   ========================================================= */
+
+.simpleAuctionHeader .auctionTitle{
+  margin:18px 0 0 !important;
+
+  padding:0 0 17px !important;
+
+  color:#ffffff !important;
+
+  font-size:
+    clamp(46px,6.5vw,78px) !important;
+
+  line-height:.92 !important;
+
+  font-weight:950 !important;
+
+  letter-spacing:-.04em !important;
+
+  text-align:center !important;
+
+  text-shadow:
+    0 5px 18px rgba(0,0,0,.20) !important;
+}
+
+
+.simpleAuctionHeader .auctionTitle::after{
+  width:min(500px,72%) !important;
+
+  left:50% !important;
+
+  transform:translateX(-50%) !important;
+
+  bottom:0 !important;
+
+  height:3px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #d8a93e,
+      #f3d47d,
+      #d8a93e,
+      transparent
+    ) !important;
+}
+
+
+/* =========================================================
+   PORTAL
+   ========================================================= */
+
+.simpleAuctionHeader .heroSub{
+  margin:15px 0 0 !important;
+
+  color:#d6dfef !important;
+
+  font-size:16px !important;
+
+  text-align:center !important;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.simpleAuctionHeader .heroActions{
+  width:100% !important;
+
+  display:flex !important;
+
+  justify-content:center !important;
+  align-items:center !important;
+
+  gap:14px !important;
+
+  margin-top:25px !important;
+}
+
+
+.simpleAuctionHeader .teamViewerHeaderBtn{
+  min-width:230px !important;
+  min-height:50px !important;
+
+  padding:0 24px !important;
+
+  border:1px solid #d9aa3f !important;
+  border-radius:13px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #17417e,
+      #235395
+    ) !important;
+
+  color:#fff !important;
+
+  font-size:13px !important;
+  font-weight:900 !important;
+
+  box-shadow:
+    0 9px 22px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+
+
+.simpleAuctionHeader .livePill{
+  min-width:230px !important;
+  min-height:50px !important;
+
+  padding:0 20px !important;
+
+  justify-content:center !important;
+
+  border:1px solid rgba(255,255,255,.17) !important;
+  border-radius:999px !important;
+
+  background:rgba(255,255,255,.065) !important;
+
+  color:#f3f6fb !important;
+
+  font-size:12px !important;
+  font-weight:900 !important;
+}
+
+
+/* =========================================================
+   MOBILE — KEEP SAME DESIGN, JUST SCALE IT
+   ========================================================= */
+
+@media(max-width:650px){
+
+  .simpleAuctionHeader{
+    width:calc(100% - 18px) !important;
+
+    min-height:0 !important;
+
+    margin:9px auto 18px !important;
+
+    padding:27px 15px 28px !important;
+
+    border-radius:19px !important;
+  }
+
+
+  .simpleAuctionHeader .brandBadge{
+    width:100% !important;
+
+    box-sizing:border-box !important;
+
+    padding:10px 9px !important;
+
+    white-space:normal !important;
+
+    line-height:1.35 !important;
+
+    font-size:9.5px !important;
+
+    letter-spacing:.04em !important;
+  }
+
+
+  .simpleHeaderContent{
+    margin-top:21px !important;
+  }
+
+
+  .simpleAuctionHeader .eyebrow{
+    font-size:9px !important;
+
+    letter-spacing:.12em !important;
+  }
+
+
+  .simpleAuctionHeader .eyebrow::before,
+  .simpleAuctionHeader .eyebrow::after{
+    width:18px !important;
+
+    margin-left:6px !important;
+    margin-right:6px !important;
+  }
+
+
+  .simpleAuctionHeader h1{
+    font-size:39px !important;
+  }
+
+
+  .simpleAuctionHeader .auctionTitle{
+    font-size:44px !important;
+
+    margin-top:14px !important;
+
+    padding-bottom:13px !important;
+  }
+
+
+  .simpleAuctionHeader .heroSub{
+    font-size:12px !important;
+
+    margin-top:13px !important;
+  }
+
+
+  .simpleAuctionHeader .heroActions{
+    flex-direction:column !important;
+
+    gap:9px !important;
+
+    margin-top:20px !important;
+  }
+
+
+  .simpleAuctionHeader .teamViewerHeaderBtn,
+  .simpleAuctionHeader .livePill{
+    width:min(285px,92%) !important;
+
+    min-width:0 !important;
+
+    box-sizing:border-box !important;
+  }
+
+}

@@ -511,3 +511,317 @@ tbody tr:hover{background:#fafcff}
   }
 
 }
+/* =========================================================
+   PREMIUM AUCTION CLASH HEADER
+   ========================================================= */
+
+.simpleAuctionHeader{
+  background:
+    radial-gradient(
+      circle at 92% 12%,
+      rgba(218,174,73,.16),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 8% 95%,
+      rgba(50,88,150,.18),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07183b 0%,
+      #0c2450 52%,
+      #162d58 100%
+    ) !important;
+
+  border:1px solid rgba(218,174,73,.42) !important;
+
+  box-shadow:
+    0 20px 55px rgba(5,20,48,.22),
+    inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+
+/* premium architectural lines */
+
+.simpleAuctionHeader::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+
+  opacity:.22;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0 58%,
+      rgba(255,255,255,.07) 58.1%,
+      transparent 58.25%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 0 76%,
+      rgba(218,174,73,.08) 76.1%,
+      transparent 76.25%
+    );
+
+  z-index:0;
+}
+
+
+.simpleAuctionHeader::after{
+  width:300px !important;
+  height:300px !important;
+
+  right:-115px !important;
+  bottom:-155px !important;
+
+  border:1px solid rgba(218,174,73,.13) !important;
+
+  box-shadow:
+    0 0 0 28px rgba(255,255,255,.015),
+    0 0 0 56px rgba(218,174,73,.018);
+}
+
+
+/* college badge */
+
+.simpleAuctionHeader .brandBadge{
+  position:relative;
+  z-index:3;
+
+  display:inline-block;
+
+  padding:11px 17px;
+
+  border:1px solid rgba(218,174,73,.38);
+
+  border-radius:10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.10),
+      rgba(255,255,255,.045)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 8px 22px rgba(0,0,0,.08);
+
+  color:#f3f5fb;
+
+  font-size:12px;
+
+  font-weight:850;
+
+  letter-spacing:.08em;
+}
+
+
+/* department */
+
+.simpleAuctionHeader .eyebrow{
+  position:relative;
+
+  padding-left:14px;
+
+  color:#e7bd58 !important;
+
+  letter-spacing:.19em !important;
+}
+
+
+.simpleAuctionHeader .eyebrow::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:2px;
+  bottom:2px;
+
+  width:3px;
+
+  border-radius:3px;
+
+  background:#d9aa3f;
+}
+
+
+/* NIRMAAN */
+
+.simpleAuctionHeader h1{
+  color:#f8fafc !important;
+
+  text-shadow:
+    0 3px 14px rgba(0,0,0,.18);
+
+  letter-spacing:-.045em !important;
+}
+
+
+.simpleAuctionHeader h1 span{
+  color:#e6b743 !important;
+
+  text-shadow:
+    0 2px 12px rgba(230,183,67,.18);
+}
+
+
+/* AUCTION CLASH */
+
+.simpleAuctionHeader .auctionTitle{
+  position:relative;
+
+  display:inline-block;
+
+  margin-top:15px !important;
+  padding-bottom:12px;
+
+  color:#ffffff !important;
+
+  font-size:
+    clamp(42px,6vw,72px) !important;
+
+  font-weight:950;
+
+  letter-spacing:-.035em;
+
+  text-shadow:
+    0 5px 18px rgba(0,0,0,.20);
+}
+
+
+.simpleAuctionHeader .auctionTitle::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  bottom:0;
+
+  width:70%;
+
+  height:3px;
+
+  border-radius:5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #d9aa3f,
+      #f2d47f,
+      transparent
+    );
+}
+
+
+/* portal */
+
+.simpleAuctionHeader .heroSub{
+  color:#d5deee !important;
+
+  font-size:15px !important;
+
+  letter-spacing:.02em;
+}
+
+
+/* team button */
+
+.simpleAuctionHeader .teamViewerHeaderBtn{
+  min-height:48px;
+
+  padding:0 20px;
+
+  border:1px solid #d9aa3f !important;
+
+  border-radius:12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #173a78,
+      #214b91
+    ) !important;
+
+  box-shadow:
+    0 9px 24px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.10);
+
+  font-size:13px;
+
+  letter-spacing:.03em;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease;
+}
+
+
+.simpleAuctionHeader .teamViewerHeaderBtn:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 13px 28px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+
+/* live control */
+
+.simpleAuctionHeader .livePill{
+  min-height:48px;
+
+  padding:0 17px;
+
+  background:
+    rgba(255,255,255,.07) !important;
+
+  border:1px solid rgba(255,255,255,.15) !important;
+
+  backdrop-filter:blur(8px);
+
+  color:#eef3fb !important;
+}
+
+
+.simpleAuctionHeader .livePill i{
+  background:#55e5a1 !important;
+
+  box-shadow:
+    0 0 0 4px rgba(85,229,161,.12),
+    0 0 12px rgba(85,229,161,.25);
+}
+
+
+/* mobile */
+
+@media(max-width:650px){
+
+  .simpleAuctionHeader{
+    padding:20px 18px !important;
+  }
+
+  .simpleAuctionHeader .brandBadge{
+    font-size:10px;
+    letter-spacing:.055em;
+  }
+
+  .simpleAuctionHeader h1{
+    font-size:42px !important;
+  }
+
+  .simpleAuctionHeader .auctionTitle{
+    font-size:46px !important;
+  }
+
+  .simpleAuctionHeader .heroSub{
+    font-size:13px !important;
+  }
+
+}

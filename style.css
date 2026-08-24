@@ -2365,3 +2365,47 @@ tbody tr:hover{background:#fafcff}
   }
 
 }
+/* ===== STEP 1 — DEPARTMENT CENTER LINE ===== */
+
+.simpleAuctionHeader .eyebrow{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:18px !important;
+
+  width:100% !important;
+}
+
+.simpleAuctionHeader .eyebrow::before,
+.simpleAuctionHeader .eyebrow::after{
+  content:"" !important;
+
+  display:block !important;
+
+  flex:1 1 0 !important;
+
+  max-width:105px !important;
+
+  width:auto !important;
+  height:1px !important;
+
+  margin:0 !important;
+
+  background:#d9aa3f !important;
+}
+
+.simpleAuctionHeader .eyebrow::before{
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #d9aa3f
+  ) !important;
+}
+
+.simpleAuctionHeader .eyebrow::after{
+  background:linear-gradient(
+    90deg,
+    #d9aa3f,
+    transparent
+  ) !important;
+}

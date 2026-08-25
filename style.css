@@ -199,2231 +199,18 @@ tbody tr:hover{background:#fafcff}
 @media(max-width:650px){.wrap{padding:14px}.grid3,.teamGrid{grid-template-columns:1fr}.hero,.teamHero{padding:22px 20px;border-radius:20px}.heroMark{display:none}.card,.teamCard,.teamPanel{padding:18px}.dangerCard{align-items:flex-start;flex-direction:column}.rank{grid-template-columns:45px 1fr}.hero h1,.teamHero h1{font-size:48px}}
 
 /* =========================================================
-   SIMPLE NIRMAAN '26 — AUCTION CLASH HEADER
-   ========================================================= */
-
-.simpleAuctionHeader{
-  position:relative;
-  overflow:hidden;
-
-  color:#fff;
-
-  background:
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(232,184,74,.20),
-      transparent 15rem
-    ),
-    linear-gradient(
-      135deg,
-      var(--navy),
-      var(--navy2)
-    );
-
-  border-radius:26px;
-  padding:28px 30px;
-  margin-bottom:20px;
-
-  box-shadow:
-    0 20px 50px rgba(11,23,54,.18);
-}
-
-
-.simpleAuctionHeader::after{
-  content:"";
-
-  position:absolute;
-
-  width:230px;
-  height:230px;
-
-  border:1px solid rgba(255,255,255,.08);
-
-  border-radius:50%;
-
-  right:-65px;
-  bottom:-115px;
-}
-
-
-.simpleHeaderContent{
-  position:relative;
-  z-index:2;
-
-  margin-top:24px;
-}
-
-
-.simpleAuctionHeader .eyebrow{
-  margin:0 0 8px;
-
-  color:#e7c66f;
-
-  font-size:12px;
-
-  font-weight:850;
-
-  letter-spacing:.16em;
-}
-
-
-.simpleAuctionHeader h1{
-  margin:0;
-
-  font-size:
-    clamp(42px,7vw,74px);
-
-  line-height:.95;
-
-  letter-spacing:-.055em;
-
-  font-weight:950;
-}
-
-
-.simpleAuctionHeader h1 span{
-  color:var(--accent);
-}
-
-
-.auctionTitle{
-  margin-top:12px;
-
-  color:#fff;
-
-  font-size:
-    clamp(28px,4vw,48px);
-
-  line-height:1;
-
-  font-weight:950;
-
-  letter-spacing:.02em;
-}
-
-
-.simpleAuctionHeader .heroSub{
-  margin:12px 0 0;
-
-  color:#cbd5ee;
-
-  font-size:15px;
-}
-
-
-.simpleAuctionHeader .heroActions{
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  flex-wrap:wrap;
-
-  margin-top:24px;
-}
-
-
-.teamViewerHeaderBtn{
-  display:inline-flex;
-
-  align-items:center;
-  justify-content:center;
-
-  min-height:44px;
-
-  padding:10px 16px;
-
-  border-radius:11px;
-
-  border:1px solid #e8b84a;
-
-  background:
-    linear-gradient(
-      135deg,
-      #1a3270,
-      #244486
-    );
-
-  color:#fff;
-
-  text-decoration:none;
-
-  font-weight:850;
-
-  font-size:13px;
-
-  box-shadow:
-    0 8px 18px rgba(0,0,0,.12);
-
-  transition:.18s;
-}
-
-
-.teamViewerHeaderBtn:hover{
-  transform:translateY(-1px);
-
-  box-shadow:
-    0 10px 22px rgba(0,0,0,.18);
-}
-
-
-.simpleAuctionHeader .livePill{
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:8px;
-
-  padding:9px 12px;
-
-  border-radius:999px;
-
-  background:rgba(255,255,255,.08);
-
-  border:1px solid rgba(255,255,255,.12);
-
-  color:#fff;
-
-  font-size:11px;
-
-  font-weight:850;
-
-  letter-spacing:.06em;
-}
-
-
-.simpleAuctionHeader .livePill i{
-  width:7px;
-  height:7px;
-
-  border-radius:50%;
-
-  background:#5ee6a9;
-
-  box-shadow:
-    0 0 0 4px rgba(94,230,169,.12);
-}
-
-
-/* Mobile */
-
-@media(max-width:650px){
-
-  .simpleAuctionHeader{
-    padding:22px 20px;
-
-    border-radius:20px;
-  }
-
-
-  .simpleAuctionHeader .brandLine{
-    display:flex;
-
-    align-items:flex-start;
-
-    flex-direction:column;
-
-    gap:8px;
-  }
-
-
-  .simpleAuctionHeader .brandBadge{
-    max-width:100%;
-
-    white-space:normal;
-
-    line-height:1.35;
-  }
-
-
-  .simpleHeaderContent{
-    margin-top:22px;
-  }
-
-
-  .simpleAuctionHeader h1{
-    font-size:48px;
-  }
-
-
-  .auctionTitle{
-    font-size:34px;
-
-    line-height:1.05;
-  }
-
-
-  .simpleAuctionHeader .heroActions{
-    width:100%;
-  }
-
-
-  .teamViewerHeaderBtn,
-  .simpleAuctionHeader .livePill{
-    width:100%;
-
-    justify-content:center;
-
-    box-sizing:border-box;
-  }
-
-}
-/* ===== HEADER WIDTH MATCHES CONTENT CARDS ===== */
-
-.simpleAuctionHeader{
-  width:calc(100% - 28px) !important;
-  max-width:1240px !important;
-
-  margin:14px auto 20px !important;
-
-  box-sizing:border-box !important;
-}
-/* ===== FINAL HEADER TYPOGRAPHY ===== */
-
-.simpleAuctionHeader .yearBadge{
-  display:none !important;
-}
-
-.simpleAuctionHeader h1{
-  font-size:clamp(34px,5vw,56px) !important;
-  line-height:1 !important;
-  margin:0 !important;
-  letter-spacing:-.035em !important;
-}
-
-.simpleAuctionHeader .auctionTitle{
-  font-size:clamp(42px,6vw,72px) !important;
-  line-height:.95 !important;
-  margin-top:12px !important;
-  font-weight:950 !important;
-  letter-spacing:-.025em !important;
-}
-
-@media(max-width:650px){
-
-  .simpleAuctionHeader h1{
-    font-size:42px !important;
-  }
-
-  .simpleAuctionHeader .auctionTitle{
-    font-size:48px !important;
-  }
-
-}
-/* =========================================================
-   PREMIUM AUCTION CLASH HEADER
-   ========================================================= */
-
-.simpleAuctionHeader{
-  background:
-    radial-gradient(
-      circle at 92% 12%,
-      rgba(218,174,73,.16),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 8% 95%,
-      rgba(50,88,150,.18),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #07183b 0%,
-      #0c2450 52%,
-      #162d58 100%
-    ) !important;
-
-  border:1px solid rgba(218,174,73,.42) !important;
-
-  box-shadow:
-    0 20px 55px rgba(5,20,48,.22),
-    inset 0 1px 0 rgba(255,255,255,.08) !important;
-}
-
-
-/* premium architectural lines */
-
-.simpleAuctionHeader::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  pointer-events:none;
-
-  opacity:.22;
-
-  background:
-    linear-gradient(
-      115deg,
-      transparent 0 58%,
-      rgba(255,255,255,.07) 58.1%,
-      transparent 58.25%
-    ),
-    linear-gradient(
-      65deg,
-      transparent 0 76%,
-      rgba(218,174,73,.08) 76.1%,
-      transparent 76.25%
-    );
-
-  z-index:0;
-}
-
-
-.simpleAuctionHeader::after{
-  width:300px !important;
-  height:300px !important;
-
-  right:-115px !important;
-  bottom:-155px !important;
-
-  border:1px solid rgba(218,174,73,.13) !important;
-
-  box-shadow:
-    0 0 0 28px rgba(255,255,255,.015),
-    0 0 0 56px rgba(218,174,73,.018);
-}
-
-
-/* college badge */
-
-.simpleAuctionHeader .brandBadge{
-  position:relative;
-  z-index:3;
-
-  display:inline-block;
-
-  padding:11px 17px;
-
-  border:1px solid rgba(218,174,73,.38);
-
-  border-radius:10px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.10),
-      rgba(255,255,255,.045)
-    );
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.08),
-    0 8px 22px rgba(0,0,0,.08);
-
-  color:#f3f5fb;
-
-  font-size:12px;
-
-  font-weight:850;
-
-  letter-spacing:.08em;
-}
-
-
-/* department */
-
-.simpleAuctionHeader .eyebrow{
-  position:relative;
-
-  padding-left:14px;
-
-  color:#e7bd58 !important;
-
-  letter-spacing:.19em !important;
-}
-
-
-.simpleAuctionHeader .eyebrow::before{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  top:2px;
-  bottom:2px;
-
-  width:3px;
-
-  border-radius:3px;
-
-  background:#d9aa3f;
-}
-
-
-/* NIRMAAN */
-
-.simpleAuctionHeader h1{
-  color:#f8fafc !important;
-
-  text-shadow:
-    0 3px 14px rgba(0,0,0,.18);
-
-  letter-spacing:-.045em !important;
-}
-
-
-.simpleAuctionHeader h1 span{
-  color:#e6b743 !important;
-
-  text-shadow:
-    0 2px 12px rgba(230,183,67,.18);
-}
-
-
-/* AUCTION CLASH */
-
-.simpleAuctionHeader .auctionTitle{
-  position:relative;
-
-  display:inline-block;
-
-  margin-top:15px !important;
-  padding-bottom:12px;
-
-  color:#ffffff !important;
-
-  font-size:
-    clamp(42px,6vw,72px) !important;
-
-  font-weight:950;
-
-  letter-spacing:-.035em;
-
-  text-shadow:
-    0 5px 18px rgba(0,0,0,.20);
-}
-
-
-.simpleAuctionHeader .auctionTitle::after{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  bottom:0;
-
-  width:70%;
-
-  height:3px;
-
-  border-radius:5px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #d9aa3f,
-      #f2d47f,
-      transparent
-    );
-}
-
-
-/* portal */
-
-.simpleAuctionHeader .heroSub{
-  color:#d5deee !important;
-
-  font-size:15px !important;
-
-  letter-spacing:.02em;
-}
-
-
-/* team button */
-
-.simpleAuctionHeader .teamViewerHeaderBtn{
-  min-height:48px;
-
-  padding:0 20px;
-
-  border:1px solid #d9aa3f !important;
-
-  border-radius:12px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #173a78,
-      #214b91
-    ) !important;
-
-  box-shadow:
-    0 9px 24px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.10);
-
-  font-size:13px;
-
-  letter-spacing:.03em;
-
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease;
-}
-
-
-.simpleAuctionHeader .teamViewerHeaderBtn:hover{
-  transform:translateY(-2px);
-
-  box-shadow:
-    0 13px 28px rgba(0,0,0,.24),
-    inset 0 1px 0 rgba(255,255,255,.12);
-}
-
-
-/* live control */
-
-.simpleAuctionHeader .livePill{
-  min-height:48px;
-
-  padding:0 17px;
-
-  background:
-    rgba(255,255,255,.07) !important;
-
-  border:1px solid rgba(255,255,255,.15) !important;
-
-  backdrop-filter:blur(8px);
-
-  color:#eef3fb !important;
-}
-
-
-.simpleAuctionHeader .livePill i{
-  background:#55e5a1 !important;
-
-  box-shadow:
-    0 0 0 4px rgba(85,229,161,.12),
-    0 0 12px rgba(85,229,161,.25);
-}
-
-
-/* mobile */
-
-@media(max-width:650px){
-
-  .simpleAuctionHeader{
-    padding:20px 18px !important;
-  }
-
-  .simpleAuctionHeader .brandBadge{
-    font-size:10px;
-    letter-spacing:.055em;
-  }
-
-  .simpleAuctionHeader h1{
-    font-size:42px !important;
-  }
-
-  .simpleAuctionHeader .auctionTitle{
-    font-size:46px !important;
-  }
-
-  .simpleAuctionHeader .heroSub{
-    font-size:13px !important;
-  }
-
-}
-/* =========================================================
-   NIRMAAN 2K26 — FINAL CENTERED PREMIUM HEADER
-   ========================================================= */
-
-.simpleAuctionHeader{
-  position:relative !important;
-  overflow:hidden !important;
-
-  width:calc(100% - 28px) !important;
-  max-width:1240px !important;
-
-  margin:14px auto 22px !important;
-  padding:38px 28px 34px !important;
-
-  box-sizing:border-box !important;
-
-  text-align:center !important;
-
-  background:
-    radial-gradient(
-      circle at 8% 85%,
-      rgba(217,170,63,.14),
-      transparent 24%
-    ),
-    radial-gradient(
-      circle at 92% 15%,
-      rgba(217,170,63,.16),
-      transparent 25%
-    ),
-    linear-gradient(
-      135deg,
-      #061735 0%,
-      #0b2149 52%,
-      #142d58 100%
-    ) !important;
-
-  border:1px solid rgba(218,174,73,.65) !important;
-  border-radius:25px !important;
-
-  box-shadow:
-    0 22px 55px rgba(5,20,48,.20),
-    inset 0 1px 0 rgba(255,255,255,.08) !important;
-}
-
-
-/* premium geometric background */
-
-.simpleAuctionHeader::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  pointer-events:none;
-
-  background:
-    linear-gradient(
-      135deg,
-      transparent 0 64%,
-      rgba(255,255,255,.055) 64.1%,
-      transparent 64.3%
-    ),
-    linear-gradient(
-      45deg,
-      transparent 0 76%,
-      rgba(218,174,73,.07) 76.1%,
-      transparent 76.3%
-    );
-
-  opacity:.9;
-}
-
-
-.simpleAuctionHeader::after{
-  content:"";
-
-  position:absolute;
-
-  width:310px;
-  height:310px;
-
-  right:-135px;
-  bottom:-165px;
-
-  border:1px solid rgba(218,174,73,.18);
-
-  border-radius:50%;
-
-  box-shadow:
-    0 0 0 28px rgba(218,174,73,.035),
-    0 0 0 58px rgba(255,255,255,.025),
-    0 0 0 88px rgba(218,174,73,.018);
-
-  pointer-events:none;
-}
-
-
-/* keep content above decoration */
-
-.simpleAuctionHeader > *{
-  position:relative;
-  z-index:2;
-}
-
-
-/* =========================================================
-   COLLEGE
-   ========================================================= */
-
-.simpleAuctionHeader .brandLine{
-  display:flex !important;
-
-  justify-content:center !important;
-  align-items:center !important;
-
-  width:100% !important;
-}
-
-
-.simpleAuctionHeader .brandBadge{
-  display:inline-flex !important;
-
-  align-items:center;
-  justify-content:center;
-
-  padding:12px 24px !important;
-
-  border:1px solid rgba(218,174,73,.65) !important;
-
-  border-radius:12px !important;
-
-  background:
-    rgba(255,255,255,.055) !important;
-
-  color:#f5f7fc !important;
-
-  font-size:clamp(11px,1.3vw,17px) !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.075em !important;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.08),
-    0 8px 25px rgba(0,0,0,.10) !important;
-}
-
-
-.simpleAuctionHeader .yearBadge{
-  display:none !important;
-}
-
-
-/* =========================================================
-   CONTENT
-   ========================================================= */
-
-.simpleHeaderContent{
-  margin:27px auto 0 !important;
-
-  width:100% !important;
-
-  display:flex !important;
-
-  flex-direction:column !important;
-
-  align-items:center !important;
-}
-
-
-.simpleAuctionHeader .eyebrow{
-  position:relative;
-
-  margin:0 0 12px !important;
-
-  padding:0 !important;
-
-  color:#e6b74e !important;
-
-  font-size:clamp(11px,1.15vw,15px) !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.19em !important;
-
-  text-align:center !important;
-}
-
-
-/* small gold ornaments around department */
-
-.simpleAuctionHeader .eyebrow::before,
-.simpleAuctionHeader .eyebrow::after{
-  content:"";
-
-  display:inline-block;
-
-  width:48px;
-  height:1px;
-
-  margin:0 14px 4px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #d9aa3f
-    );
-}
-
-
-.simpleAuctionHeader .eyebrow::after{
-  background:
-    linear-gradient(
-      90deg,
-      #d9aa3f,
-      transparent
-    );
-}
-
-
-/* =========================================================
-   NIRMAAN 2K26
-   ========================================================= */
-
-.simpleAuctionHeader h1{
-  margin:0 !important;
-
-  color:#f7f8fb !important;
-
-  font-size:
-    clamp(34px,4.8vw,56px) !important;
-
-  line-height:1 !important;
-
-  font-weight:950 !important;
-
-  letter-spacing:-.045em !important;
-
-  text-shadow:
-    0 4px 16px rgba(0,0,0,.20) !important;
-}
-
-
-.simpleAuctionHeader h1 span{
-  color:#e5b642 !important;
-}
-
-
-/* =========================================================
-   AUCTION CLASH — MAIN TITLE
-   ========================================================= */
-
-.simpleAuctionHeader .auctionTitle{
-  position:relative;
-
-  margin:17px 0 0 !important;
-
-  padding:0 0 16px !important;
-
-  color:#ffffff !important;
-
-  font-size:
-    clamp(44px,6.8vw,82px) !important;
-
-  line-height:.92 !important;
-
-  font-weight:950 !important;
-
-  letter-spacing:-.04em !important;
-
-  text-align:center !important;
-
-  text-shadow:
-    0 5px 20px rgba(0,0,0,.22) !important;
-}
-
-
-.simpleAuctionHeader .auctionTitle::after{
-  content:"";
-
-  position:absolute;
-
-  left:50%;
-
-  bottom:0;
-
-  transform:translateX(-50%);
-
-  width:min(520px,72%);
-
-  height:3px;
-
-  border-radius:10px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #d9aa3f 20%,
-      #f3d47d 50%,
-      #d9aa3f 80%,
-      transparent
-    );
-}
-
-
-/* =========================================================
-   PORTAL
-   ========================================================= */
-
-.simpleAuctionHeader .heroSub{
-  margin:15px 0 0 !important;
-
-  color:#d6dfef !important;
-
-  font-size:clamp(13px,1.4vw,18px) !important;
-
-  font-weight:500 !important;
-
-  letter-spacing:.025em !important;
-
-  text-align:center !important;
-}
-
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-.simpleAuctionHeader .heroActions{
-  display:flex !important;
-
-  justify-content:center !important;
-  align-items:center !important;
-
-  flex-wrap:wrap !important;
-
-  gap:13px !important;
-
-  width:100% !important;
-
-  margin-top:25px !important;
-}
-
-
-.simpleAuctionHeader .teamViewerHeaderBtn{
-  display:inline-flex !important;
-
-  align-items:center !important;
-  justify-content:center !important;
-
-  min-height:50px !important;
-
-  padding:0 25px !important;
-
-  border:1px solid #d9aa3f !important;
-
-  border-radius:13px !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      #17417f,
-      #225397
-    ) !important;
-
-  color:#ffffff !important;
-
-  text-decoration:none !important;
-
-  font-size:13px !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.035em !important;
-
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.20),
-    inset 0 1px 0 rgba(255,255,255,.10) !important;
-
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease !important;
-}
-
-
-.simpleAuctionHeader .teamViewerHeaderBtn:hover{
-  transform:translateY(-2px);
-
-  box-shadow:
-    0 14px 30px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.12) !important;
-}
-
-
-.simpleAuctionHeader .livePill{
-  display:inline-flex !important;
-
-  align-items:center !important;
-  justify-content:center !important;
-
-  min-height:50px !important;
-
-  padding:0 22px !important;
-
-  border:1px solid rgba(255,255,255,.18) !important;
-
-  border-radius:999px !important;
-
-  background:
-    rgba(255,255,255,.07) !important;
-
-  color:#f2f5fa !important;
-
-  font-size:12px !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.06em !important;
-
-  backdrop-filter:blur(8px) !important;
-}
-
-
-.simpleAuctionHeader .livePill i{
-  width:9px !important;
-  height:9px !important;
-
-  margin-right:8px !important;
-
-  border-radius:50% !important;
-
-  background:#55e5a1 !important;
-
-  box-shadow:
-    0 0 0 4px rgba(85,229,161,.12),
-    0 0 14px rgba(85,229,161,.30) !important;
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media(max-width:650px){
-
-  .simpleAuctionHeader{
-    width:calc(100% - 18px) !important;
-
-    padding:26px 16px 28px !important;
-
-    border-radius:20px !important;
-  }
-
-
-  .simpleAuctionHeader .brandBadge{
-    width:100%;
-
-    box-sizing:border-box;
-
-    padding:10px 12px !important;
-
-    font-size:10px !important;
-
-    letter-spacing:.045em !important;
-
-    line-height:1.4 !important;
-  }
-
-
-  .simpleHeaderContent{
-    margin-top:22px !important;
-  }
-
-
-  .simpleAuctionHeader .eyebrow{
-    font-size:10px !important;
-
-    letter-spacing:.13em !important;
-
-    margin-bottom:10px !important;
-  }
-
-
-  .simpleAuctionHeader .eyebrow::before,
-  .simpleAuctionHeader .eyebrow::after{
-    width:22px;
-
-    margin-left:7px;
-    margin-right:7px;
-  }
-
-
-  .simpleAuctionHeader h1{
-    font-size:39px !important;
-  }
-
-
-  .simpleAuctionHeader .auctionTitle{
-    font-size:46px !important;
-
-    margin-top:13px !important;
-
-    padding-bottom:13px !important;
-  }
-
-
-  .simpleAuctionHeader .auctionTitle::after{
-    width:80%;
-  }
-
-
-  .simpleAuctionHeader .heroSub{
-    font-size:12px !important;
-  }
-
-
-  .simpleAuctionHeader .heroActions{
-    flex-direction:column !important;
-
-    gap:9px !important;
-
-    margin-top:20px !important;
-  }
-
-
-  .simpleAuctionHeader .teamViewerHeaderBtn,
-  .simpleAuctionHeader .livePill{
-    width:min(290px,92%) !important;
-
-    box-sizing:border-box !important;
-  }
-
-}
-/* =========================================================
-   FINAL REFERENCE MATCH — CENTERED AUCTION CLASH HEADER
-   ========================================================= */
-
-.simpleAuctionHeader{
-  width:min(1218px, calc(100% - 28px)) !important;
-  max-width:1218px !important;
-
-  margin:18px auto 22px !important;
-  padding:40px 28px 36px !important;
-
-  box-sizing:border-box !important;
-
-  min-height:500px !important;
-
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:center !important;
-
-  text-align:center !important;
-
-  border-radius:24px !important;
-
-  background:
-    radial-gradient(
-      circle at 7% 88%,
-      rgba(214,169,62,.13),
-      transparent 23%
-    ),
-    radial-gradient(
-      circle at 93% 12%,
-      rgba(214,169,62,.14),
-      transparent 24%
-    ),
-    linear-gradient(
-      135deg,
-      #061735 0%,
-      #0b2149 55%,
-      #172f5b 100%
-    ) !important;
-
-  border:1px solid rgba(218,174,73,.65) !important;
-
-  box-shadow:
-    0 20px 48px rgba(5,20,48,.20),
-    inset 0 1px 0 rgba(255,255,255,.08) !important;
-}
-
-
-/* subtle reference-style geometry */
-
-.simpleAuctionHeader::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  pointer-events:none;
-
-  background:
-    linear-gradient(
-      45deg,
-      transparent 0 68%,
-      rgba(255,255,255,.055) 68.1%,
-      transparent 68.3%
-    ),
-    linear-gradient(
-      135deg,
-      transparent 0 78%,
-      rgba(218,174,73,.055) 78.1%,
-      transparent 78.3%
-    );
-
-  opacity:1 !important;
-}
-
-
-.simpleAuctionHeader::after{
-  width:300px !important;
-  height:300px !important;
-
-  right:-125px !important;
-  bottom:-160px !important;
-
-  border:1px solid rgba(218,174,73,.17) !important;
-
-  box-shadow:
-    0 0 0 30px rgba(218,174,73,.035),
-    0 0 0 60px rgba(255,255,255,.025),
-    0 0 0 90px rgba(218,174,73,.015) !important;
-}
-
-
-/* content stays above decoration */
-
-.simpleAuctionHeader > *,
-.simpleAuctionHeader .simpleHeaderContent{
-  position:relative;
-  z-index:3;
-}
-
-
-/* =========================================================
-   COLLEGE
-   ========================================================= */
-
-.simpleAuctionHeader .brandLine{
-  width:100% !important;
-
-  display:flex !important;
-  justify-content:center !important;
-  align-items:center !important;
-}
-
-
-.simpleAuctionHeader .brandBadge{
-  padding:12px 25px !important;
-
-  border:1px solid rgba(218,174,73,.62) !important;
-  border-radius:12px !important;
-
-  background:rgba(255,255,255,.055) !important;
-
-  color:#f5f7fc !important;
-
-  font-size:clamp(11px,1.25vw,16px) !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.075em !important;
-
-  white-space:nowrap !important;
-}
-
-
-.simpleAuctionHeader .yearBadge{
-  display:none !important;
-}
-
-
-/* =========================================================
-   MAIN CONTENT
-   ========================================================= */
-
-.simpleHeaderContent{
-  width:100% !important;
-
-  margin:28px auto 0 !important;
-
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-}
-
-
-.simpleAuctionHeader .eyebrow{
-  margin:0 0 13px !important;
-  padding:0 !important;
-
-  color:#e5b548 !important;
-
-  font-size:clamp(10px,1.1vw,14px) !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.18em !important;
-
-  text-align:center !important;
-}
-
-
-/* department side ornaments */
-
-.simpleAuctionHeader .eyebrow::before,
-.simpleAuctionHeader .eyebrow::after{
-  content:"";
-
-  display:inline-block;
-
-  width:45px;
-  height:1px;
-
-  margin:0 13px 4px;
-
-  background:#d9aa3f;
-}
-
-
-.simpleAuctionHeader .eyebrow::before{
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #d9aa3f
-    );
-}
-
-
-.simpleAuctionHeader .eyebrow::after{
-  background:
-    linear-gradient(
-      90deg,
-      #d9aa3f,
-      transparent
-    );
-}
-
-
-/* =========================================================
-   NIRMAAN 2K26
-   ========================================================= */
-
-.simpleAuctionHeader h1{
-  margin:0 !important;
-
-  color:#f8f9fc !important;
-
-  font-size:
-    clamp(36px,4.4vw,55px) !important;
-
-  line-height:1 !important;
-
-  font-weight:950 !important;
-
-  letter-spacing:-.045em !important;
-}
-
-
-.simpleAuctionHeader h1 span{
-  color:#e6b742 !important;
-}
-
-
-/* =========================================================
-   AUCTION CLASH
-   ========================================================= */
-
-.simpleAuctionHeader .auctionTitle{
-  margin:18px 0 0 !important;
-
-  padding:0 0 17px !important;
-
-  color:#ffffff !important;
-
-  font-size:
-    clamp(46px,6.5vw,78px) !important;
-
-  line-height:.92 !important;
-
-  font-weight:950 !important;
-
-  letter-spacing:-.04em !important;
-
-  text-align:center !important;
-
-  text-shadow:
-    0 5px 18px rgba(0,0,0,.20) !important;
-}
-
-
-.simpleAuctionHeader .auctionTitle::after{
-  width:min(500px,72%) !important;
-
-  left:50% !important;
-
-  transform:translateX(-50%) !important;
-
-  bottom:0 !important;
-
-  height:3px !important;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #d8a93e,
-      #f3d47d,
-      #d8a93e,
-      transparent
-    ) !important;
-}
-
-
-/* =========================================================
-   PORTAL
-   ========================================================= */
-
-.simpleAuctionHeader .heroSub{
-  margin:15px 0 0 !important;
-
-  color:#d6dfef !important;
-
-  font-size:16px !important;
-
-  text-align:center !important;
-}
-
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-.simpleAuctionHeader .heroActions{
-  width:100% !important;
-
-  display:flex !important;
-
-  justify-content:center !important;
-  align-items:center !important;
-
-  gap:14px !important;
-
-  margin-top:25px !important;
-}
-
-
-.simpleAuctionHeader .teamViewerHeaderBtn{
-  min-width:230px !important;
-  min-height:50px !important;
-
-  padding:0 24px !important;
-
-  border:1px solid #d9aa3f !important;
-  border-radius:13px !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      #17417e,
-      #235395
-    ) !important;
-
-  color:#fff !important;
-
-  font-size:13px !important;
-  font-weight:900 !important;
-
-  box-shadow:
-    0 9px 22px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.10) !important;
-}
-
-
-.simpleAuctionHeader .livePill{
-  min-width:230px !important;
-  min-height:50px !important;
-
-  padding:0 20px !important;
-
-  justify-content:center !important;
-
-  border:1px solid rgba(255,255,255,.17) !important;
-  border-radius:999px !important;
-
-  background:rgba(255,255,255,.065) !important;
-
-  color:#f3f6fb !important;
-
-  font-size:12px !important;
-  font-weight:900 !important;
-}
-
-
-/* =========================================================
-   MOBILE — KEEP SAME DESIGN, JUST SCALE IT
-   ========================================================= */
-
-@media(max-width:650px){
-
-  .simpleAuctionHeader{
-    width:calc(100% - 18px) !important;
-
-    min-height:0 !important;
-
-    margin:9px auto 18px !important;
-
-    padding:27px 15px 28px !important;
-
-    border-radius:19px !important;
-  }
-
-
-  .simpleAuctionHeader .brandBadge{
-    width:100% !important;
-
-    box-sizing:border-box !important;
-
-    padding:10px 9px !important;
-
-    white-space:normal !important;
-
-    line-height:1.35 !important;
-
-    font-size:9.5px !important;
-
-    letter-spacing:.04em !important;
-  }
-
-
-  .simpleHeaderContent{
-    margin-top:21px !important;
-  }
-
-
-  .simpleAuctionHeader .eyebrow{
-    font-size:9px !important;
-
-    letter-spacing:.12em !important;
-  }
-
-
-  .simpleAuctionHeader .eyebrow::before,
-  .simpleAuctionHeader .eyebrow::after{
-    width:18px !important;
-
-    margin-left:6px !important;
-    margin-right:6px !important;
-  }
-
-
-  .simpleAuctionHeader h1{
-    font-size:39px !important;
-  }
-
-
-  .simpleAuctionHeader .auctionTitle{
-    font-size:44px !important;
-
-    margin-top:14px !important;
-
-    padding-bottom:13px !important;
-  }
-
-
-  .simpleAuctionHeader .heroSub{
-    font-size:12px !important;
-
-    margin-top:13px !important;
-  }
-
-
-  .simpleAuctionHeader .heroActions{
-    flex-direction:column !important;
-
-    gap:9px !important;
-
-    margin-top:20px !important;
-  }
-
-
-  .simpleAuctionHeader .teamViewerHeaderBtn,
-  .simpleAuctionHeader .livePill{
-    width:min(285px,92%) !important;
-
-    min-width:0 !important;
-
-    box-sizing:border-box !important;
-  }
-
-}
-/* =========================================================
-   FINAL — NIRMAAN 2K26 / AUCTION CLASH
-   REFERENCE MATCH
-   ========================================================= */
-
-.simpleAuctionHeader{
-  width:calc(100% - 32px) !important;
-  max-width:1218px !important;
-
-  min-height:0 !important;
-
-  margin:18px auto 22px !important;
-  padding:36px 32px 32px !important;
-
-  box-sizing:border-box !important;
-
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:center !important;
-
-  text-align:center !important;
-
-  overflow:hidden !important;
-
-  border-radius:24px !important;
-
-  border:1px solid rgba(218,174,73,.65) !important;
-
-  background:
-    radial-gradient(
-      circle at 8% 90%,
-      rgba(218,174,73,.10),
-      transparent 23%
-    ),
-    radial-gradient(
-      circle at 92% 12%,
-      rgba(218,174,73,.11),
-      transparent 25%
-    ),
-    linear-gradient(
-      135deg,
-      #061735 0%,
-      #0b2149 52%,
-      #172f59 100%
-    ) !important;
-
-  box-shadow:
-    0 18px 45px rgba(5,20,48,.20),
-    inset 0 1px 0 rgba(255,255,255,.07) !important;
-}
-
-
-/* ---------- background geometry ---------- */
-
-.simpleAuctionHeader::before{
-  content:"" !important;
-
-  position:absolute !important;
-  inset:0 !important;
-
-  pointer-events:none !important;
-
-  background:
-    linear-gradient(
-      45deg,
-      transparent 0 69%,
-      rgba(255,255,255,.045) 69.1%,
-      transparent 69.3%
-    ),
-    linear-gradient(
-      135deg,
-      transparent 0 77%,
-      rgba(218,174,73,.045) 77.1%,
-      transparent 77.3%
-    ) !important;
-}
-
-
-.simpleAuctionHeader::after{
-  content:"" !important;
-
-  position:absolute !important;
-
-  width:290px !important;
-  height:290px !important;
-
-  right:-125px !important;
-  bottom:-160px !important;
-
-  border:1px solid rgba(218,174,73,.15) !important;
-
-  border-radius:50% !important;
-
-  box-shadow:
-    0 0 0 28px rgba(218,174,73,.025),
-    0 0 0 56px rgba(255,255,255,.018),
-    0 0 0 84px rgba(218,174,73,.012) !important;
-
-  pointer-events:none !important;
-}
-
-
-/* ---------- keep content above background ---------- */
-
-.simpleAuctionHeader > *,
-.simpleAuctionHeader .simpleHeaderContent{
-  position:relative !important;
-  z-index:5 !important;
-}
-
-
-/* =========================================================
-   COLLEGE
-   ========================================================= */
-
-.simpleAuctionHeader .brandLine{
-  width:100% !important;
-
-  display:flex !important;
-
-  align-items:center !important;
-  justify-content:center !important;
-}
-
-
-.simpleAuctionHeader .brandBadge{
-  display:inline-flex !important;
-
-  align-items:center !important;
-  justify-content:center !important;
-
-  padding:11px 25px !important;
-
-  border:1px solid rgba(218,174,73,.62) !important;
-
-  border-radius:12px !important;
-
-  background:rgba(255,255,255,.045) !important;
-
-  color:#f4f6fb !important;
-
-  font-size:clamp(11px,1.2vw,16px) !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.075em !important;
-
-  line-height:1.25 !important;
-
-  white-space:nowrap !important;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.07) !important;
-}
-
-
-.simpleAuctionHeader .yearBadge{
-  display:none !important;
-}
-
-
-/* =========================================================
-   MAIN CONTENT
-   ========================================================= */
-
-.simpleHeaderContent{
-  width:100% !important;
-
-  margin:25px auto 0 !important;
-
-  display:flex !important;
-
-  flex-direction:column !important;
-
-  align-items:center !important;
-}
-
-
-/* =========================================================
-   DEPARTMENT — BOTH SIDES
-   ========================================================= */
-
-.simpleAuctionHeader .eyebrow{
-  width:100% !important;
-
-  margin:0 0 12px !important;
-  padding:0 !important;
-
-  display:flex !important;
-
-  align-items:center !important;
-  justify-content:center !important;
-
-  gap:18px !important;
-
-  color:#e5b548 !important;
-
-  font-size:clamp(10px,1.05vw,14px) !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.18em !important;
-
-  line-height:1.2 !important;
-
-  text-align:center !important;
-}
-
-
-/* THIS FIXES THE MISSING LEFT LINE */
-
-.simpleAuctionHeader .eyebrow::before,
-.simpleAuctionHeader .eyebrow::after{
-  content:"" !important;
-
-  display:block !important;
-
-  flex:0 1 105px !important;
-
-  width:auto !important;
-
-  height:1px !important;
-
-  margin:0 !important;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #d9aa3f
-    ) !important;
-}
-
-
-.simpleAuctionHeader .eyebrow::after{
-  background:
-    linear-gradient(
-      90deg,
-      #d9aa3f,
-      transparent
-    ) !important;
-}
-
-
-/* =========================================================
-   NIRMAAN 2K26
-   ========================================================= */
-
-.simpleAuctionHeader h1{
-  margin:0 !important;
-
-  color:#f8f9fc !important;
-
-  font-size:
-    clamp(34px,4.2vw,52px) !important;
-
-  line-height:1 !important;
-
-  font-weight:950 !important;
-
-  letter-spacing:-.045em !important;
-
-  text-shadow:
-    0 4px 15px rgba(0,0,0,.18) !important;
-}
-
-
-.simpleAuctionHeader h1 span{
-  color:#e6b742 !important;
-}
-
-
-/* =========================================================
-   AUCTION CLASH — MAIN FOCUS
-   ========================================================= */
-
-.simpleAuctionHeader .auctionTitle{
-  position:relative !important;
-
-  margin:16px 0 0 !important;
-
-  padding:0 0 15px !important;
-
-  color:#ffffff !important;
-
-  font-size:
-    clamp(46px,6.2vw,76px) !important;
-
-  line-height:.92 !important;
-
-  font-weight:950 !important;
-
-  letter-spacing:-.045em !important;
-
-  text-align:center !important;
-
-  text-shadow:
-    0 5px 18px rgba(0,0,0,.20) !important;
-}
-
-
-.simpleAuctionHeader .auctionTitle::after{
-  content:"" !important;
-
-  position:absolute !important;
-
-  left:50% !important;
-  bottom:0 !important;
-
-  transform:translateX(-50%) !important;
-
-  width:min(500px,72%) !important;
-
-  height:3px !important;
-
-  border-radius:10px !important;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #d9aa3f 20%,
-      #f1d078 50%,
-      #d9aa3f 80%,
-      transparent
-    ) !important;
-}
-
-
-/* =========================================================
-   PORTAL
-   ========================================================= */
-
-.simpleAuctionHeader .heroSub{
-  margin:13px 0 0 !important;
-
-  color:#d6dfef !important;
-
-  font-size:15px !important;
-
-  font-weight:500 !important;
-
-  letter-spacing:.015em !important;
-
-  text-align:center !important;
-}
-
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-.simpleAuctionHeader .heroActions{
-  width:100% !important;
-
-  margin:23px auto 0 !important;
-
-  display:flex !important;
-
-  align-items:center !important;
-  justify-content:center !important;
-
-  gap:13px !important;
-
-  flex-wrap:wrap !important;
-}
-
-
-.simpleAuctionHeader .teamViewerHeaderBtn{
-  min-width:230px !important;
-  min-height:49px !important;
-
-  padding:0 23px !important;
-
-  display:inline-flex !important;
-
-  align-items:center !important;
-  justify-content:center !important;
-
-  box-sizing:border-box !important;
-
-  border:1px solid #d9aa3f !important;
-
-  border-radius:12px !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      #17417e,
-      #235395
-    ) !important;
-
-  color:#ffffff !important;
-
-  font-size:13px !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.025em !important;
-
-  box-shadow:
-    0 8px 20px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.10) !important;
-}
-
-
-.simpleAuctionHeader .livePill{
-  min-width:230px !important;
-  min-height:49px !important;
-
-  padding:0 20px !important;
-
-  display:inline-flex !important;
-
-  align-items:center !important;
-  justify-content:center !important;
-
-  box-sizing:border-box !important;
-
-  border:1px solid rgba(255,255,255,.17) !important;
-
-  border-radius:999px !important;
-
-  background:rgba(255,255,255,.065) !important;
-
-  color:#f3f6fb !important;
-
-  font-size:12px !important;
-
-  font-weight:900 !important;
-
-  letter-spacing:.05em !important;
-}
-
-
-.simpleAuctionHeader .livePill i{
-  width:9px !important;
-  height:9px !important;
-
-  margin-right:8px !important;
-
-  border-radius:50% !important;
-
-  background:#55e5a1 !important;
-
-  box-shadow:
-    0 0 0 4px rgba(85,229,161,.12),
-    0 0 12px rgba(85,229,161,.25) !important;
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media(max-width:650px){
-
-  .simpleAuctionHeader{
-    width:calc(100% - 18px) !important;
-
-    margin:9px auto 18px !important;
-
-    padding:26px 14px 27px !important;
-
-    border-radius:19px !important;
-  }
-
-
-  .simpleAuctionHeader .brandBadge{
-    width:100% !important;
-
-    box-sizing:border-box !important;
-
-    white-space:normal !important;
-
-    padding:10px 9px !important;
-
-    font-size:9.5px !important;
-
-    line-height:1.35 !important;
-
-    letter-spacing:.035em !important;
-  }
-
-
-  .simpleHeaderContent{
-    margin-top:21px !important;
-  }
-
-
-  .simpleAuctionHeader .eyebrow{
-    gap:8px !important;
-
-    font-size:9px !important;
-
-    letter-spacing:.11em !important;
-  }
-
-
-  .simpleAuctionHeader .eyebrow::before,
-  .simpleAuctionHeader .eyebrow::after{
-    flex:1 1 30px !important;
-  }
-
-
-  .simpleAuctionHeader h1{
-    font-size:38px !important;
-  }
-
-
-  .simpleAuctionHeader .auctionTitle{
-    font-size:44px !important;
-
-    margin-top:14px !important;
-
-    padding-bottom:13px !important;
-  }
-
-
-  .simpleAuctionHeader .heroSub{
-    font-size:12px !important;
-
-    margin-top:12px !important;
-  }
-
-
-  .simpleAuctionHeader .heroActions{
-    flex-direction:column !important;
-
-    gap:9px !important;
-
-    margin-top:19px !important;
-  }
-
-
-  .simpleAuctionHeader .teamViewerHeaderBtn,
-  .simpleAuctionHeader .livePill{
-    width:min(285px,92%) !important;
-
-    min-width:0 !important;
-  }
-
-}
-/* ===== STEP 1 — DEPARTMENT CENTER LINE ===== */
-
-.simpleAuctionHeader .eyebrow{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:18px !important;
-
-  width:100% !important;
-}
-
-.simpleAuctionHeader .eyebrow::before,
-.simpleAuctionHeader .eyebrow::after{
-  content:"" !important;
-
-  display:block !important;
-
-  flex:1 1 0 !important;
-
-  max-width:105px !important;
-
-  width:auto !important;
-  height:1px !important;
-
-  margin:0 !important;
-
-  background:#d9aa3f !important;
-}
-
-.simpleAuctionHeader .eyebrow::before{
-  background:linear-gradient(
-    90deg,
-    transparent,
-    #d9aa3f
-  ) !important;
-}
-
-.simpleAuctionHeader .eyebrow::after{
-  background:linear-gradient(
-    90deg,
-    #d9aa3f,
-    transparent
-  ) !important;
-}
-/* =========================================================
-   NIRMAAN 2K26 — FINAL REFERENCE HEADER
+   NIRMAAN 2K26 — PROFESSIONAL MASTER HEADER
    ========================================================= */
 
 .simpleNirmanHero{
   position:relative !important;
   overflow:hidden !important;
 
-  width:calc(100% - 32px) !important;
-  max-width:1218px !important;
+  width:100% !important;
+  max-width:1180px !important;
 
-  min-height:500px !important;
-
-  margin:18px auto 22px !important;
-  padding:38px 32px 34px !important;
+  margin:0 auto 20px !important;
+  padding:34px 30px 30px !important;
 
   box-sizing:border-box !important;
 
@@ -2431,36 +218,37 @@ tbody tr:hover{background:#fafcff}
   flex-direction:column !important;
   align-items:center !important;
 
+  color:#fff !important;
   text-align:center !important;
 
-  border:1px solid #cfa743 !important;
-  border-radius:25px !important;
+  border:1px solid rgba(218,174,73,.55) !important;
+  border-radius:22px !important;
 
   background:
     radial-gradient(
       circle at 8% 92%,
       rgba(218,174,73,.10),
-      transparent 25%
+      transparent 24%
     ),
     radial-gradient(
       circle at 92% 10%,
       rgba(218,174,73,.12),
-      transparent 26%
+      transparent 25%
     ),
     linear-gradient(
       135deg,
-      #061735 0%,
-      #0b2149 52%,
-      #172f59 100%
+      #071735 0%,
+      #0b2148 52%,
+      #152d57 100%
     ) !important;
 
   box-shadow:
-    0 20px 48px rgba(5,20,48,.20),
-    inset 0 1px 0 rgba(255,255,255,.08) !important;
+    0 18px 45px rgba(11,23,54,.18),
+    inset 0 1px 0 rgba(255,255,255,.07) !important;
 }
 
 
-/* ---------- subtle background ---------- */
+/* ---------- architectural graphics ---------- */
 
 .simpleNirmanHero::before{
   content:"" !important;
@@ -2472,54 +260,56 @@ tbody tr:hover{background:#fafcff}
 
   background:
     linear-gradient(
-      45deg,
-      transparent 0 68%,
-      rgba(255,255,255,.045) 68.1%,
-      transparent 68.3%
+      135deg,
+      transparent 0 64%,
+      rgba(255,255,255,.045) 64.15%,
+      transparent 64.35%
     ),
     linear-gradient(
-      135deg,
+      45deg,
       transparent 0 78%,
-      rgba(218,174,73,.045) 78.1%,
-      transparent 78.3%
+      rgba(218,174,73,.055) 78.15%,
+      transparent 78.35%
     ) !important;
 }
 
+
+/* right-side premium arcs */
 
 .simpleNirmanHero::after{
   content:"" !important;
 
   position:absolute !important;
 
-  width:300px !important;
-  height:300px !important;
+  width:320px !important;
+  height:320px !important;
 
-  right:-130px !important;
-  bottom:-165px !important;
+  right:-145px !important;
+  bottom:-175px !important;
 
-  border:1px solid rgba(218,174,73,.16) !important;
+  border:1px solid rgba(218,174,73,.17) !important;
 
   border-radius:50% !important;
 
   box-shadow:
-    0 0 0 28px rgba(218,174,73,.025),
-    0 0 0 56px rgba(255,255,255,.018),
-    0 0 0 84px rgba(218,174,73,.012) !important;
+    0 0 0 28px rgba(218,174,73,.035),
+    0 0 0 58px rgba(255,255,255,.022),
+    0 0 0 88px rgba(218,174,73,.015) !important;
 
   pointer-events:none !important;
 }
 
 
-/* keep everything above background */
+/* keep content above graphics */
 
 .simpleNirmanHero > *{
   position:relative !important;
-  z-index:3 !important;
+  z-index:2 !important;
 }
 
 
 /* =========================================================
-   COLLEGE
+   COLLEGE NAME
    ========================================================= */
 
 .simpleNirmanHero .simpleCollege{
@@ -2527,32 +317,27 @@ tbody tr:hover{background:#fafcff}
   align-items:center !important;
   justify-content:center !important;
 
-  width:max-content !important;
-  max-width:100% !important;
+  padding:10px 24px !important;
 
-  padding:11px 25px !important;
+  max-width:100% !important;
 
   box-sizing:border-box !important;
 
-  border:1px solid #cfa743 !important;
-  border-radius:12px !important;
+  border:1px solid rgba(218,174,73,.60) !important;
+  border-radius:10px !important;
 
   background:rgba(255,255,255,.045) !important;
 
-  color:#f5f7fc !important;
+  color:#f5f7fb !important;
 
-  font-size:clamp(11px,1.2vw,16px) !important;
-
-  font-weight:900 !important;
+  font-size:13px !important;
+  font-weight:850 !important;
 
   letter-spacing:.075em !important;
 
-  line-height:1.25 !important;
+  line-height:1.3 !important;
 
   white-space:nowrap !important;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.07) !important;
 }
 
 
@@ -2563,22 +348,22 @@ tbody tr:hover{background:#fafcff}
 .simpleNirmanHero .simpleDepartment{
   width:100% !important;
 
-  margin-top:27px !important;
+  margin-top:24px !important;
 
   display:flex !important;
 
   align-items:center !important;
   justify-content:center !important;
 
-  gap:18px !important;
+  gap:17px !important;
 
   color:#e5b548 !important;
 
-  font-size:clamp(10px,1.05vw,14px) !important;
+  font-size:12px !important;
 
   font-weight:900 !important;
 
-  letter-spacing:.18em !important;
+  letter-spacing:.17em !important;
 
   line-height:1.2 !important;
 }
@@ -2587,9 +372,10 @@ tbody tr:hover{background:#fafcff}
 .simpleNirmanHero .simpleDepartment span{
   display:block !important;
 
-  flex:0 1 105px !important;
-
+  width:105px !important;
   height:1px !important;
+
+  flex:0 1 105px !important;
 
   background:linear-gradient(
     90deg,
@@ -2609,17 +395,17 @@ tbody tr:hover{background:#fafcff}
 
 
 /* =========================================================
-   CONTENT
+   MAIN CONTENT
    ========================================================= */
 
 .simpleNirmanHero .simpleHeroContent{
   width:100% !important;
 
+  margin-top:22px !important;
+
   display:flex !important;
   flex-direction:column !important;
   align-items:center !important;
-
-  margin-top:22px !important;
 }
 
 
@@ -2630,25 +416,20 @@ tbody tr:hover{background:#fafcff}
 .simpleNirmanHero .nirmaanTitle{
   margin:0 !important;
 
-  color:#f8f9fc !important;
+  color:#f7f9fc !important;
 
-  font-size:clamp(34px,4.2vw,52px) !important;
+  font-size:clamp(36px,4.2vw,52px) !important;
 
   line-height:1 !important;
 
   font-weight:950 !important;
 
   letter-spacing:-.045em !important;
-
-  text-shadow:
-    0 4px 15px rgba(0,0,0,.18) !important;
 }
 
 
 .simpleNirmanHero .nirmaanTitle b{
-  color:#e6b742 !important;
-
-  font-weight:950 !important;
+  color:#e5b642 !important;
 }
 
 
@@ -2659,21 +440,19 @@ tbody tr:hover{background:#fafcff}
 .simpleNirmanHero .auctionClashTitle{
   position:relative !important;
 
-  margin:17px 0 0 !important;
+  margin:15px 0 0 !important;
 
-  padding:0 0 16px !important;
+  padding:0 0 15px !important;
 
-  color:#ffffff !important;
+  color:#fff !important;
 
-  font-size:clamp(46px,6.2vw,76px) !important;
+  font-size:clamp(48px,6vw,76px) !important;
 
   line-height:.92 !important;
 
   font-weight:950 !important;
 
   letter-spacing:-.045em !important;
-
-  text-align:center !important;
 
   text-shadow:
     0 5px 18px rgba(0,0,0,.20) !important;
@@ -2690,11 +469,10 @@ tbody tr:hover{background:#fafcff}
 
   transform:translateX(-50%) !important;
 
-  width:min(500px,72%) !important;
-
+  width:min(500px,70%) !important;
   height:3px !important;
 
-  border-radius:10px !important;
+  border-radius:5px !important;
 
   background:linear-gradient(
     90deg,
@@ -2708,19 +486,19 @@ tbody tr:hover{background:#fafcff}
 
 
 /* =========================================================
-   PORTAL
+   SUBTITLE
    ========================================================= */
 
 .simpleNirmanHero .heroSub{
-  margin:14px 0 0 !important;
+  margin:13px 0 0 !important;
 
-  color:#d6dfef !important;
+  color:#d3ddec !important;
 
   font-size:15px !important;
 
   font-weight:500 !important;
 
-  letter-spacing:.015em !important;
+  letter-spacing:.02em !important;
 }
 
 
@@ -2729,77 +507,73 @@ tbody tr:hover{background:#fafcff}
    ========================================================= */
 
 .simpleNirmanHero .heroActions{
-  width:100% !important;
-
-  margin-top:23px !important;
-
   display:flex !important;
 
   align-items:center !important;
   justify-content:center !important;
 
-  gap:13px !important;
+  gap:12px !important;
+
+  margin-top:22px !important;
 
   flex-wrap:wrap !important;
 }
 
 
 .simpleNirmanHero .fileBtn{
-  min-width:230px !important;
-  min-height:49px !important;
+  min-width:220px !important;
+  min-height:48px !important;
 
-  padding:0 23px !important;
-
-  box-sizing:border-box !important;
+  padding:0 22px !important;
 
   display:inline-flex !important;
 
   align-items:center !important;
   justify-content:center !important;
 
+  box-sizing:border-box !important;
+
   border:1px solid #d9aa3f !important;
-  border-radius:12px !important;
+  border-radius:11px !important;
 
   background:linear-gradient(
     135deg,
-    #17417e,
-    #235395
+    #173b78,
+    #235295
   ) !important;
 
   color:#fff !important;
 
-  text-decoration:none !important;
-
   font-size:13px !important;
   font-weight:900 !important;
 
-  letter-spacing:.025em !important;
+  text-decoration:none !important;
 
   box-shadow:
-    0 8px 20px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.10) !important;
+    0 8px 20px rgba(0,0,0,.18) !important;
 }
 
 
 .simpleNirmanHero .livePill{
-  min-width:230px !important;
-  min-height:49px !important;
+  min-width:220px !important;
+  min-height:48px !important;
 
   padding:0 20px !important;
-
-  box-sizing:border-box !important;
 
   display:inline-flex !important;
 
   align-items:center !important;
   justify-content:center !important;
 
-  border:1px solid rgba(255,255,255,.17) !important;
+  box-sizing:border-box !important;
+
+  border:1px solid rgba(255,255,255,.16) !important;
+
   border-radius:999px !important;
 
   background:rgba(255,255,255,.065) !important;
 
-  color:#f3f6fb !important;
+  color:#f1f5fb !important;
 
   font-size:12px !important;
   font-weight:900 !important;
@@ -2809,8 +583,8 @@ tbody tr:hover{background:#fafcff}
 
 
 .simpleNirmanHero .livePill i{
-  width:9px !important;
-  height:9px !important;
+  width:8px !important;
+  height:8px !important;
 
   margin-right:8px !important;
 
@@ -2819,8 +593,7 @@ tbody tr:hover{background:#fafcff}
   background:#55e5a1 !important;
 
   box-shadow:
-    0 0 0 4px rgba(85,229,161,.12),
-    0 0 12px rgba(85,229,161,.25) !important;
+    0 0 0 4px rgba(85,229,161,.12) !important;
 }
 
 
@@ -2831,13 +604,11 @@ tbody tr:hover{background:#fafcff}
 @media(max-width:650px){
 
   .simpleNirmanHero{
-    width:calc(100% - 18px) !important;
+    width:100% !important;
 
-    min-height:0 !important;
+    margin:0 auto 16px !important;
 
-    margin:9px auto 18px !important;
-
-    padding:26px 14px 27px !important;
+    padding:25px 15px 27px !important;
 
     border-radius:19px !important;
   }
@@ -2848,34 +619,34 @@ tbody tr:hover{background:#fafcff}
 
     white-space:normal !important;
 
-    padding:10px 9px !important;
+    padding:9px 10px !important;
 
     font-size:9.5px !important;
 
-    line-height:1.35 !important;
-
-    letter-spacing:.035em !important;
+    letter-spacing:.045em !important;
   }
 
 
   .simpleNirmanHero .simpleDepartment{
-    margin-top:21px !important;
+    margin-top:20px !important;
 
-    gap:8px !important;
+    gap:7px !important;
 
-    font-size:9px !important;
+    font-size:8.5px !important;
 
     letter-spacing:.11em !important;
   }
 
 
   .simpleNirmanHero .simpleDepartment span{
-    flex:1 1 30px !important;
+    width:auto !important;
+
+    flex:1 1 28px !important;
   }
 
 
   .simpleNirmanHero .simpleHeroContent{
-    margin-top:20px !important;
+    margin-top:19px !important;
   }
 
 
@@ -2887,7 +658,7 @@ tbody tr:hover{background:#fafcff}
   .simpleNirmanHero .auctionClashTitle{
     font-size:44px !important;
 
-    margin-top:14px !important;
+    margin-top:13px !important;
 
     padding-bottom:13px !important;
   }
@@ -2895,8 +666,6 @@ tbody tr:hover{background:#fafcff}
 
   .simpleNirmanHero .heroSub{
     font-size:12px !important;
-
-    margin-top:12px !important;
   }
 
 
@@ -2904,6 +673,8 @@ tbody tr:hover{background:#fafcff}
     flex-direction:column !important;
 
     gap:9px !important;
+
+    width:100% !important;
 
     margin-top:19px !important;
   }
@@ -2916,4 +687,30 @@ tbody tr:hover{background:#fafcff}
     min-width:0 !important;
   }
 
+}
+/* ===== NIRMAAN HISTORICAL × FUTURISTIC GRAPHIC ===== */
+
+.simpleNirmanHero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.simpleNirmanHero .simpleHeroBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background-image: url("./graphics/nirmaan-historical-futuristic-graphic.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  opacity: 0.82;
+  pointer-events: none;
+}
+
+.simpleNirmanHero > *:not(.simpleHeroBg) {
+  position: relative;
+  z-index: 2;
 }

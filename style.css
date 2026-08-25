@@ -703,10 +703,9 @@ tbody tr:hover{background:#fafcff}
 
   background-image: url("./graphics/nirmaan-historical-futuristic-graphic.svg");
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-
-  opacity: 0.82;
+background-position: right center;
+background-size: 620px auto;
+opacity: 0.95;
   pointer-events: none;
 }
 

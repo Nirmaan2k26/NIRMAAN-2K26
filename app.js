@@ -396,7 +396,17 @@ const getPlayer=n=>{
    : null;
 };
 
+$("playerName").addEventListener("keydown", function(e){
+  if(e.key !== "Enter") return;
 
+  const box = document.getElementById("playerDropdown");
+  const first = box?.querySelector(".playerDropItem");
+
+  if(first){
+    e.preventDefault();
+    first.click();
+  }
+});
 $("playerName").oninput=()=>{
 
  const value=
@@ -444,7 +454,23 @@ $("playerName").oninput=()=>{
     · ${esc(p.iplTeam||"")}`;
 };
 
+$("teamName").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    $("addTeam").click();
+  }
+});
 
+$("teamBudget").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    $("addTeam").click();
+  }
+});
+
+$("teamPin").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    $("addTeam").click();
+  }
+});
 $("addTeam").onclick=()=>{
 
  const name=
@@ -1147,6 +1173,17 @@ document.addEventListener(
 
   }
 );
+$("playerName").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    $("sellPlayer").click();
+  }
+});
+
+$("bidPrice").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    $("sellPlayer").click();
+  }
+});
 $("sellPlayer").onclick=()=>{
 
  if(state.auctionComplete)
@@ -2667,7 +2704,23 @@ document.getElementById(
   closeSoldEdit
 );
 
+document.getElementById("editSoldPlayer").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    document.getElementById("saveSoldEdit").click();
+  }
+});
 
+document.getElementById("editSoldTeam").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    document.getElementById("saveSoldEdit").click();
+  }
+});
+
+document.getElementById("editSoldBid").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    document.getElementById("saveSoldEdit").click();
+  }
+});
 document.getElementById(
   "saveSoldEdit"
 ).addEventListener(
@@ -3199,7 +3252,23 @@ window.closeTeamEditor=function(){
 
 };
 
+$("editTeamName").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    $("editTeamSave").click();
+  }
+});
 
+$("editTeamBudget").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    $("editTeamSave").click();
+  }
+});
+
+$("editTeamPin").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    $("editTeamSave").click();
+  }
+});
 window.saveTeamEditor=function(){
 
  const select=

@@ -1150,7 +1150,29 @@ teamSearch?.addEventListener(
 
   }
 );
+/* ENTER = select first matching team */
 
+teamSearch?.addEventListener(
+  "keydown",
+  function(e){
+
+    if(e.key !== "Enter")
+      return;
+
+    const first =
+      teamDropdown?.querySelector(
+        ".teamSearchOption"
+      );
+
+    if(!first)
+      return;
+
+    e.preventDefault();
+
+    first.click();
+
+  }
+);
 
 /* Close dropdown */
 

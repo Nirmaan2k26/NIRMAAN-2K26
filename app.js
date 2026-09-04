@@ -1518,79 +1518,62 @@ $("completeAuction").onclick=()=>{
   /*
     FINAL RANKING
   */
+const ranking =
+  [...state.teams].sort((a,b) => {
 
-  const ranking =
-    [...state.teams].sort((a,b) => {
+    const A =
+      winnerData.get(a.name);
 
-      const A =
-        winnerData.get(a.name);
-
-      const B =
-        winnerData.get(b.name);
-
-
-      /* 1. COMPLETE TEAM FIRST */
-
-      if(A.eligible !== B.eligible){
-
-        return A.eligible
-          ? -1
-          : 1;
-
-      }
+    const B =
+      winnerData.get(b.name);
 
 
-      /* 2. TOTAL POINTS */
+    /* 1. ELIGIBILITY FIRST */
 
-      if(
-        A.totalPoints !==
-        B.totalPoints
-      ){
+    if(A.eligible !== B.eligible){
 
-        return (
-          B.totalPoints -
-          A.totalPoints
-        );
+      return A.eligible
+        ? -1
+        : 1;
 
-      }
+    }
 
 
-      /* 3. REMAINING BUDGET */
+    /* 2. REMAINING BUDGET */
 
-      if(
-        A.remainingBudget !==
-        B.remainingBudget
-      ){
+    if(
+      A.remainingBudget !==
+      B.remainingBudget
+    ){
 
-        return (
-          B.remainingBudget -
-          A.remainingBudget
-        );
+      return (
+        B.remainingBudget -
+        A.remainingBudget
+      );
 
-      }
-
-
-      /* 4. LOWER TOTAL SPENT */
-
-      if(
-        A.totalSpent !==
-        B.totalSpent
-      ){
-
-        return (
-          A.totalSpent -
-          B.totalSpent
-        );
-
-      }
+    }
 
 
-      /* 5. EXACT TIE */
+    /* 3. TOTAL PERFORMANCE POINTS */
 
-      return 0;
+    if(
+      A.totalPoints !==
+      B.totalPoints
+    ){
 
-    });
+      return (
+        B.totalPoints -
+        A.totalPoints
+      );
 
+    }
+
+
+    /* 4. EXACT TIE */
+
+    return 0;
+
+  });
 
   /*
     Mark auction complete

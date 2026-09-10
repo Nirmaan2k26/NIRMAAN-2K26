@@ -180,26 +180,33 @@ if (teamSummarySearch) {
                    : "<span class='muted'>Active</span>"
                }
              </td>
+<td>
 
-             <td>
+  <button
+    type="button"
+    class="teamAction"
+    onclick="window.viewTeamPlayers(${i}); return false;"
+  >
+    👥 View Players
+  </button>
 
-               <button
-                 type="button"
-                 class="editBtn teamAction"
-                 onclick="window.openTeamEditor(${i}); return false;"
-               >
-                 ✏️ Edit
-               </button>
+  <button
+    type="button"
+    class="editBtn teamAction"
+    onclick="window.openTeamEditor(${i}); return false;"
+  >
+    ✏️ Edit
+  </button>
 
-               <button
-                 type="button"
-                 class="deleteBtn teamAction"
-                 onclick="window.deleteTeam(${i}); return false;"
-               >
-                 🗑️ Delete
-               </button>
+  <button
+    type="button"
+    class="deleteBtn teamAction"
+    onclick="window.deleteTeam(${i}); return false;"
+  >
+    🗑️ Delete
+  </button>
 
-             </td>
+</td>
 
            </tr>`;
 

@@ -1,0 +1,2614 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>NIRMAAN 2K26  — Team Viewer | Sarvajanik College of Engineering</title>
+
+<link rel="stylesheet" href="style.css">
+<style>
+.teamViewWrap{
+  max-width:1120px;
+  margin:auto;
+  padding:28px 20px
+}
+
+.teamGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px
+}
+
+.teamCard,.teamPanel{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:24px;
+  margin:16px 0;
+  box-shadow:var(--shadow)
+}
+
+.stat{
+  background:var(--soft);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px
+}
+
+.statLabel{
+  font-size:12px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.08em
+}
+
+.statValue{
+  font-size:27px;
+  font-weight:850;
+  margin-top:7px
+}
+
+.playerRow{
+  display:grid;
+  grid-template-columns:42px 1fr auto;
+  gap:12px;
+  padding:14px;
+  border-bottom:1px solid var(--line)
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#e9f0ff;
+  color:var(--navy);
+  font-weight:800
+}
+
+.bigMsg{
+  padding:16px;
+  border-radius:14px;
+  background:#eef5ff;
+  margin-top:14px
+}
+
+.successBox{
+  background:#e8f8ef;
+  color:#14532d
+}
+
+.winnerBox{
+  background:linear-gradient(135deg,#fff8dd,#fffdf4);
+  border:1px solid #f0d77b;
+  border-radius:18px;
+  padding:20px
+}
+
+.hidden{
+  display:none
+}
+
+.teamHero{
+  margin-bottom:20px
+}
+  /* ===== PREMIUM TEAM ACCESS ===== */
+
+.selectCard{
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid #dbe3ef !important;
+  border-radius:22px !important;
+  padding:30px !important;
+  box-shadow:0 15px 45px rgba(15,23,42,.10) !important;
+}
+
+.selectCard .eyebrow{
+  color:#64748b !important;
+  font-size:13px !important;
+  font-weight:800 !important;
+  letter-spacing:1.5px !important;
+}
+
+.selectCard h2{
+  color:#0b1f44 !important;
+  font-size:27px !important;
+  font-weight:900 !important;
+  margin:8px 0 18px !important;
+}
+
+#teamSearch{
+  height:58px !important;
+  border:1.5px solid #d5deeb !important;
+  border-radius:14px !important;
+  background:#fff !important;
+  color:#0b1f44 !important;
+  font-size:16px !important;
+  padding:0 18px !important;
+  box-shadow:0 5px 18px rgba(15,23,42,.05) !important;
+  outline:none !important;
+}
+
+#teamSearch:focus{
+  border-color:#c99a32 !important;
+  box-shadow:0 0 0 4px rgba(201,154,50,.12) !important;
+}
+/* =========================================================
+   NIRMAAN PREMIUM TEAM VIEWER — STEP 1
+   ========================================================= */
+
+body{
+  background:
+    radial-gradient(circle at 15% 10%, rgba(30,64,175,.10), transparent 32%),
+    radial-gradient(circle at 85% 20%, rgba(245,158,11,.08), transparent 30%),
+    #f4f7fb;
+}
+
+.teamViewWrap{
+  position:relative;
+  z-index:1;
+}
+/* =========================================================
+   SEARCHABLE TEAM DROPDOWN
+   ========================================================= */
+
+.teamSearchWrap{
+  position:relative;
+  width:100%;
+}
+
+#teamSearch{
+  width:100%;
+  box-sizing:border-box;
+  padding:13px 14px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--surface);
+  color:inherit;
+  font-size:16px;
+  outline:none;
+}
+
+#teamSearch:focus{
+  border-color:var(--navy);
+}
+
+.teamSuggestions{
+  position:absolute;
+  left:0;
+  right:0;
+  top:calc(100% + 4px);
+  z-index:99999;
+  display:none;
+  max-height:240px;
+  overflow-y:auto;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  box-shadow:var(--shadow);
+}
+
+.teamSuggestionItem{
+  display:block;
+  width:100%;
+  padding:12px 14px;
+  border:0;
+  background:transparent;
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.teamSuggestionItem:hover{
+  background:var(--soft);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:900px){
+  .teamGrid{
+    grid-template-columns:1fr 1fr
+  }
+}
+
+@media(max-width:600px){
+  .teamGrid{
+    grid-template-columns:1fr
+  }
+
+  .teamViewWrap{
+    padding:12px
+  }
+
+  .teamCard,.teamPanel{
+    padding:18px
+  }
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.siteFooter{
+  text-align:center;
+  padding:22px 10px 18px;
+  margin-top:8px;
+}
+
+.siteFooter b,
+.siteFooter span{
+  display:inline-block;
+  margin:0 6px;
+}
+
+.websiteCredit{
+  width:100%;
+  display:block !important;
+  text-align:center;
+  margin-top:16px;
+  padding-top:0;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+  .teamReportModal{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.6);
+}
+
+.teamReportModal.hidden{
+  display:none !important;
+}
+.teamReportCard{
+  position:relative;
+  width:min(700px,calc(100vw - 30px));
+  max-width:700px;
+  height:min(85vh,850px);
+  max-height:85vh;
+  box-sizing:border-box;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:var(--surface,#fff);
+  color:inherit;
+  border-radius:20px;
+  padding:60px 24px 24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+.teamReportClose{
+  position:absolute;
+  top:10px;
+  right:12px;
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:#eee;
+  font-size:22px;
+  font-weight:800;
+  cursor:pointer;
+}
+@media(max-width:600px){
+
+  .teamReportModal{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    padding:6px;
+    box-sizing:border-box;
+    overflow:hidden;
+  }
+
+  .teamReportCard{
+    width:100%;
+    max-width:100%;
+    height:100%;
+    max-height:100%;
+    box-sizing:border-box;
+
+    padding:42px 8px 10px;
+
+    border-radius:12px;
+
+    overflow-x:hidden;
+    overflow-y:auto;
+
+    font-size:13px;
+  }
+
+  .teamReportTitle{
+    font-size:18px;
+    line-height:1.2;
+  }
+
+.teamReportTable{
+  display:table !important;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+  border-collapse:collapse !important;
+  margin:0 !important;
+  font-size:12px;
+}
+
+.teamReportTable tr{
+  display:table-row !important;
+  width:100% !important;
+}
+
+.teamReportTable td{
+  display:table-cell !important;
+  box-sizing:border-box !important;
+  min-width:0 !important;
+  padding:4px !important;
+  white-space:normal !important;
+  word-break:break-word !important;
+  overflow-wrap:anywhere !important;
+  vertical-align:middle !important;
+}
+
+.teamReportTable td:first-child{
+  width:55% !important;
+  text-align:left !important;
+}
+
+.teamReportTable td:last-child{
+  width:45% !important;
+  text-align:right !important;
+}
+  .teamReportClose{
+    position:absolute;
+    top:7px;
+    right:7px;
+
+    width:34px;
+    height:34px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    z-index:9999999;
+
+    font-size:20px;
+  }
+
+  .teamReportCard .playerRow{
+    width:100%;
+    min-width:0;
+
+    grid-template-columns:1fr;
+
+    gap:4px;
+
+   padding:6px 4px;
+    font-size:13px;
+  }
+
+  .teamReportCard .badge{
+    font-size:11px;
+    padding:5px 7px;
+  }
+
+}
+  /* ===== PREMIUM DASHBOARD CONTROLS ===== */
+
+#teamApp > .teamTopBar,
+#teamApp .teamTopBar{
+  gap:12px !important;
+}
+
+#teamApp button{
+  transition:all .2s ease !important;
+}
+
+#teamApp button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(15,23,42,.10);
+}
+
+#teamApp button:active{
+  transform:translateY(0);
+}
+  /* ===== PREMIUM WELCOME & AUCTION STATUS ===== */
+
+#teamApp h2{
+  color:#0b1f44 !important;
+  font-weight:900 !important;
+  letter-spacing:-.3px;
+}
+
+#teamApp .successBox,
+#teamApp .bigMsg{
+  border-radius:16px !important;
+  border:1px solid #d7e3f5 !important;
+  box-shadow:0 8px 24px rgba(15,23,42,.05) !important;
+}
+
+#teamApp .successBox{
+  background:linear-gradient(135deg,#eef6ff,#f8fbff) !important;
+}
+
+#teamApp .successBox strong{
+  color:#0b1f44 !important;
+}
+
+/* =========================================================
+   NIRMAAN 2K26 — PREMIUM NAVY / GOLD TEAM VIEWER
+   UI ONLY — existing HTML/JS/realtime behaviour preserved
+   ========================================================= */
+
+:root{
+  --nv:#071a3a;
+  --nv2:#0d2a5a;
+  --nv3:#123b78;
+  --gold:#c99a32;
+  --gold2:#e4bf62;
+  --ink:#10213f;
+  --muted2:#64748b;
+  --paper:#f5f8fc;
+  --white:#ffffff;
+  --border:#dbe4f0;
+}
+
+html{
+  background:var(--paper);
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 0%,rgba(30,76,145,.13),transparent 28%),
+    radial-gradient(circle at 94% 8%,rgba(201,154,50,.12),transparent 24%),
+    linear-gradient(180deg,#f8fbff 0%,#f3f6fb 48%,#eef3f9 100%);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+.teamViewWrap{
+  width:min(1180px,calc(100% - 32px));
+  max-width:none;
+  margin:0 auto;
+  padding:22px 0 34px;
+}
+
+/* ---------- HERO ---------- */
+
+.teamHero,
+.teamHeader{
+  position:relative;
+  overflow:hidden;
+}
+
+.simpleNirmanHero{
+  min-height:270px;
+  margin-bottom:26px;
+  padding:34px 34px 38px !important;
+  box-sizing:border-box;
+  border-radius:28px !important;
+  color:#fff !important;
+  background:
+    linear-gradient(115deg,rgba(4,18,43,.98),rgba(9,38,82,.96) 58%,rgba(15,57,112,.94)),
+    #071a3a !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+  box-shadow:0 24px 60px rgba(7,26,58,.20) !important;
+  isolation:isolate;
+}
+
+.simpleNirmanHero::before{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  right:-170px;
+  top:-230px;
+  border:1px solid rgba(228,191,98,.28);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 35px rgba(228,191,98,.035),
+    0 0 0 75px rgba(228,191,98,.025);
+  z-index:-1;
+}
+
+.simpleNirmanHero::after{
+  content:"AUCTION • LIVE • TEAM • STRATEGY";
+  position:absolute;
+  right:30px;
+  bottom:22px;
+  color:rgba(255,255,255,.22);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.25em;
+  z-index:-1;
+}
+
+.simpleHeroBg{
+  position:absolute !important;
+  inset:0;
+  z-index:-2;
+  opacity:.75;
+  background:
+    linear-gradient(90deg,transparent 0 72%,rgba(201,154,50,.08)),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0 22px,
+      rgba(255,255,255,.018) 22px 24px
+    );
+}
+
+.simpleCollege{
+  color:rgba(255,255,255,.82) !important;
+  font-size:12px !important;
+  font-weight:800 !important;
+  letter-spacing:.16em !important;
+  text-align:center;
+}
+
+.simpleDepartment{
+  margin-top:11px !important;
+  color:var(--gold2) !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+  letter-spacing:.22em !important;
+  text-align:center;
+}
+
+.simpleDepartment span{
+  display:inline-block;
+  width:34px;
+  height:1px;
+  margin:0 9px 3px;
+  background:rgba(228,191,98,.65);
+}
+
+.simpleHeroContent{
+  position:relative;
+  text-align:center;
+  margin-top:25px;
+}
+
+.nirmaanTitle{
+  font-size:48px !important;
+  line-height:1 !important;
+  font-weight:950 !important;
+  letter-spacing:.08em !important;
+  color:#fff !important;
+  text-shadow:0 4px 18px rgba(0,0,0,.18);
+}
+
+.nirmaanTitle b{
+  color:var(--gold2) !important;
+}
+
+.auctionClashTitle{
+  margin-top:9px !important;
+  font-size:27px !important;
+  font-weight:950 !important;
+  letter-spacing:.28em !important;
+  color:#fff !important;
+}
+
+.heroSub{
+  margin-top:10px !important;
+  color:rgba(255,255,255,.68) !important;
+  font-size:12px !important;
+  letter-spacing:.13em !important;
+  text-transform:uppercase;
+}
+
+.heroActions{
+  margin-top:18px !important;
+  display:flex;
+  justify-content:center;
+}
+
+.livePill{
+  display:inline-flex !important;
+  align-items:center;
+  gap:8px;
+  padding:8px 15px !important;
+  border:1px solid rgba(228,191,98,.38) !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.07) !important;
+  color:#fff !important;
+  font-size:11px !important;
+  font-weight:850 !important;
+  letter-spacing:.12em !important;
+  backdrop-filter:blur(10px);
+}
+
+.livePill i{
+  width:8px !important;
+  height:8px !important;
+  border-radius:50%;
+  background:#55d98a !important;
+  box-shadow:0 0 0 5px rgba(85,217,138,.13);
+}
+
+/* ---------- GLOBAL CARDS ---------- */
+
+.teamCard,
+.teamPanel{
+  position:relative;
+  background:rgba(255,255,255,.94) !important;
+  border:1px solid var(--border) !important;
+  border-radius:22px !important;
+  padding:25px !important;
+  margin:18px 0 !important;
+  box-shadow:0 12px 35px rgba(12,35,68,.07) !important;
+  backdrop-filter:blur(8px);
+}
+
+.teamCard::before,
+.teamPanel::before{
+  content:"";
+  position:absolute;
+  left:22px;
+  top:0;
+  width:42px;
+  height:3px;
+  border-radius:0 0 5px 5px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+
+/* ---------- TEAM ACCESS ---------- */
+
+#selectCard,
+#pinCard{
+  width:min(760px,100%);
+  margin:0 auto 24px !important;
+  padding:30px !important;
+}
+
+#selectCard h2,
+#pinCard h2{
+  color:var(--nv) !important;
+  font-size:27px !important;
+  font-weight:950 !important;
+  margin:7px 0 18px !important;
+}
+
+.sectionKicker{
+  color:var(--gold) !important;
+  font-size:11px !important;
+  font-weight:900 !important;
+  letter-spacing:.20em !important;
+}
+
+#teamSearch,
+#teamPinInput{
+  width:100% !important;
+  min-height:54px !important;
+  box-sizing:border-box !important;
+  border:1px solid #d4dfec !important;
+  border-radius:14px !important;
+  background:#fbfdff !important;
+  color:var(--ink) !important;
+  font-size:16px !important;
+  padding:0 17px !important;
+  outline:none !important;
+  box-shadow:inset 0 1px 2px rgba(15,23,42,.02) !important;
+}
+
+#teamSearch:focus,
+#teamPinInput:focus{
+  border-color:var(--gold) !important;
+  box-shadow:0 0 0 4px rgba(201,154,50,.12) !important;
+}
+
+.teamSuggestions{
+  top:calc(100% + 8px) !important;
+  background:#fff !important;
+  border:1px solid var(--border) !important;
+  border-radius:15px !important;
+  box-shadow:0 18px 38px rgba(8,27,58,.14) !important;
+  overflow:hidden !important;
+}
+
+.teamSuggestionItem{
+  padding:14px 16px !important;
+  color:var(--ink) !important;
+  font-weight:700 !important;
+  border-bottom:1px solid #edf1f6 !important;
+}
+
+.teamSuggestionItem:hover{
+  background:#f5f8fd !important;
+  color:var(--nv) !important;
+}
+
+/* ---------- BUTTONS ---------- */
+
+.teamViewWrap button{
+  border-radius:11px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+
+.teamViewWrap button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 18px rgba(9,31,65,.10);
+}
+
+.teamViewWrap button:active{
+  transform:translateY(0);
+}
+
+#continueBtn,
+#teamApp .primary{
+  background:linear-gradient(135deg,var(--nv2),var(--nv3)) !important;
+  border-color:var(--nv2) !important;
+  color:#fff !important;
+}
+
+/* ---------- DASHBOARD ---------- */
+
+.dashboardPanel{
+  padding:27px !important;
+}
+
+.dashboardPanel > .actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:9px;
+  padding-bottom:18px;
+  margin-bottom:18px;
+  border-bottom:1px solid #e8edf4;
+}
+
+.dashboardPanel > .actions button{
+  min-height:39px;
+  padding:8px 13px;
+  background:#f7f9fc;
+  border:1px solid #dbe3ed;
+  color:var(--nv);
+}
+
+#welcome{
+  margin:0 !important;
+  font-size:31px !important;
+  color:var(--nv) !important;
+  font-weight:950 !important;
+  letter-spacing:-.025em !important;
+}
+
+#auctionStatus{
+  display:flex;
+  align-items:center;
+  min-height:52px;
+  box-sizing:border-box;
+  margin:15px 0 21px !important;
+  padding:13px 16px !important;
+  border-radius:14px !important;
+  background:#f1f7ff !important;
+  border:1px solid #d8e7fa !important;
+  color:#24466f !important;
+}
+
+.teamGrid{
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:13px !important;
+}
+
+.stat{
+  position:relative;
+  min-height:94px;
+  box-sizing:border-box;
+  background:linear-gradient(145deg,#fbfdff,#f3f7fc) !important;
+  border:1px solid #dce5ef !important;
+  border-radius:17px !important;
+  padding:17px !important;
+  overflow:hidden;
+}
+
+.stat::after{
+  content:"";
+  position:absolute;
+  right:-16px;
+  bottom:-25px;
+  width:70px;
+  height:70px;
+  border:1px solid rgba(201,154,50,.18);
+  border-radius:50%;
+}
+
+.statLabel{
+  color:#6a7890 !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+  letter-spacing:.12em !important;
+}
+
+.statValue{
+  margin-top:9px !important;
+  color:var(--nv) !important;
+  font-size:24px !important;
+  font-weight:950 !important;
+}
+
+#remainingBudget{
+  color:#9a6d08 !important;
+}
+
+#playersBought{
+  color:#145c3c !important;
+}
+
+#playersRemaining{
+  color:#9b4c18 !important;
+}
+
+#teamMessage{
+  margin-top:17px !important;
+  border-radius:15px !important;
+  border:1px solid #dbe7f5 !important;
+  background:linear-gradient(100deg,#f2f7ff,#f9fbff) !important;
+  color:#294563 !important;
+}
+
+#teamMessage.successBox{
+  background:linear-gradient(100deg,#eefbf4,#fbfffd) !important;
+  border-color:#ccebd9 !important;
+  color:#155d3b !important;
+}
+
+/* ---------- PLAYERS ---------- */
+
+.teamPanel > h2{
+  margin-top:0 !important;
+  color:var(--nv) !important;
+  font-size:22px !important;
+  font-weight:950 !important;
+}
+
+#playersList{
+  margin-top:8px;
+}
+
+.playerRow{
+  display:grid !important;
+  grid-template-columns:42px minmax(0,1fr) auto !important;
+  align-items:center;
+  gap:14px !important;
+  padding:15px 13px !important;
+  margin:8px 0;
+  border:1px solid #e2e9f1 !important;
+  border-radius:15px !important;
+  background:linear-gradient(100deg,#fff,#f8fbfe) !important;
+}
+
+.playerRow > b:first-child{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:#edf3fb;
+  color:var(--nv);
+  font-size:13px;
+}
+
+.playerRow b{
+  color:var(--nv);
+}
+
+.playerRow .muted{
+  color:#718096 !important;
+  font-size:12px;
+}
+
+.badge{
+  padding:7px 11px !important;
+  border:1px solid rgba(201,154,50,.25) !important;
+  border-radius:999px !important;
+  background:#fff8e7 !important;
+  color:#8a6209 !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+}
+
+.empty{
+  padding:25px;
+  text-align:center;
+  border:1px dashed #cbd7e6;
+  border-radius:15px;
+  color:#718096;
+  background:#fafcff;
+}
+
+/* ---------- FINAL RESULT ---------- */
+
+.winnerBox{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#fff9e9,#fffdf7) !important;
+  border:1px solid #ecd27f !important;
+  border-radius:20px !important;
+  padding:22px !important;
+}
+
+.winnerBox::after{
+  content:"🏆";
+  position:absolute;
+  right:20px;
+  top:13px;
+  font-size:54px;
+  opacity:.09;
+}
+
+.rank{
+  display:grid;
+  grid-template-columns:48px minmax(0,1fr) auto;
+  align-items:center;
+  gap:12px;
+  padding:12px 13px;
+  margin:7px 0;
+  border:1px solid #eee3bd;
+  border-radius:13px;
+  background:rgba(255,255,255,.70);
+}
+
+/* ---------- MODALS ---------- */
+
+.teamReportModal{
+  background:rgba(4,16,36,.72) !important;
+  backdrop-filter:blur(5px);
+}
+
+.teamReportCard{
+  border:1px solid #dbe4f0 !important;
+  border-radius:22px !important;
+  box-shadow:0 28px 80px rgba(0,0,0,.30) !important;
+}
+
+.teamReportClose{
+  background:#f1f4f8 !important;
+  color:var(--nv) !important;
+}
+
+.teamReportTitle{
+  color:var(--nv) !important;
+}
+
+/* ---------- FOOTER ---------- */
+
+.siteFooter{
+  margin-top:25px !important;
+  padding:25px 10px 10px !important;
+  border-top:1px solid #dce5ef;
+  color:#718096 !important;
+  font-size:11px;
+  line-height:1.8;
+}
+
+.siteFooter b{
+  color:var(--nv);
+}
+
+.websiteCredit{
+  color:var(--gold) !important;
+  font-weight:900 !important;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media(max-width:900px){
+  .teamViewWrap{
+    width:min(100% - 24px,760px);
+  }
+
+  .simpleNirmanHero{
+    min-height:245px;
+    padding:28px 20px 32px !important;
+  }
+
+  .nirmaanTitle{
+    font-size:39px !important;
+  }
+
+  .auctionClashTitle{
+    font-size:22px !important;
+    letter-spacing:.20em !important;
+  }
+
+  .teamGrid{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
+
+@media(max-width:600px){
+  .teamViewWrap{
+    width:calc(100% - 20px);
+    padding-top:10px;
+  }
+
+  .simpleNirmanHero{
+    border-radius:21px !important;
+    min-height:225px;
+    padding:23px 14px 28px !important;
+  }
+
+  .simpleCollege{
+    font-size:9px !important;
+    letter-spacing:.10em !important;
+  }
+
+  .simpleDepartment{
+    font-size:8px !important;
+    letter-spacing:.12em !important;
+  }
+
+  .simpleDepartment span{
+    width:18px;
+    margin:0 5px 2px;
+  }
+
+  .nirmaanTitle{
+    font-size:32px !important;
+  }
+
+  .auctionClashTitle{
+    font-size:18px !important;
+    letter-spacing:.13em !important;
+  }
+
+  .heroSub{
+    font-size:9px !important;
+  }
+
+  .teamCard,
+  .teamPanel{
+    padding:18px !important;
+    border-radius:18px !important;
+  }
+
+  #selectCard,
+  #pinCard{
+    padding:22px !important;
+  }
+
+  #selectCard h2,
+  #pinCard h2{
+    font-size:23px !important;
+  }
+
+  .dashboardPanel{
+    padding:18px !important;
+  }
+
+  .dashboardPanel > .actions{
+    justify-content:stretch;
+  }
+
+  .dashboardPanel > .actions button{
+    flex:1 1 calc(50% - 9px);
+  }
+
+  #welcome{
+    font-size:25px !important;
+  }
+
+  .teamGrid{
+    grid-template-columns:1fr 1fr !important;
+    gap:9px !important;
+  }
+
+  .stat{
+    min-height:86px;
+    padding:13px !important;
+  }
+
+  .statValue{
+    font-size:19px !important;
+  }
+
+  .playerRow{
+    grid-template-columns:34px minmax(0,1fr) !important;
+    gap:10px !important;
+  }
+
+  .playerRow .badge{
+    grid-column:2;
+    justify-self:start;
+  }
+
+  .rank{
+    grid-template-columns:38px minmax(0,1fr) !important;
+  }
+
+  .rank > span{
+    grid-column:2;
+  }
+}
+
+</style>
+</head>
+
+<body>
+  <div id="termsModal" class="teamReportModal hidden">
+
+  <div class="teamReportCard">
+
+    <button
+      type="button"
+      class="teamReportClose"
+      id="termsCloseBtn"
+    >
+      ✕
+    </button>
+<div id="termsContent">
+
+  <h2 class="teamReportTitle">
+    📋 NIRMAAN 2K26
+  </h2>
+
+  <h3>
+    FINAL AUCTION — TERMS &amp; CONDITIONS
+  </h3>
+
+  <h4>⭐ 1. Player Selection</h4>
+
+  <p>
+    Players are selected based on their
+    <strong>performance in the last two IPL seasons.</strong>
+  </p>
+<h4>📈 2. Bid Increment Rules</h4>
+
+<ol>
+  <li><strong>Till ₹1 lakh:</strong> Every next bid increases by <strong>₹10,000</strong>.</li>
+  <li><strong>From ₹1 lakh to ₹5 lakh:</strong> Every next bid increases by <strong>₹50,000</strong>.</li>
+  <li><strong>Above ₹5 lakh:</strong> Every next bid increases by <strong>₹1,00,000</strong>.</li>
+</ol>
+
+<h4>💰 3. Bidding &amp; Budget</h4>
+
+<ul>
+  <li>All bids must remain within the team's <strong>available budget</strong>.</li>
+  <li>The <strong>highest valid bid</strong> wins the player.</li>
+  <li>Once a player is declared <strong>SOLD</strong>, the purchase is final.</li>
+  <li>The bid amount will be deducted from the team's <strong>Remaining Budget</strong>.</li>
+</ul>
+
+<h4>🏆 4. Winner Criteria</h4>
+
+<ul>
+  <li>Only <strong>Eligible Teams</strong> will be considered for the final result.</li>
+  <li><strong>Remaining Budget</strong> will be considered in the final winner determination.</li>
+  <li>In case of a tie, the team with the <strong>higher Remaining Budget</strong> will rank higher.</li>
+  <li>If the tie continues, <strong>Total Spent</strong> will be considered.</li>
+</ul>
+
+<h4>🏏 5. Team Eligibility</h4>
+
+<ul>
+  <li>Each team must purchase <strong>4 players</strong>: <strong>1 Batsman • 1 Bowler • 1 Wicketkeeper • 1 All-Rounder</strong>.</li>
+  <li>All four categories must be completed to become <strong>Eligible</strong>.</li>
+  <li>Only <strong>one player from each category</strong> may be purchased by a team.</li>
+</ul>
+  <h4>🤝 6. Fair Play</h4>
+
+<ul>
+  <li>Use only your assigned <strong>Team Access/PIN</strong>.</li>
+  <li>Fake bidding, unauthorized access, or system manipulation is strictly prohibited.</li>
+  <li>All participants must follow the instructions of the <strong>Auctioneer and Organizing Committee</strong>.</li>
+</ul>
+  <h4>🔒 7. Final Authority</h4>
+
+  <p>
+    The decision of the <strong>Official Auction Committee</strong>
+    regarding bidding, player allocation, eligibility, ranking,
+    technical issues, or disputes shall be <strong>final</strong>.
+  </p>
+
+  <div class="winnerBox">
+    <strong>🏆 BID SMART • BUILD STRONG • PLAY FAIR</strong>
+  </div>
+
+</div>
+
+</div>
+</div>
+<div id="teamReportModal" class="teamReportModal hidden">
+
+  <div class="teamReportCard">
+
+    <button
+      type="button"
+      class="teamReportClose"
+      onclick="closeTeamReport()"
+    >
+      ✕
+    </button>
+
+    <div id="teamReportContent"></div>
+
+  </div>
+
+</div>
+<div class="teamViewWrap">
+
+<header class="teamHeader hero simpleNirmanHero">
+
+  <div class="simpleHeroBg" aria-hidden="true"></div>
+
+  <div class="simpleCollege">
+    SARVAJANIK COLLEGE OF ENGINEERING &amp; TECHNOLOGY
+  </div>
+
+  <div class="simpleDepartment">
+    <span></span>
+    CIVIL ENGINEERING DEPARTMENT PRESENT
+    <span></span>
+  </div>
+
+  <div class="simpleHeroContent">
+
+    <div class="nirmaanTitle">
+      NIRMAAN <b>2K26</b>
+    </div>
+
+    <div class="auctionClashTitle">
+      AUCTION CLASH
+    </div>
+
+    <div class="heroSub">
+      Official Event Management Portal
+    </div>
+
+    <div class="heroActions">
+
+      <span class="livePill">
+        <i></i>
+        LIVE AUCTION VIEWER
+      </span>
+
+    </div>
+
+  </div>
+
+</header>
+
+<section id="globalFinalResult" class="teamPanel hidden">
+
+  <h2>🏆 Auction Result</h2>
+
+  <div id="globalFinalResultContent"></div>
+
+</section>
+
+
+<section id="selectCard" class="teamCard accessCard">
+
+  <div class="sectionKicker">
+    TEAM ACCESS
+  </div>
+
+  <h2>
+    Select Your Team
+  </h2>
+
+
+  <!-- SEARCHABLE TEAM SELECT -->
+
+  <div class="teamSearchWrap">
+
+    <input
+      id="teamSearch"
+      type="text"
+      placeholder="Search Team..."
+      autocomplete="off"
+    >
+
+    <div
+      id="teamSuggestions"
+      class="teamSuggestions"
+    ></div>
+
+
+    <!-- Original select kept hidden.
+         Existing logic continues to use it. -->
+
+    <select
+      id="teamSelect"
+      style="display:none"
+    >
+      <option value="">
+        Select Your Team
+      </option>
+    </select>
+
+  </div>
+
+
+  <div id="selectMsg" class="msg"></div>
+
+</section>
+
+
+<section id="pinCard" class="teamCard hidden accessCard">
+
+  <h2 id="pinTitle">
+    Team PIN
+  </h2>
+
+  <input
+    id="teamPinInput"
+    type="password"
+    placeholder="Enter Team PIN"
+  >
+
+  <div class="actions">
+
+    <button
+      id="showPinBtn"
+      type="button"
+    >
+      👁️ Show / Hide PIN
+    </button>
+
+    <button
+      id="continueBtn"
+      type="button"
+      class="primary"
+    >
+      Continue
+    </button>
+
+  </div>
+
+  <div id="pinMsg" class="msg"></div>
+
+</section>
+
+
+<section id="teamApp" class="hidden">
+
+  <div class="teamPanel dashboardPanel">
+
+    <div class="actions">
+
+      <button
+        id="changeTeamBtn"
+        type="button"
+      >
+        Change Team
+      </button>
+ <button
+    id="termsBtn"
+    type="button"
+  >
+    📋 Terms &amp; Conditions
+  </button>
+
+  <button
+    id="logoutBtn"
+    type="button"
+  >
+    Logout
+  </button>
+
+</div>
+
+
+    <h2 id="welcome"></h2>
+
+    <div
+      id="auctionStatus"
+      class="bigMsg"
+    ></div>
+
+
+    <div class="teamGrid">
+
+      <div class="stat">
+
+        <div class="statLabel">
+          Starting Budget
+        </div>
+
+        <div
+          id="startBudget"
+          class="statValue"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="statLabel">
+          Remaining Budget
+        </div>
+
+        <div
+          id="remainingBudget"
+          class="statValue"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="statLabel">
+          Players Bought
+        </div>
+
+        <div
+          id="playersBought"
+          class="statValue"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="statLabel">
+          Players Remaining
+        </div>
+
+        <div
+          id="playersRemaining"
+          class="statValue"
+        >
+          —
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="teamMessage"
+      class="bigMsg"
+    ></div>
+  </div>
+
+
+  <div class="teamPanel">
+
+    <h2>
+      🏏 Purchased Players
+    </h2>
+
+    <div id="playersList"></div>
+
+  </div>
+
+
+  <div
+    id="finalResult"
+    class="teamPanel hidden"
+  ></div>
+
+</section>
+
+
+<footer class="siteFooter">
+
+  <b>NIRMAAN 2K26</b>
+
+  <span>
+    Sarvajanik College of Engineering &amp; Technology
+  </span>
+
+  <span>
+    Official Auction Management Portal
+  </span>
+
+  <div class="websiteCredit">
+    🌐 YASH KALATHIYA
+  </div>
+
+</footer>
+
+
+</div>
+
+<script>
+
+const PLAYER_KEY="aa_players_fixed_excel_v2",
+      STATE_KEY="aa_state_fixed_excel_v2";
+
+
+let players=JSON.parse(
+  localStorage.getItem(PLAYER_KEY)||"[]"
+);
+
+let state=JSON.parse(
+  localStorage.getItem(STATE_KEY)||
+  '{"teams":[],"sold":[],"auctionComplete":false}'
+);
+
+let selectedTeamName="",
+    authenticated=false;
+
+
+const $=id=>document.getElementById(id);
+
+const esc=s=>
+  String(s??"").replace(
+    /[&<>"']/g,
+    c=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[c])
+  );
+
+const money=n=>
+  "₹"+Number(n||0).toLocaleString("en-IN");
+
+
+/* =========================================================
+   LOAD STATE
+   ========================================================= */
+
+function loadState(){
+
+  players=JSON.parse(
+    localStorage.getItem(PLAYER_KEY)||"[]"
+  );
+
+  state=JSON.parse(
+    localStorage.getItem(STATE_KEY)||
+    '{"teams":[],"sold":[],"auctionComplete":false}'
+  );
+
+  state.auctionComplete=
+    Boolean(state.auctionComplete);
+
+  renderTeamSelect();
+
+  renderGlobalFinalResult();
+
+  if(authenticated)
+    renderTeam();
+}
+
+
+/* =========================================================
+   TEAM SELECT
+   ========================================================= */
+
+function renderTeamSelect(){
+
+  $("teamSelect").innerHTML=
+    '<option value="">Select Your Team</option>'+
+    state.teams
+      .map(t=>
+        `<option value="${esc(t.name)}">
+          ${esc(t.name)}
+        </option>`
+      )
+      .join("");
+
+  renderTeamSuggestions(
+    $("teamSearch")?.value || ""
+  );
+}
+
+
+/* =========================================================
+   SEARCH TEAM SUGGESTIONS
+   ========================================================= */
+
+function renderTeamSuggestions(query=""){
+
+  const box=$("teamSuggestions");
+
+  if(!box)
+    return;
+
+  const q=
+    String(query||"")
+      .trim()
+      .toLowerCase();
+
+
+  const matches=
+    state.teams
+      .filter(t=>
+        !q ||
+        String(t.name||"")
+          .toLowerCase()
+          .includes(q)
+      )
+      .slice(0,50);
+
+
+  box.innerHTML="";
+
+
+  if(!matches.length){
+
+    box.style.display="none";
+
+    return;
+  }
+
+
+  matches.forEach(t=>{
+
+    const button=
+      document.createElement("button");
+
+    button.type="button";
+
+    button.className=
+      "teamSuggestionItem";
+
+    button.textContent=t.name;
+
+
+    button.addEventListener(
+      "mousedown",
+      e=>{
+
+        e.preventDefault();
+
+        selectTeamForLogin(t.name);
+
+      }
+    );
+
+
+    box.appendChild(button);
+
+  });
+
+
+  box.style.display="block";
+}
+
+
+/* =========================================================
+   SELECT TEAM FROM SEARCH
+   ========================================================= */
+
+function selectTeamForLogin(teamName){
+
+  const t=
+    state.teams.find(
+      x=>String(x.name)===String(teamName)
+    );
+
+  if(!t)
+    return;
+
+
+  $("teamSelect").value=t.name;
+
+  $("teamSearch").value=t.name;
+
+  selectedTeamName=t.name;
+
+
+  $("pinTitle").textContent=
+    t.name+" — Enter PIN";
+
+  $("teamPinInput").value="";
+
+  $("pinMsg").textContent="";
+
+
+  $("teamSuggestions").style.display=
+    "none";
+
+
+  $("selectCard").classList.add(
+    "hidden"
+  );
+
+  $("pinCard").classList.remove(
+    "hidden"
+  );
+}
+
+
+/* =========================================================
+   TEAM SEARCH EVENTS
+   ========================================================= */
+
+$("teamSearch").addEventListener(
+  "focus",
+  ()=>{
+    renderTeamSuggestions(
+      $("teamSearch").value
+    );
+  }
+);
+
+
+$("teamSearch").addEventListener(
+  "input",
+  ()=>{
+
+    $("teamSelect").value="";
+
+    renderTeamSuggestions(
+      $("teamSearch").value
+    );
+
+  }
+);
+
+
+/* Close suggestions when clicking outside */
+
+document.addEventListener(
+  "click",
+  e=>{
+
+    const wrap=
+      document.querySelector(
+        ".teamSearchWrap"
+      );
+
+    if(
+      wrap &&
+      !wrap.contains(e.target)
+    ){
+
+      $("teamSuggestions")
+        .style.display="none";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   ORIGINAL TEAM FUNCTIONS
+   ========================================================= */
+
+function renderGlobalFinalResult(){
+
+  const box=$("globalFinalResult");
+
+  const content=
+    $("globalFinalResultContent");
+
+  if(!box||!content)
+    return;
+
+
+  if(
+    !state.auctionComplete ||
+    !state.resultVisibleToTeams
+  ){
+
+    box.classList.add("hidden");
+
+    content.innerHTML="";
+
+    return;
+  }
+const getWinnerData = (team) => {
+
+  const sold = state.sold.filter(
+    s => s.team === team.name
+  );
+
+  const role = value =>
+    String(value || "")
+      .toLowerCase()
+      .replace(/[\s_-]+/g,"");
+
+  const hasRole = (category, type) => {
+
+    const c = role(category);
+
+    if(type === "batsman")
+      return c.includes("batsman") ||
+             c.includes("batter");
+
+    if(type === "bowler")
+      return c.includes("bowler") ||
+             c.includes("bowling");
+
+    if(type === "wicketkeeper")
+      return c.includes("wicketkeeper") ||
+             c.includes("keeper") ||
+             c.includes("wk");
+
+    if(type === "allrounder")
+      return c.includes("allrounder") ||
+             c.includes("allround");
+
+    return false;
+  };
+
+  const batsmen =
+    sold.filter(s =>
+      hasRole(s.category,"batsman")
+    );
+
+  const bowlers =
+    sold.filter(s =>
+      hasRole(s.category,"bowler")
+    );
+
+  const wicketkeepers =
+    sold.filter(s =>
+      hasRole(s.category,"wicketkeeper")
+    );
+
+  const allRounders =
+    sold.filter(s =>
+      hasRole(s.category,"allrounder")
+    );
+
+  return {
+
+   eligible:
+  sold.length === 4 &&
+  batsmen.length === 1 &&
+  bowlers.length === 1 &&
+  wicketkeepers.length === 1 &&
+  allRounders.length === 1,
+    allRounder:
+      allRounders.length > 0,
+
+
+    totalPoints:
+      Number(team.points||0),
+
+    remainingBudget:
+      Number(team.budget||0),
+
+    totalSpent:
+      Number(team.spent||0)
+  };
+};
+
+function getFinalRanking(){
+
+  return [...state.teams].sort((a,b) => {
+
+    const A = getWinnerData(a);
+    const B = getWinnerData(b);
+
+    if(A.eligible !== B.eligible)
+      return A.eligible ? -1 : 1;
+
+    if(A.totalPoints !== B.totalPoints)
+      return B.totalPoints - A.totalPoints;
+
+    if(A.remainingBudget !== B.remainingBudget)
+      return B.remainingBudget - A.remainingBudget;
+
+    if(A.totalSpent !== B.totalSpent)
+      return A.totalSpent - B.totalSpent;
+
+    return 0;
+
+  });
+
+}
+const winnerData = new Map();
+
+state.teams.forEach(team => {
+  winnerData.set(
+    team.name,
+    getWinnerData(team)
+  );
+});
+
+
+const ranking = getFinalRanking();
+
+
+  box.classList.remove("hidden");
+
+
+  content.innerHTML=
+    "<div class='winnerBox'>"+
+    "<h2>🏆 Winner Celebration</h2>"+
+    "<p>Congratulations to our Champions!</p>"+
+    "<h3>🏆 Final Ranking</h3>"+
+
+    ranking
+      .map((x,i)=>
+        `<div class="rank">
+          <b>
+            ${
+              i<3
+                ? ["🥇","🥈","🥉"][i]
+                : i+1
+            }
+          </b>
+
+          <b>${esc(x.name)}</b>
+
+          <span>
+            ${Number(x.points||0)
+              .toLocaleString("en-IN")}
+            Points
+          </span>
+          <button
+  type="button"
+  class="teamPdfBtn"
+  data-team-name="${esc(x.name)}"
+  onclick="openTeamReport(this.dataset.teamName); return false;"
+>
+  📄 PDF
+</button>
+        </div>`
+      )
+      .join("")+
+
+    "</div>";
+}
+
+
+function currentTeam(){
+
+  return state.teams.find(
+    t=>t.name===selectedTeamName
+  )||null;
+
+}
+function openTeamReport(teamName){
+
+  const team =
+    state.teams.find(
+      t => String(t.name) === String(teamName)
+    );
+
+  if(!team)
+    return;
+
+  const sold =
+    state.sold.filter(
+      s => s.team === team.name
+    );
+
+  const normalize = value =>
+    String(value || "")
+      .toLowerCase()
+      .replace(/[\s_-]+/g,"");
+
+  const hasRole = (category,type) => {
+
+    const c = normalize(category);
+
+    if(type === "batsman")
+      return c.includes("batsman") ||
+             c.includes("batter");
+
+    if(type === "bowler")
+      return c.includes("bowler") ||
+             c.includes("bowling");
+
+    if(type === "wicketkeeper")
+      return c.includes("wicketkeeper") ||
+             c.includes("keeper") ||
+             c.includes("wk");
+
+    if(type === "allrounder")
+      return c.includes("allrounder") ||
+             c.includes("allround");
+
+    return false;
+  };
+
+  const batsmen =
+    sold.filter(
+      s => hasRole(s.category,"batsman")
+    );
+
+  const bowlers =
+    sold.filter(
+      s => hasRole(s.category,"bowler")
+    );
+
+  const wicketkeepers =
+    sold.filter(
+      s => hasRole(s.category,"wicketkeeper")
+    );
+
+  const allRounders =
+    sold.filter(
+      s => hasRole(s.category,"allrounder")
+    );
+
+  const eligible =
+    batsmen.length > 0 &&
+    bowlers.length > 0 &&
+    wicketkeepers.length > 0;
+
+ 
+const finalRanking = [...state.teams].sort((a,b) => {
+
+  const getData = (team) => {
+
+    const sold =
+      state.sold.filter(
+        s => s.team === team.name
+      );
+
+    const normalize = value =>
+      String(value || "")
+        .toLowerCase()
+        .replace(/[\s_-]+/g,"");
+
+    const hasRole = (category,type) => {
+
+      const c = normalize(category);
+
+      if(type === "batsman")
+        return c.includes("batsman") ||
+               c.includes("batter");
+
+      if(type === "bowler")
+        return c.includes("bowler") ||
+               c.includes("bowling");
+
+      if(type === "wicketkeeper")
+        return c.includes("wicketkeeper") ||
+               c.includes("keeper") ||
+               c.includes("wk");
+
+      if(type === "allrounder")
+        return c.includes("allrounder") ||
+               c.includes("allround");
+
+      return false;
+    };
+
+    const batsmen =
+      sold.filter(
+        s => hasRole(s.category,"batsman")
+      );
+
+    const bowlers =
+      sold.filter(
+        s => hasRole(s.category,"bowler")
+      );
+
+    const wicketkeepers =
+      sold.filter(
+        s => hasRole(s.category,"wicketkeeper")
+      );
+
+    const allRounders =
+      sold.filter(
+        s => hasRole(s.category,"allrounder")
+      );
+
+    return {
+      eligible:
+        sold.length === 4 &&
+        batsmen.length === 1 &&
+        bowlers.length === 1 &&
+        wicketkeepers.length === 1 &&
+        allRounders.length === 1,
+
+      totalPoints:
+        Number(team.points || 0),
+
+      remainingBudget:
+        Number(team.budget || 0),
+
+      totalSpent:
+        Number(team.spent || 0)
+    };
+  };
+
+  const A = getData(a);
+  const B = getData(b);
+
+  if(A.eligible !== B.eligible)
+    return A.eligible ? -1 : 1;
+
+  if(A.totalPoints !== B.totalPoints)
+    return B.totalPoints - A.totalPoints;
+
+  if(A.remainingBudget !== B.remainingBudget)
+    return B.remainingBudget - A.remainingBudget;
+
+  if(A.totalSpent !== B.totalSpent)
+    return A.totalSpent - B.totalSpent;
+
+  return 0;
+});
+
+const rank =
+  finalRanking.findIndex(
+    t => t.name === team.name
+  ) + 1;
+
+
+  let missing = [];
+
+  if(!batsmen.length)
+    missing.push("❌ Batsman નથી");
+
+  if(!bowlers.length)
+    missing.push("❌ Bowler નથી");
+
+  if(!wicketkeepers.length)
+    missing.push("❌ Wicketkeeper નથી");
+
+  if(!allRounders.length)
+    missing.push("❌ All-Rounder નથી");
+
+
+  if(!missing.length)
+    missing.push("✅ Required roles complete");
+
+
+  $("teamReportContent").innerHTML = `
+
+    <h2 class="teamReportTitle">
+      📄 ${esc(team.name)} — Final Report
+    </h2>
+
+    <table class="teamReportTable">
+
+      <tr>
+        <td><b>Final Rank</b></td>
+        <td>#${rank}</td>
+      </tr>
+
+      <tr>
+        <td><b>Total Points</b></td>
+        <td>${Number(team.points || 0).toLocaleString("en-IN")}</td>
+      </tr>
+
+      <tr>
+        <td><b>Starting Budget</b></td>
+        <td>${money(team.startBudget)}</td>
+      </tr>
+
+      <tr>
+        <td><b>Remaining Budget</b></td>
+        <td>${money(team.budget)}</td>
+      </tr>
+
+      <tr>
+        <td><b>Total Spent</b></td>
+        <td>${money(team.spent)}</td>
+      </tr>
+
+      <tr>
+        <td><b>Batsman</b></td>
+        <td>${batsmen.length ? "✅" : "❌"}</td>
+      </tr>
+
+      <tr>
+        <td><b>Bowler</b></td>
+        <td>${bowlers.length ? "✅" : "❌"}</td>
+      </tr>
+
+      <tr>
+        <td><b>Wicketkeeper</b></td>
+        <td>${wicketkeepers.length ? "✅" : "❌"}</td>
+      </tr>
+
+      <tr>
+        <td><b>All-Rounder</b></td>
+        <td>${allRounders.length ? "✅" : "❌"}</td>
+      </tr>
+
+    
+    </table>
+
+    <h3>🏏 Players</h3>
+
+    ${
+      sold.length
+        ? sold.map(s => `
+           <div class="playerRow">
+
+  <b>${esc(s.name)}</b>
+
+  <div>
+    <span class="muted">
+      ${esc(s.category)}
+    </span>
+
+    <br>
+
+    <span class="muted">
+      💰 Purchased: ${money(s.bid)}
+    </span>
+  </div>
+
+  <span class="badge">
+    ${Number(s.points || 0).toLocaleString("en-IN")} Points
+  </span>
+
+</div>
+          `).join("")
+        : "<p>No players purchased.</p>"
+    }
+
+    <div class="teamReportMissing">
+
+      <b>📌 Team Status</b>
+
+      <div style="margin-top:8px">
+        ${missing.join("<br>")}
+      </div>
+
+    </div>
+  `;
+
+  $("teamReportModal")
+    .classList.remove("hidden");
+}
+
+  
+function closeTeamReport(){
+
+  $("teamReportModal")
+    .classList.add("hidden");
+
+}
+
+function currentTeamFromSelect(){
+
+  return state.teams.find(
+    t=>t.name===$("teamSelect").value
+  )||null;
+
+}
+/* =========================================================
+   TERMS & CONDITIONS
+   ========================================================= */
+
+$("termsBtn").onclick = () => {
+
+  $("termsModal")
+    .classList.remove("hidden");
+
+};
+
+$("termsCloseBtn").onclick = () => {
+
+  $("termsModal")
+    .classList.add("hidden");
+
+};
+
+/* =========================================================
+   PIN
+   ========================================================= */
+
+$("showPinBtn").onclick=()=>{
+
+  $("teamPinInput").type=
+    $("teamPinInput").type==="password"
+      ?"text"
+      :"password";
+
+};
+
+
+$("continueBtn").onclick=()=>{
+
+  const t=currentTeam();
+
+  if(!t)
+    return;
+
+
+  if(
+    String($("teamPinInput").value)!==
+    String(t.pin||"")
+  ){
+
+    $("pinMsg").textContent=
+      "❌ Incorrect PIN";
+
+    return;
+  }
+
+
+  authenticated=true;
+
+  $("pinCard").classList.add(
+    "hidden"
+  );
+
+  $("teamApp").classList.remove(
+    "hidden"
+  );
+
+  $("welcome").textContent=
+    `🎉 Welcome, ${t.name}!`;
+
+  renderTeam();
+
+};
+
+
+/* =========================================================
+   CHANGE TEAM
+   ========================================================= */
+
+function changeTeam(){
+
+  authenticated=false;
+
+  selectedTeamName="";
+
+
+  $("teamApp").classList.add(
+    "hidden"
+  );
+
+  $("pinCard").classList.add(
+    "hidden"
+  );
+
+  $("selectCard").classList.remove(
+    "hidden"
+  );
+
+
+  $("teamSelect").value="";
+
+  $("teamSearch").value="";
+
+}
+
+
+/* =========================================================
+   LOGOUT / CHANGE TEAM
+   ========================================================= */
+
+$("changeTeamBtn").onclick=
+  changeTeam;
+
+
+$("logoutBtn").onclick=()=>{
+
+  if(
+    confirm(
+      "Are you sure you want to logout?"
+    )
+  )
+    changeTeam();
+
+};
+
+
+/* =========================================================
+   TEAM DASHBOARD
+   ========================================================= */
+
+function renderTeam(){
+
+  if(!authenticated)
+    return;
+
+
+  const t=currentTeam();
+
+
+  if(!t){
+
+    changeTeam();
+
+    return;
+  }
+
+
+  const sold=
+    state.sold.filter(
+      s=>s.team===t.name
+    );
+
+
+  const complete=
+    t.players.length>=4 ||
+    Number(t.budget)<=0;
+
+
+  $("startBudget").textContent=
+    money(t.startBudget);
+
+  $("remainingBudget").textContent=
+    money(t.budget);
+
+  $("playersBought").textContent=
+    `${t.players.length} / 4`;
+
+  $("playersRemaining").textContent=
+    Math.max(
+      0,
+      4-t.players.length
+    );
+
+
+  if(state.auctionComplete){
+
+    $("auctionStatus").innerHTML=
+      "🏁 <b>Auction Complete.</b> Final result is now available.";
+
+  }else{
+
+    $("auctionStatus").innerHTML=
+      "🟢 <b>Auction is in progress.</b> Your team updates automatically.";
+
+  }
+
+
+  if(complete){
+
+    $("teamMessage").className=
+      "bigMsg successBox";
+
+
+    $("teamMessage").innerHTML=
+      t.players.length>=4
+
+        ? "<b>🎉 Your Team is Full!</b><br>"+
+          "🏆 Best Wishes for Your Team!<br>"+
+          "⏳ Now wait for the final result!"
+
+        : "<b>💰 Your Budget is Complete!</b><br>"+
+          "You have completed your auction.";
+
+  }else{
+
+    $("teamMessage").className=
+      "bigMsg";
+
+
+    $("teamMessage").innerHTML=
+      "🔥 <b>Build Your Best Team!</b><br>"+
+      "Make smart choices and give your best to build the strongest team.<br>"+
+      "🏆 All the best — your team could be the champion!";
+
+  }
+
+
+  $("playersList").innerHTML=
+    sold.length
+
+      ? sold
+          .map(
+            (s,i)=>
+              `<div class="playerRow">
+
+                <b>${i+1}</b>
+
+                <div>
+                  <b>${esc(s.name)}</b>
+                  <br>
+                  <span class="muted">
+                    ${esc(s.category)}
+                  </span>
+                </div>
+
+                <span class="badge">
+                  ${money(s.bid)}
+                </span>
+
+              </div>`
+          )
+          .join("")
+
+      : '<div class="empty">No players purchased yet.</div>';
+
+
+  if(
+    state.auctionComplete &&
+    state.resultVisibleToTeams
+  ){
+
+   
+const ranking = getFinalRanking();
+
+    $("finalResult").classList.remove(
+      "hidden"
+    );
+
+
+    $("finalResult").innerHTML=
+      "<div class='winnerBox'>"+
+      "<h2>🏆 Winner Celebration</h2>"+
+      "<p>Congratulations to our Champions!</p>"+
+      "<p>🙌 Thank you to all participating teams!</p>"+
+      "<h3>🏆 Final Ranking</h3>"+
+
+      ranking
+        .map(
+          (x,i)=>
+            `<div class="rank">
+
+              <b>
+                ${
+                  i<3
+                    ? ["🥇","🥈","🥉"][i]
+                    : i+1
+                }
+              </b>
+
+              <b>${esc(x.name)}</b>
+
+              <span>
+                ${Number(x.points||0)
+                  .toLocaleString("en-IN")}
+                Points
+              </span>
+
+            </div>`
+        )
+        .join("")+
+
+      "</div>";
+
+  }else{
+
+    $("finalResult").classList.add(
+      "hidden"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   REAL-TIME
+   ========================================================= */
+
+window.addEventListener(
+  "storage",
+  loadState
+);
+
+
+/*
+   This remains as fallback for the
+   existing application.
+*/
+
+setInterval(
+  loadState,
+  1000
+);
+
+
+loadState();
+
+</script>
+
+
+<!-- EXISTING REAL-TIME SYSTEM -->
+
+<script src="realtime.js"></script>
+
+</body>
+</html>

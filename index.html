@@ -791,5 +791,62 @@
 
 })();
 </script>
+  <!-- Team Players Popup -->
+<div
+  id="teamPlayersModal"
+  class="modal hidden"
+  style="
+    position:fixed;
+    inset:0;
+    z-index:999999;
+    background:rgba(15,23,42,.65);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    box-sizing:border-box;
+  "
+>
+  <div
+    style="
+      width:min(520px,100%);
+      max-height:80vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:16px;
+      padding:22px;
+      box-sizing:border-box;
+      box-shadow:0 20px 60px rgba(0,0,0,.3);
+    "
+  >
+
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:12px;
+        margin-bottom:16px;
+      "
+    >
+      <h2
+        id="teamPlayersTitle"
+        style="margin:0;"
+      >
+        👥 Team Players
+      </h2>
+
+      <button
+        type="button"
+        onclick="window.closeTeamPlayers()"
+      >
+        ✖ Close
+      </button>
+    </div>
+
+    <div id="teamPlayersContent"></div>
+
+  </div>
+</div>
 </body>
 </html>

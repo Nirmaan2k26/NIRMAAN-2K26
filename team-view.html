@@ -1037,11 +1037,15 @@ body{
     padding-top:10px;
   }
 
-  .simpleNirmanHero{
-    border-radius:21px !important;
-    min-height:225px;
-    padding:23px 14px 28px !important;
-  }
+.simpleNirmanHero{
+  width:100% !important;
+  min-height:220px !important;
+  height:auto !important;
+  margin:0 0 14px !important;
+  padding:24px 12px 26px !important;
+  border-radius:20px !important;
+  overflow:hidden !important;
+}
 
   .simpleCollege{
     font-size:9px !important;
@@ -1077,16 +1081,50 @@ body{
     border-radius:18px !important;
   }
 
-  #selectCard,
-  #pinCard{
-    padding:22px !important;
+#selectCard,
+#pinCard{
+  width:100% !important;
+  max-width:100% !important;
+  padding:20px 16px !important;
+  margin:10px 0 14px !important;
+  border-radius:18px !important;
+}
+
+#selectCard h2,
+#pinCard h2{
+  font-size:22px !important;
+  line-height:1.25 !important;
+  margin-bottom:16px !important;
+}
+#pinCard .actions{
+  display:flex;
+  gap:8px;
+  width:100%;
+}
+
+#pinCard .actions button{
+  flex:1;
+  min-width:0;
+  min-height:46px;
+  padding:9px 10px;
+  font-size:13px;
+}
+
+@media(max-width:380px){
+  #pinCard .actions{
+    flex-direction:column;
   }
 
-  #selectCard h2,
-  #pinCard h2{
-    font-size:23px !important;
+  #pinCard .actions button{
+    width:100%;
   }
-
+}
+#teamSearch,
+#teamPinInput{
+  width:100% !important;
+  min-height:52px !important;
+  font-size:16px !important;
+}
   .dashboardPanel{
     padding:18px !important;
   }
@@ -1135,7 +1173,53 @@ body{
     grid-column:2;
   }
 }
+/* =========================================================
+   FINAL MOBILE WIDTH FIX
+   ========================================================= */
 
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  max-width:100%;
+  margin:0;
+  overflow-x:hidden;
+}
+
+.teamViewWrap{
+  width:100%;
+  max-width:1180px;
+  margin:0 auto;
+}
+
+@media(max-width:600px){
+
+  .teamViewWrap{
+    width:100%;
+    max-width:100%;
+    padding-left:10px !important;
+    padding-right:10px !important;
+  }
+
+  .teamCard,
+  .teamPanel{
+    width:100%;
+    max-width:100%;
+  }
+
+  img,
+  input,
+  button,
+  select,
+  textarea{
+    max-width:100%;
+  }
+}
 </style>
 </head>
 

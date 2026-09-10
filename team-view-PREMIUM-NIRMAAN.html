@@ -2602,7 +2602,11 @@ setInterval(
 
 
 loadState();
-
+window.addEventListener(
+  "nirmaan-realtime-update",
+  loadState
+);
+  
 </script>
 
 

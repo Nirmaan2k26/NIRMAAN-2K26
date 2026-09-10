@@ -129,7 +129,23 @@ $("auctionTeam").innerHTML =
    );
  }
 
+/* Team Summary Search */
+const teamSummarySearch = document.getElementById("teamSummarySearch");
 
+if (teamSummarySearch) {
+  teamSummarySearch.oninput = function () {
+    const q = this.value.trim().toLowerCase();
+
+    document
+      .querySelectorAll("#teamTable tbody tr")
+      .forEach(row => {
+        row.style.display =
+          row.textContent.toLowerCase().includes(q)
+            ? ""
+            : "none";
+      });
+  };
+}
  $("teamTable").querySelector("tbody").innerHTML=
    state.teams.length
 
@@ -238,7 +254,35 @@ $("auctionTeam").innerHTML =
          .join("")
 
      : '<tr><td colspan="7">No sold players.</td></tr>';
+/* Sold History Search */
+const soldHistorySearch =
+  document.getElementById("soldHistorySearch");
 
+if (soldHistorySearch) {
+
+  soldHistorySearch.oninput = function () {
+
+    const q =
+      this.value.trim().toLowerCase();
+
+    document
+      .querySelectorAll("#soldTable tbody tr")
+      .forEach(row => {
+
+        row.style.display =
+          row.textContent
+            .toLowerCase()
+            .includes(q)
+            ? ""
+            : "none";
+
+      });
+
+  };
+
+  /* Re-apply search after render */
+  soldHistorySearch.oninput();
+}
 
  const resultBtn=$("toggleTeamResult");
 

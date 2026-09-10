@@ -4524,3 +4524,101 @@ window.addEventListener(
 
   }
  );
+/* =========================================================
+   TEAM PLAYERS POPUP
+   ========================================================= */
+
+window.viewTeamPlayers = function(index){
+
+  const team = state.teams[Number(index)];
+
+  if(!team) return;
+
+  const modal =
+    document.getElementById("teamPlayersModal");
+
+  const title =
+    document.getElementById("teamPlayersTitle");
+
+  const content =
+    document.getElementById("teamPlayersContent");
+
+  if(!modal || !title || !content) return;
+
+  const teamSold =
+    state.sold.filter(
+      s => s.team === team.name
+    );
+
+  title.textContent =
+    `👥 ${team.name} — ${teamSold.length} Players`;
+
+  if(!teamSold.length){
+
+    content.innerHTML = `
+      <div style="
+        padding:20px;
+        text-align:center;
+        color:#64748b;
+        font-weight:600;
+      ">
+        No players purchased yet.
+      </div>
+    `;
+
+  }else{
+
+    content.innerHTML =
+      teamSold.map(player => `
+
+        <div style="
+          padding:14px;
+          margin-bottom:10px;
+          border:1px solid #e2e8f0;
+          border-radius:12px;
+          background:#f8fafc;
+        ">
+
+          <div style="
+            font-size:17px;
+            font-weight:800;
+            margin-bottom:6px;
+          ">
+            ${esc(player.name)}
+          </div>
+
+          <div style="
+            color:#475569;
+            margin-bottom:5px;
+          ">
+            🏏 ${esc(player.category)}
+          </div>
+
+          <div style="
+            font-weight:700;
+          ">
+            ⭐ ${Number(player.points || 0)
+              .toLocaleString("en-IN")} Points
+          </div>
+
+        </div>
+
+      `).join("");
+
+  }
+
+  modal.classList.remove("hidden");
+  modal.style.display = "flex";
+};
+
+
+window.closeTeamPlayers = function(){
+
+  const modal =
+    document.getElementById("teamPlayersModal");
+
+  if(!modal) return;
+
+  modal.classList.add("hidden");
+  modal.style.display = "none";
+};

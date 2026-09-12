@@ -874,3 +874,114 @@ opacity: 0.95;
     grid-template-columns:1fr !important;
   }
 }
+/* =========================================================
+   NIRMAAN 2K26 — AUCTION BUTTON ICON FIX
+   STEP 2
+   ========================================================= */
+
+/* Hide existing emoji icons */
+.auctionControlButtons .auctionBtnIcon{
+  width:58px !important;
+  height:100% !important;
+  flex:0 0 58px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  font-size:0 !important;
+  line-height:1 !important;
+
+  border-right:1px solid rgba(255,255,255,.28) !important;
+}
+
+/* ---------- SOLD : WHITE GAVEL ---------- */
+
+.auctionControlButtons .soldBtn .auctionBtnIcon::before{
+  content:"";
+  width:30px;
+  height:30px;
+  display:block;
+
+  background-color:#fff;
+
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M42 5l17 17-7 7-4-4-12 12 4 4-7 7-17-17 7-7 4 4 12-12-4-4 7-7zm-28 40l5 5-8 8H3v-8l8-8z'/%3E%3C/svg%3E") center/contain no-repeat;
+
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M42 5l17 17-7 7-4-4-12 12 4 4-7 7-17-17 7-7 4 4 12-12-4-4 7-7zm-28 40l5 5-8 8H3v-8l8-8z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+
+/* ---------- UNSOLD : WHITE CIRCLE X ---------- */
+
+.auctionControlButtons .unsoldBtn .auctionBtnIcon::before{
+  content:"×";
+
+  width:31px;
+  height:31px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:3px solid #fff;
+  border-radius:50%;
+
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:27px;
+  font-weight:700;
+  line-height:27px;
+}
+
+
+/* ---------- UNDO ---------- */
+
+.auctionControlButtons .undoBtn .auctionBtnIcon::before{
+  content:"↶";
+
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:35px;
+  font-weight:400;
+  line-height:1;
+}
+
+
+/* ---------- REDO ---------- */
+
+.auctionControlButtons .redoBtn .auctionBtnIcon::before{
+  content:"↷";
+
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:35px;
+  font-weight:400;
+  line-height:1;
+}
+
+
+/* ---------- BUTTON TEXT ---------- */
+
+.auctionControlButtons .auctionBtn > span:last-child{
+  flex:1;
+  text-align:center;
+  padding-right:20px;
+}
+
+
+/* ---------- SCREENSHOT-LIKE BUTTON HEIGHT ---------- */
+
+.auctionControlButtons .auctionBtn{
+  height:58px !important;
+  border-radius:11px !important;
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:800px){
+  .auctionControlButtons .auctionBtnIcon{
+    width:52px !important;
+    flex-basis:52px !important;
+  }
+}

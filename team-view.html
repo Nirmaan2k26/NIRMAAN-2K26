@@ -2289,20 +2289,59 @@ const getWinnerData = (team) => {
 
 function getFinalRanking(){
 
+  /* Use Admin's saved final ranking */
+  if(
+    Array.isArray(state.finalRanking) &&
+    state.finalRanking.length
+  ){
+
+    const savedRanking =
+      state.finalRanking
+        .map(name =>
+          state.teams.find(
+            t => String(t.name) === String(name)
+          )
+        )
+        .filter(Boolean);
+
+    const savedNames =
+      new Set(
+        savedRanking.map(
+          team => team.name
+        )
+      );
+
+    const remainingTeams =
+      state.teams.filter(
+        team => !savedNames.has(team.name)
+      );
+
+    return [
+      ...savedRanking,
+      ...remainingTeams
+    ];
+  }
+
+
+  /* Fallback ranking */
   return [...state.teams].sort((a,b) => {
 
     const A = getWinnerData(a);
     const B = getWinnerData(b);
 
+    /* 1. Eligible */
     if(A.eligible !== B.eligible)
       return A.eligible ? -1 : 1;
 
+    /* 2. Total Points */
     if(A.totalPoints !== B.totalPoints)
       return B.totalPoints - A.totalPoints;
 
+    /* 3. Remaining Budget */
     if(A.remainingBudget !== B.remainingBudget)
       return B.remainingBudget - A.remainingBudget;
 
+    /* 4. Total Spent */
     if(A.totalSpent !== B.totalSpent)
       return A.totalSpent - B.totalSpent;
 

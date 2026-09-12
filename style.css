@@ -2920,3 +2920,87 @@ button:hover::before,
     font-size:18px !important;
   }
 }
+/* =========================================================
+   NIRMAAN 2K26 — AUCTION ENTRY PREMIUM DARK V2
+   DESIGN ONLY — existing IDs/functions unchanged
+   ========================================================= */
+
+.featuredCard{
+  position:relative!important;overflow:hidden!important;padding:34px!important;
+  border-radius:26px!important;border:1px solid rgba(242,195,91,.38)!important;
+  background:
+    radial-gradient(ellipse 520px 280px at 92% 0%,rgba(242,195,91,.12),transparent 70%),
+    radial-gradient(ellipse 480px 300px at 0% 100%,rgba(48,113,222,.18),transparent 70%),
+    linear-gradient(145deg,#0e2944 0%,#0a1d31 55%,#071727 100%)!important;
+  box-shadow:0 28px 70px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+.featuredCard::after{
+  content:"";position:absolute;left:7%;right:7%;top:0;height:3px;border-radius:0 0 10px 10px;
+  background:linear-gradient(90deg,transparent,#dca83c 18%,#f8d878 50%,#dca83c 82%,transparent);
+}
+.featuredCard h2{
+  color:#fff!important;font-size:30px!important;font-weight:950!important;
+  letter-spacing:-.04em!important;margin:5px 0 0!important;
+}
+.featuredCard .grid3{
+  display:grid!important;grid-template-columns:1.3fr 1.3fr .8fr!important;
+  gap:16px!important;margin-top:24px!important;align-items:end!important;
+}
+.featuredCard .grid3>div{min-width:0!important}
+.featuredCard label{
+  display:block!important;margin-bottom:8px!important;color:#a9bed5!important;
+  font-size:11px!important;font-weight:900!important;letter-spacing:.10em!important;
+  text-transform:uppercase!important;
+}
+.featuredCard input,.featuredCard select{
+  width:100%!important;min-height:58px!important;box-sizing:border-box!important;
+  background:linear-gradient(145deg,#081b2e,#0c2239)!important;color:#f5f8fc!important;
+  border:1px solid rgba(120,165,211,.34)!important;border-radius:14px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 22px rgba(0,0,0,.18)!important;
+}
+.featuredCard input::placeholder{color:#7189a4!important}
+.featuredCard input:focus,.featuredCard select:focus{
+  outline:none!important;border-color:rgba(242,195,91,.82)!important;
+  box-shadow:0 0 0 4px rgba(242,195,91,.08),0 10px 28px rgba(0,0,0,.25)!important;
+}
+#bidPrice{
+  color:#f6cf69!important;font-size:20px!important;font-weight:900!important;
+  border-color:rgba(242,195,91,.62)!important;
+  background:linear-gradient(145deg,#122b42,#091b2d)!important;
+}
+.featuredCard #playerInfo{
+  min-height:62px!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;
+  margin-top:18px!important;padding:16px 20px!important;border-radius:15px!important;
+  border:1px solid rgba(77,143,255,.34)!important;
+  background:linear-gradient(100deg,rgba(40,103,217,.20),rgba(12,47,80,.58))!important;
+  color:#e2edf8!important;
+}
+.featuredCard .auctionControlButtons{
+  display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important;margin-top:18px!important;
+}
+.featuredCard .auctionControlButtons .auctionBtn{
+  position:relative!important;overflow:hidden!important;height:72px!important;min-height:72px!important;
+  border-radius:15px!important;border:1px solid rgba(242,195,91,.42)!important;
+  box-shadow:0 15px 32px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.10)!important;
+  font-size:15px!important;font-weight:950!important;letter-spacing:.08em!important;
+}
+.featuredCard .soldBtn{background:linear-gradient(135deg,#087b55,#18bd7c)!important}
+.featuredCard .unsoldBtn{background:linear-gradient(135deg,#b51f30,#ed4b58)!important}
+.featuredCard .undoBtn,.featuredCard .redoBtn{background:linear-gradient(135deg,#193b5d,#2d618e)!important}
+.featuredCard .auctionBtnIcon{
+  width:62px!important;min-width:62px!important;border-right:1px solid rgba(242,195,91,.35)!important;
+}
+.featuredCard .auctionBtn:hover{
+  transform:translateY(-3px)!important;border-color:rgba(242,195,91,.82)!important;
+  box-shadow:0 21px 40px rgba(0,0,0,.34),0 0 22px rgba(242,195,91,.07)!important;
+}
+.featuredCard #auctionMsg{margin-top:12px!important}
+
+@media(max-width:800px){
+  .featuredCard{padding:24px!important}
+  .featuredCard .grid3{grid-template-columns:1fr!important}
+  .featuredCard .auctionControlButtons{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:520px){
+  .featuredCard .auctionControlButtons{grid-template-columns:1fr!important}
+}

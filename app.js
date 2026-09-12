@@ -4637,3 +4637,83 @@ window.closeTeamPlayers = function(){
   modal.classList.add("hidden");
   modal.style.display = "none";
 };
+/* =========================================
+   SOLD HISTORY — DOWNLOAD EXCEL
+   ========================================= */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+  const downloadSoldHistory =
+    document.getElementById("downloadSoldHistory");
+
+  if(!downloadSoldHistory) return;
+
+  downloadSoldHistory.addEventListener("click", function(){
+
+    /* Check sold history */
+    if(
+      !Array.isArray(state.sold) ||
+      state.sold.length === 0
+    ){
+      alert("⚠️ Sold History is empty.");
+      return;
+    }
+
+    /* Excel data */
+    const rows = [
+      [
+        "#",
+        "Player",
+        "Team",
+        "Bid",
+        "Points",
+        "Category"
+      ]
+    ];
+
+    state.sold.forEach(function(sold, index){
+
+      rows.push([
+        index + 1,
+        sold.name || "",
+        sold.team || "",
+        Number(sold.bid || 0),
+        Number(sold.points || 0),
+        sold.category || ""
+      ]);
+
+    });
+
+    /* Create worksheet */
+    const worksheet =
+      XLSX.utils.aoa_to_sheet(rows);
+
+    /* Create workbook */
+    const workbook =
+      XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      "Sold History"
+    );
+
+    /* Set column widths */
+    worksheet["!cols"] = [
+      { wch: 8 },
+      { wch: 28 },
+      { wch: 24 },
+      { wch: 15 },
+      { wch: 12 },
+      { wch: 20 }
+    ];
+
+    /* Download */
+    XLSX.writeFile(
+      workbook,
+      "NIRMAAN_2K26_Sold_History.xlsx"
+    );
+
+  });
+
+});

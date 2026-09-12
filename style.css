@@ -2042,3 +2042,158 @@ tbody tr:hover{
     grid-template-columns:1fr !important;
   }
 }
+/* =========================================================
+   NIRMAAN 2K26 — PREMIUM GOLD BUTTON SYSTEM
+   ========================================================= */
+
+button,
+.fileBtn{
+  position:relative !important;
+  overflow:hidden !important;
+  border-radius:12px !important;
+  letter-spacing:.015em !important;
+}
+
+/* Gold accent line */
+button::after,
+.fileBtn::after{
+  content:"" !important;
+  position:absolute !important;
+  left:12% !important;
+  right:12% !important;
+  bottom:0 !important;
+  height:2px !important;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #f2c35b,
+    transparent
+  ) !important;
+  opacity:.75 !important;
+}
+
+/* Main blue buttons */
+button.primary,
+.fileBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #183d72 0%,
+      #245b9c 55%,
+      #183d72 100%
+    ) !important;
+
+  border:1px solid rgba(242,195,91,.55) !important;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+
+/* Normal buttons */
+button:not(.auctionBtn):not(.danger){
+  background:
+    linear-gradient(
+      135deg,
+      #122b45,
+      #173653
+    ) !important;
+
+  color:#edf4fc !important;
+
+  border:1px solid rgba(242,195,91,.30) !important;
+
+  box-shadow:
+    0 8px 22px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+/* Danger */
+button.danger{
+  background:
+    linear-gradient(
+      135deg,
+      #a91f2d,
+      #e04450
+    ) !important;
+
+  border:1px solid rgba(242,195,91,.30) !important;
+}
+
+/* Hover */
+button:hover,
+.fileBtn:hover{
+  border-color:rgba(242,195,91,.82) !important;
+
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.28),
+    0 0 0 1px rgba(242,195,91,.08) !important;
+}
+
+/* Gold shine */
+button::before,
+.fileBtn::before{
+  content:"" !important;
+  position:absolute !important;
+  top:0 !important;
+  left:-120% !important;
+  width:70% !important;
+  height:100% !important;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(242,195,91,.16),
+    transparent
+  ) !important;
+
+  transform:skewX(-20deg) !important;
+  transition:left .55s ease !important;
+}
+
+button:hover::before,
+.fileBtn:hover::before{
+  left:150% !important;
+}
+
+/* ---------- AUCTION BUTTONS ---------- */
+
+.auctionControlButtons .auctionBtn{
+  border:1px solid rgba(242,195,91,.38) !important;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+.auctionControlButtons .soldBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #087d55,
+      #18b878
+    ) !important;
+}
+
+.auctionControlButtons .unsoldBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #b82030,
+      #e74754
+    ) !important;
+}
+
+.auctionControlButtons .undoBtn,
+.auctionControlButtons .redoBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #183b60,
+      #2b5c88
+    ) !important;
+}
+
+/* Gold icon divider */
+.auctionControlButtons .auctionBtnIcon{
+  border-right:1px solid rgba(242,195,91,.38) !important;
+}

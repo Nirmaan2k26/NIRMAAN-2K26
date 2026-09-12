@@ -1483,3 +1483,562 @@ body > *{
   position:relative;
   z-index:1;
 }
+
+/* =========================================================
+   NIRMAAN 2K26 — FINAL PREMIUM DARK AUCTION UI
+   VISUAL OVERRIDE LAYER
+   ---------------------------------------------------------
+   Design only. Existing HTML IDs, JS, Excel, realtime and
+   auction logic are intentionally untouched.
+   ========================================================= */
+
+:root{
+  --p-bg:#06111f;
+  --p-bg2:#091a2c;
+  --p-card:#0c1d30;
+  --p-card2:#102640;
+  --p-input:#081a2c;
+  --p-line:rgba(137,170,207,.20);
+  --p-line2:rgba(242,195,91,.24);
+  --p-text:#f5f8fc;
+  --p-muted:#91a5bc;
+  --p-blue:#4d8fff;
+  --p-blue2:#2c65d9;
+  --p-gold:#f2c35b;
+  --p-gold2:#dca83c;
+  --p-green:#19bd7c;
+  --p-red:#ef4b59;
+  --p-radius:22px;
+  --p-shadow:0 22px 60px rgba(0,0,0,.28);
+}
+
+/* ---------- PAGE / BACKGROUND ---------- */
+
+html{
+  background:#06111f !important;
+}
+
+body{
+  background:
+    radial-gradient(ellipse 650px 380px at 7% 2%,rgba(52,111,218,.20),transparent 70%),
+    radial-gradient(ellipse 520px 340px at 94% 4%,rgba(242,195,91,.10),transparent 70%),
+    radial-gradient(ellipse 700px 420px at 50% 100%,rgba(26,73,126,.13),transparent 70%),
+    linear-gradient(145deg,#050f1b 0%,#071525 48%,#06111f 100%) !important;
+  color:var(--p-text) !important;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:
+    linear-gradient(118deg,transparent 0 48%,rgba(255,255,255,.025) 48.15%,transparent 48.4%),
+    linear-gradient(32deg,transparent 0 71%,rgba(77,143,255,.018) 71.15%,transparent 71.4%);
+  background-size:360px 360px,430px 430px;
+  opacity:.75;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  box-shadow:inset 0 0 150px rgba(0,0,0,.34);
+}
+
+/* ---------- LAYOUT ---------- */
+
+.wrap{
+  max-width:1240px !important;
+  padding:28px 24px 52px !important;
+}
+
+/* ---------- HERO ---------- */
+
+.simpleNirmanHero,
+header.hero,
+.teamHero{
+  position:relative !important;
+  overflow:hidden !important;
+  isolation:isolate !important;
+  border-radius:26px !important;
+  border:1px solid rgba(242,195,91,.34) !important;
+  background:
+    radial-gradient(ellipse 520px 340px at 12% 65%,rgba(44,101,217,.28),transparent 70%),
+    radial-gradient(ellipse 430px 320px at 90% 35%,rgba(242,195,91,.13),transparent 70%),
+    linear-gradient(135deg,#061321 0%,#0a1e35 52%,#0c223d 100%) !important;
+  box-shadow:
+    0 28px 75px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.07) !important;
+}
+
+.simpleNirmanHero{
+  min-height:420px !important;
+  padding:38px 42px 38px !important;
+  margin-bottom:24px !important;
+}
+
+.simpleNirmanHero::before{
+  content:"";
+  position:absolute !important;
+  inset:-20% -10% !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+  background:
+    linear-gradient(135deg,transparent 0 55%,rgba(255,255,255,.028) 55.2%,transparent 55.5%),
+    linear-gradient(45deg,transparent 0 72%,rgba(242,195,91,.035) 72.2%,transparent 72.5%);
+}
+
+.simpleNirmanHero::after{
+  content:"";
+  position:absolute !important;
+  width:440px !important;
+  height:440px !important;
+  right:-205px !important;
+  bottom:-265px !important;
+  z-index:0 !important;
+  border:1px solid rgba(242,195,91,.20) !important;
+  border-radius:50% !important;
+  box-shadow:
+    0 0 0 48px rgba(242,195,91,.035),
+    0 0 0 98px rgba(77,143,255,.025) !important;
+}
+
+.simpleNirmanHero > *{
+  position:relative !important;
+  z-index:2 !important;
+}
+
+.simpleNirmanHero .simpleCollege{
+  border:1px solid rgba(242,195,91,.48) !important;
+  background:rgba(255,255,255,.035) !important;
+  color:#f5f8fc !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+.simpleNirmanHero .simpleDepartment{
+  color:var(--p-gold) !important;
+}
+
+.simpleNirmanHero .nirmaanTitle{
+  color:#fff !important;
+  text-shadow:0 8px 30px rgba(0,0,0,.28) !important;
+}
+
+.simpleNirmanHero .nirmaanTitle b{
+  color:var(--p-gold) !important;
+}
+
+.simpleNirmanHero .auctionClashTitle{
+  color:#fff !important;
+  text-shadow:0 10px 35px rgba(0,0,0,.34) !important;
+}
+
+.simpleNirmanHero .heroSub{
+  color:#b9c8da !important;
+}
+
+.simpleNirmanHero .fileBtn{
+  border:1px solid rgba(242,195,91,.65) !important;
+  background:linear-gradient(135deg,#1c4d99,#2d69c7) !important;
+  box-shadow:0 12px 28px rgba(24,83,174,.25) !important;
+}
+
+.simpleNirmanHero .livePill{
+  border:1px solid rgba(255,255,255,.17) !important;
+  background:rgba(255,255,255,.055) !important;
+  color:#edf3fa !important;
+}
+
+/* ---------- ALL MAIN CARDS ---------- */
+
+.card,
+.teamCard,
+.teamPanel{
+  background:
+    linear-gradient(145deg,rgba(15,36,58,.98),rgba(8,25,42,.98)) !important;
+  border:1px solid var(--p-line) !important;
+  border-radius:var(--p-radius) !important;
+  box-shadow:var(--p-shadow) !important;
+  color:var(--p-text) !important;
+  position:relative !important;
+}
+
+.card{
+  padding:28px !important;
+  margin:0 0 22px !important;
+}
+
+.card::before,
+.teamCard::before,
+.teamPanel::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:28px;
+  right:28px;
+  height:2px;
+  border-radius:0 0 10px 10px;
+  background:linear-gradient(90deg,rgba(77,143,255,.85),rgba(242,195,91,.65),transparent);
+}
+
+.sectionKicker{
+  color:#7e95b0 !important;
+  font-size:11px !important;
+  font-weight:900 !important;
+  letter-spacing:.16em !important;
+}
+
+.card h2,
+.teamCard h2,
+.teamPanel h2{
+  color:#f5f8fc !important;
+  font-weight:900 !important;
+  letter-spacing:-.025em !important;
+}
+
+.card p,
+.muted{
+  color:var(--p-muted) !important;
+}
+
+/* ---------- LABELS / INPUTS ---------- */
+
+.card label,
+.editCard label,
+.modal-content label{
+  color:#9db0c7 !important;
+  font-size:11px !important;
+  font-weight:850 !important;
+  letter-spacing:.055em !important;
+  text-transform:uppercase !important;
+}
+
+input,
+select{
+  background:var(--p-input) !important;
+  color:#f2f6fb !important;
+  border:1px solid rgba(126,163,202,.25) !important;
+  border-radius:13px !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+input::placeholder{
+  color:#71869f !important;
+}
+
+input:focus,
+select:focus{
+  border-color:rgba(77,143,255,.85) !important;
+  box-shadow:0 0 0 4px rgba(77,143,255,.11),0 10px 30px rgba(0,0,0,.18) !important;
+}
+
+/* ---------- BUTTON SYSTEM ---------- */
+
+button{
+  border-radius:13px !important;
+  font-weight:850 !important;
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease !important;
+}
+
+button:hover{
+  transform:translateY(-2px) !important;
+  filter:brightness(1.05) !important;
+}
+
+.primary,
+.fileBtn{
+  background:linear-gradient(135deg,#2867d9,#3d80ed) !important;
+  border-color:rgba(77,143,255,.55) !important;
+  color:#fff !important;
+  box-shadow:0 10px 28px rgba(40,103,217,.22) !important;
+}
+
+.danger{
+  background:linear-gradient(135deg,#d92f40,#f04e5b) !important;
+  border-color:rgba(255,255,255,.08) !important;
+  color:#fff !important;
+}
+
+/* ---------- DROPDOWNS ---------- */
+
+.playerDropdown,
+.playerSuggestions,
+.teamDropdown{
+  background:#0b2035 !important;
+  border:1px solid rgba(126,163,202,.28) !important;
+  box-shadow:0 20px 45px rgba(0,0,0,.35) !important;
+}
+
+.playerSuggestion,
+.playerDropItem,
+.teamSearchOption{
+  background:#0b2035 !important;
+  color:#e9f0f7 !important;
+  border-bottom-color:rgba(126,163,202,.13) !important;
+}
+
+.playerSuggestion:hover,
+.playerDropItem:hover,
+.teamSearchOption:hover{
+  background:#123253 !important;
+}
+
+/* ---------- AUCTION ENTRY ---------- */
+
+.featuredCard{
+  border-color:rgba(242,195,91,.30) !important;
+  background:
+    radial-gradient(ellipse 420px 240px at 92% 5%,rgba(242,195,91,.09),transparent 70%),
+    linear-gradient(145deg,#102a44,#091c2e) !important;
+  box-shadow:
+    0 28px 70px rgba(0,0,0,.30),
+    inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+.featuredCard .grid3{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:14px !important;
+}
+
+.featuredCard #playerInfo{
+  background:
+    linear-gradient(90deg,rgba(44,101,217,.18),rgba(77,143,255,.07)) !important;
+  border:1px solid rgba(77,143,255,.25) !important;
+  color:#dce9f8 !important;
+  border-radius:15px !important;
+}
+
+.auctionControlButtons{
+  display:grid !important;
+  grid-template-columns:1.15fr 1.15fr 1fr 1fr !important;
+  gap:12px !important;
+  margin-top:16px !important;
+}
+
+.auctionControlButtons .auctionBtn{
+  min-height:64px !important;
+  height:64px !important;
+  border-radius:14px !important;
+  border:1px solid rgba(255,255,255,.13) !important;
+  box-shadow:0 14px 32px rgba(0,0,0,.24) !important;
+}
+
+.auctionControlButtons .soldBtn{
+  background:linear-gradient(135deg,#079a67,#19bd7c) !important;
+}
+
+.auctionControlButtons .unsoldBtn{
+  background:linear-gradient(135deg,#d82436,#ef4b59) !important;
+}
+
+.auctionControlButtons .undoBtn,
+.auctionControlButtons .redoBtn{
+  background:linear-gradient(135deg,#244c75,#326796) !important;
+}
+
+.auctionControlButtons .auctionBtnIcon{
+  border-right-color:rgba(255,255,255,.22) !important;
+}
+
+/* ---------- INFO / MESSAGES ---------- */
+
+.info,
+.bigMsg{
+  background:
+    linear-gradient(135deg,rgba(44,101,217,.16),rgba(16,48,79,.60)) !important;
+  border:1px solid rgba(77,143,255,.23) !important;
+  color:#dce8f7 !important;
+}
+
+.msg{
+  background:#0b2034 !important;
+  color:#d8e5f3 !important;
+}
+
+.ok{
+  background:rgba(25,189,124,.13) !important;
+  color:#74e1b3 !important;
+  border:1px solid rgba(25,189,124,.22) !important;
+}
+
+.err{
+  background:rgba(239,75,89,.13) !important;
+  color:#ff8b96 !important;
+  border:1px solid rgba(239,75,89,.22) !important;
+}
+
+/* ---------- TABLES ---------- */
+
+.tableWrap{
+  background:#071a2c !important;
+  border:1px solid rgba(126,163,202,.19) !important;
+  border-radius:16px !important;
+}
+
+table{
+  background:transparent !important;
+}
+
+th,
+thead th{
+  background:#102a43 !important;
+  color:#8fa7c1 !important;
+  border-bottom:1px solid rgba(126,163,202,.18) !important;
+}
+
+td,
+tbody td{
+  color:#dbe5f0 !important;
+  border-bottom:1px solid rgba(126,163,202,.12) !important;
+}
+
+tbody tr:hover{
+  background:rgba(77,143,255,.065) !important;
+}
+
+/* ---------- RANKINGS / WINNER ---------- */
+
+.rank{
+  border-bottom-color:rgba(126,163,202,.13) !important;
+}
+
+.winnerCard{
+  background:
+    radial-gradient(ellipse 500px 280px at 85% 10%,rgba(242,195,91,.12),transparent 70%),
+    linear-gradient(145deg,#122d47,#091c2e) !important;
+  border-color:rgba(242,195,91,.30) !important;
+}
+
+.winnerBox{
+  background:linear-gradient(135deg,rgba(242,195,91,.12),rgba(255,255,255,.025)) !important;
+  border-color:rgba(242,195,91,.34) !important;
+  color:#fff !important;
+}
+
+.badge{
+  background:rgba(77,143,255,.14) !important;
+  color:#9fc5ff !important;
+  border:1px solid rgba(77,143,255,.22) !important;
+}
+
+/* ---------- TEAM VIEWER STATS ---------- */
+
+.stat{
+  background:linear-gradient(145deg,#112b46,#091c2e) !important;
+  border:1px solid rgba(126,163,202,.20) !important;
+  color:#fff !important;
+  box-shadow:0 12px 30px rgba(0,0,0,.18) !important;
+}
+
+.statLabel{
+  color:#8198b2 !important;
+}
+
+.statValue{
+  color:#f4f8fd !important;
+}
+
+/* ---------- MODALS ---------- */
+
+.editModal,
+.modal{
+  background:rgba(2,9,17,.78) !important;
+  backdrop-filter:blur(8px) !important;
+}
+
+.editCard,
+.modal-content{
+  background:linear-gradient(145deg,#112941,#091b2d) !important;
+  color:#f2f6fb !important;
+  border:1px solid rgba(126,163,202,.24) !important;
+  box-shadow:0 30px 90px rgba(0,0,0,.48) !important;
+}
+
+.closeEditX{
+  background:#16314b !important;
+  color:#dbe7f4 !important;
+}
+
+/* ---------- LOGIN ---------- */
+
+.adminLogin{
+  background:
+    radial-gradient(ellipse 520px 400px at 15% 20%,rgba(49,111,225,.23),transparent 70%),
+    radial-gradient(ellipse 430px 340px at 85% 75%,rgba(242,195,91,.11),transparent 70%),
+    #06111f !important;
+}
+
+.adminLoginCard{
+  background:linear-gradient(145deg,#102941,#081a2c) !important;
+  color:#fff !important;
+  border:1px solid rgba(242,195,91,.27) !important;
+  box-shadow:0 30px 90px rgba(0,0,0,.50) !important;
+}
+
+/* ---------- FOOTER ---------- */
+
+.siteFooter{
+  color:#71869f !important;
+  border-top:1px solid rgba(126,163,202,.13) !important;
+}
+
+.siteFooter b{
+  color:#dce6f1 !important;
+}
+
+/* ---------- SCROLLBARS ---------- */
+
+::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#06111f;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#284660;
+  border:2px solid #06111f;
+  border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#3c6286;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:800px){
+  .wrap{
+    padding:18px 14px 36px !important;
+  }
+
+  .simpleNirmanHero{
+    min-height:360px !important;
+    padding:28px 20px 30px !important;
+    border-radius:21px !important;
+  }
+
+  .featuredCard .grid3{
+    grid-template-columns:1fr !important;
+  }
+
+  .auctionControlButtons{
+    grid-template-columns:1fr 1fr !important;
+  }
+
+  .card{
+    padding:22px !important;
+  }
+}
+
+@media(max-width:450px){
+  .auctionControlButtons{
+    grid-template-columns:1fr !important;
+  }
+}

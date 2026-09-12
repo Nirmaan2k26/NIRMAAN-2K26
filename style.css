@@ -984,3 +984,226 @@ opacity: 0.95;
     flex-basis:52px !important;
   }
 }
+/* =========================================================
+   NIRMAAN 2K26 — PREMIUM UI FOUNDATION
+   DESIGN ONLY — NO FUNCTIONALITY CHANGES
+   ========================================================= */
+
+:root{
+  --navy:#07152f;
+  --navy2:#0d2349;
+  --ink:#162544;
+  --muted:#71809b;
+  --surface:#ffffff;
+  --bg:#eef2f8;
+  --soft:#f6f8fc;
+  --line:#dce3ef;
+  --accent:#e7b94f;
+  --blue:#315be8;
+  --green:#129968;
+  --red:#d9434f;
+  --shadow:0 18px 45px rgba(12,30,65,.09);
+  --shadowHover:0 24px 60px rgba(12,30,65,.14);
+  --radius:22px;
+}
+
+/* Page */
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(circle at 0% 0%,rgba(49,91,232,.07),transparent 30rem),
+    radial-gradient(circle at 100% 10%,rgba(231,185,79,.08),transparent 28rem),
+    var(--bg) !important;
+  color:var(--ink) !important;
+}
+
+/* Main container */
+.wrap{
+  max-width:1220px !important;
+  padding:34px 24px !important;
+}
+
+/* All main cards */
+.card{
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid rgba(216,225,239,.95) !important;
+  border-radius:24px !important;
+  box-shadow:var(--shadow) !important;
+  padding:30px !important;
+  margin-bottom:24px !important;
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+}
+
+.card:hover{
+  box-shadow:var(--shadowHover) !important;
+  border-color:#cfd9e8 !important;
+}
+
+/* Section labels */
+.sectionKicker{
+  color:#7b8aa5 !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  letter-spacing:.14em !important;
+  text-transform:uppercase !important;
+  margin-bottom:8px !important;
+}
+
+/* Section headings */
+.card h2{
+  color:var(--ink) !important;
+  font-size:28px !important;
+  font-weight:900 !important;
+  letter-spacing:-.025em !important;
+  margin:0 0 12px !important;
+}
+
+/* Description text */
+.card > p,
+.card .muted,
+.card .subtext{
+  color:var(--muted);
+}
+
+/* Inputs */
+input,
+select{
+  border:1px solid #d3ddec !important;
+  background:#fff !important;
+  color:var(--ink) !important;
+  border-radius:14px !important;
+  min-height:54px !important;
+  padding:0 16px !important;
+  box-shadow:0 3px 12px rgba(20,35,70,.035) !important;
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease,
+    transform .18s ease;
+}
+
+input::placeholder{
+  color:#9aa5b7 !important;
+}
+
+input:focus,
+select:focus{
+  outline:none !important;
+  border-color:#5475dc !important;
+  box-shadow:0 0 0 4px rgba(49,91,232,.10) !important;
+}
+
+/* Standard buttons */
+button{
+  border-radius:13px;
+  font-weight:800;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    filter .16s ease;
+}
+
+button:hover{
+  transform:translateY(-1px);
+}
+
+button:active{
+  transform:translateY(0);
+}
+
+/* Featured auction card */
+.featuredCard{
+  border:1px solid rgba(49,91,232,.14) !important;
+  box-shadow:
+    0 22px 55px rgba(18,42,88,.12),
+    0 0 0 1px rgba(255,255,255,.7) inset !important;
+}
+
+/* Better grid spacing */
+.grid3{
+  gap:16px !important;
+}
+
+/* Info panels */
+.info{
+  border-radius:16px !important;
+  border:1px solid #d8e3f4 !important;
+  background:linear-gradient(135deg,#f2f6ff,#edf4ff) !important;
+  box-shadow:0 8px 24px rgba(35,75,145,.05) !important;
+}
+
+/* Tables */
+table{
+  border-collapse:separate !important;
+  border-spacing:0 !important;
+}
+
+thead th{
+  background:#f4f7fb !important;
+  color:#64738f !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  letter-spacing:.07em !important;
+  text-transform:uppercase !important;
+}
+
+tbody tr{
+  transition:background .16s ease;
+}
+
+tbody tr:hover{
+  background:#f8faff !important;
+}
+
+/* Search boxes */
+input[type="search"]{
+  background:#fff !important;
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#edf1f7;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#b8c3d5;
+  border-radius:999px;
+  border:2px solid #edf1f7;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#8e9bb1;
+}
+
+/* Mobile */
+@media(max-width:650px){
+
+  .wrap{
+    padding:18px 14px !important;
+  }
+
+  .card{
+    padding:22px !important;
+    border-radius:20px !important;
+    margin-bottom:18px !important;
+  }
+
+  .card h2{
+    font-size:24px !important;
+  }
+
+  input,
+  select{
+    min-height:52px !important;
+  }
+}

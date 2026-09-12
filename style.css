@@ -1412,3 +1412,86 @@ input[type="search"]{
     right:22px;
   }
 }
+/* =========================================================
+   NIRMAAN 2K26 — PREMIUM AUCTION ARENA BACKGROUND
+   DESIGN ONLY
+   ========================================================= */
+
+html,
+body{
+  min-height:100%;
+}
+
+body{
+  background:
+    radial-gradient(
+      circle at 8% 8%,
+      rgba(47,91,234,.18) 0,
+      rgba(47,91,234,0) 28%
+    ),
+    radial-gradient(
+      circle at 92% 12%,
+      rgba(231,184,74,.13) 0,
+      rgba(231,184,74,0) 25%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(31,67,132,.18) 0,
+      rgba(31,67,132,0) 38%
+    ),
+    linear-gradient(
+      135deg,
+      #061126 0%,
+      #091936 42%,
+      #0b1d3d 72%,
+      #07152d 100%
+    ) !important;
+
+  background-attachment:fixed !important;
+  color:#f4f7ff !important;
+}
+
+/* Subtle premium arena pattern */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+
+  background-image:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255,255,255,.018) 49.8%,
+      transparent 50%
+    ),
+    linear-gradient(
+      25deg,
+      transparent 0%,
+      rgba(231,184,74,.018) 49.8%,
+      transparent 50%
+    );
+
+  background-size:180px 180px, 220px 220px;
+  opacity:.55;
+}
+
+/* Soft edge lighting */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+
+  box-shadow:
+    inset 0 0 160px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+/* Keep normal content above background */
+body > *{
+  position:relative;
+  z-index:1;
+}

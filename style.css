@@ -2626,3 +2626,297 @@ button:hover::before,
   opacity:1 !important;
   pointer-events:auto !important;
 }
+/* =========================================================
+   NIRMAAN 2K26 — PREMIUM DARK AUCTION ENTRY
+   ========================================================= */
+
+.featuredCard{
+  position:relative !important;
+  overflow:hidden !important;
+
+  padding:32px !important;
+
+  background:
+    radial-gradient(
+      circle at 95% 5%,
+      rgba(242,195,91,.12),
+      transparent 260px
+    ),
+    radial-gradient(
+      circle at 5% 100%,
+      rgba(50,120,235,.14),
+      transparent 300px
+    ),
+    linear-gradient(
+      145deg,
+      #102943 0%,
+      #0b1f34 55%,
+      #081827 100%
+    ) !important;
+
+  border:1px solid rgba(242,195,91,.30) !important;
+
+  box-shadow:
+    0 28px 70px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+/* Gold top accent */
+.featuredCard::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:8%;
+  right:8%;
+  height:3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #dca83c 20%,
+      #f7d67b 50%,
+      #dca83c 80%,
+      transparent
+    );
+
+  border-radius:0 0 8px 8px;
+}
+
+/* Auction heading */
+.featuredCard h2{
+  margin-top:6px !important;
+  color:#ffffff !important;
+  font-size:29px !important;
+  font-weight:950 !important;
+  letter-spacing:-.035em !important;
+}
+
+/* Three auction fields */
+.featuredCard .grid3{
+  grid-template-columns:
+    minmax(0,1.35fr)
+    minmax(0,1.35fr)
+    minmax(190px,.75fr) !important;
+
+  gap:16px !important;
+  margin-top:22px !important;
+}
+
+/* Input wrapper */
+.featuredCard .grid3 > div{
+  position:relative !important;
+}
+
+/* Input labels */
+.featuredCard label{
+  margin-bottom:8px !important;
+  color:#9db2c9 !important;
+  font-size:11px !important;
+  font-weight:900 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+}
+
+/* Auction inputs */
+.featuredCard input,
+.featuredCard select{
+  width:100% !important;
+  min-height:56px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #091b2e,
+      #0c2238
+    ) !important;
+
+  border:1px solid rgba(130,169,211,.27) !important;
+  border-radius:14px !important;
+
+  color:#f5f8fc !important;
+
+  font-size:15px !important;
+  font-weight:650 !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.035),
+    0 7px 20px rgba(0,0,0,.13) !important;
+}
+
+.featuredCard input:focus,
+.featuredCard select:focus{
+  border-color:rgba(242,195,91,.75) !important;
+
+  box-shadow:
+    0 0 0 4px rgba(242,195,91,.08),
+    0 10px 28px rgba(0,0,0,.20) !important;
+}
+
+/* Bid Price — make it the focal point */
+#bidPrice{
+  border-color:rgba(242,195,91,.42) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #122b43,
+      #0a1d30
+    ) !important;
+
+  color:#f7d46d !important;
+
+  font-size:20px !important;
+  font-weight:900 !important;
+}
+
+/* Player information panel */
+.featuredCard #playerInfo{
+  position:relative !important;
+
+  margin-top:18px !important;
+  padding:17px 20px !important;
+
+  min-height:58px !important;
+  box-sizing:border-box !important;
+
+  display:flex !important;
+  align-items:center !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(48,105,190,.22),
+      rgba(17,53,87,.48)
+    ) !important;
+
+  border:1px solid rgba(77,143,255,.28) !important;
+  border-radius:15px !important;
+
+  color:#dce9f7 !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+/* Auction action row */
+.featuredCard .auctionControlButtons{
+  display:grid !important;
+
+  grid-template-columns:
+    1.25fr
+    1.25fr
+    1fr
+    1fr !important;
+
+  gap:12px !important;
+
+  margin-top:18px !important;
+}
+
+/* All auction buttons */
+.featuredCard .auctionControlButtons .auctionBtn{
+  position:relative !important;
+  overflow:hidden !important;
+
+  height:68px !important;
+  min-height:68px !important;
+
+  border-radius:15px !important;
+
+  border:1px solid rgba(255,255,255,.13) !important;
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.10) !important;
+
+  font-size:14px !important;
+  font-weight:950 !important;
+  letter-spacing:.07em !important;
+}
+
+/* SOLD */
+.featuredCard .soldBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #087d55,
+      #18b878
+    ) !important;
+
+  border-color:rgba(242,195,91,.48) !important;
+}
+
+/* UNSOLD */
+.featuredCard .unsoldBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #b82030,
+      #ed4a57
+    ) !important;
+
+  border-color:rgba(242,195,91,.32) !important;
+}
+
+/* Undo / Redo */
+.featuredCard .undoBtn,
+.featuredCard .redoBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #183a5b,
+      #2c5e89
+    ) !important;
+
+  border-color:rgba(120,167,214,.28) !important;
+}
+
+/* Icon area */
+.featuredCard .auctionBtnIcon{
+  width:58px !important;
+  min-width:58px !important;
+  border-right:1px solid rgba(242,195,91,.32) !important;
+}
+
+/* Button hover */
+.featuredCard .auctionBtn:hover{
+  transform:translateY(-3px) !important;
+
+  box-shadow:
+    0 20px 38px rgba(0,0,0,.32),
+    0 0 0 1px rgba(242,195,91,.16) !important;
+}
+
+/* Message area */
+.featuredCard #auctionMsg{
+  margin-top:13px !important;
+  border-radius:12px !important;
+}
+
+/* Mobile */
+@media(max-width:800px){
+
+  .featuredCard{
+    padding:23px !important;
+  }
+
+  .featuredCard .grid3{
+    grid-template-columns:1fr !important;
+  }
+
+  .featuredCard .auctionControlButtons{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
+
+@media(max-width:520px){
+
+  .featuredCard .auctionControlButtons{
+    grid-template-columns:1fr !important;
+  }
+
+  #bidPrice{
+    font-size:18px !important;
+  }
+}

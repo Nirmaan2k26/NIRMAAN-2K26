@@ -2264,3 +2264,309 @@ button:hover::before,
   border:0 !important;
   border-top:1px solid rgba(137,170,207,.18) !important;
 }
+/* =========================================================
+   NIRMAAN 2K26 — PREMIUM TERMS & CONDITIONS POPUP
+   DESIGN ONLY
+   ========================================================= */
+
+#termsModal.teamReportModal{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:999999 !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  padding:28px !important;
+  box-sizing:border-box !important;
+
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(45,105,190,.16),
+      transparent 45%
+    ),
+    rgba(2,8,16,.82) !important;
+
+  backdrop-filter:blur(10px) !important;
+}
+
+
+/* ---------- MAIN POPUP ---------- */
+
+#termsModal .teamReportCard{
+  position:relative !important;
+
+  width:min(920px,100%) !important;
+  max-width:920px !important;
+
+  max-height:88vh !important;
+
+  box-sizing:border-box !important;
+
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+
+  padding:34px 42px 38px !important;
+
+  border-radius:24px !important;
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(242,195,91,.09),
+      transparent 28%
+    ),
+    linear-gradient(
+      145deg,
+      #102940 0%,
+      #091c2e 100%
+    ) !important;
+
+  border:1px solid rgba(242,195,91,.30) !important;
+
+  color:#eaf1f8 !important;
+
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+
+/* ---------- TOP GOLD LINE ---------- */
+
+#termsModal .teamReportCard::before{
+  content:"" !important;
+
+  position:absolute !important;
+
+  top:0 !important;
+  left:9% !important;
+  right:9% !important;
+
+  height:3px !important;
+
+  border-radius:0 0 8px 8px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #dca83c 20%,
+      #f5d27a 50%,
+      #dca83c 80%,
+      transparent
+    ) !important;
+}
+
+
+/* ---------- CLOSE BUTTON ---------- */
+
+#termsModal .teamReportClose{
+  position:absolute !important;
+
+  top:16px !important;
+  right:18px !important;
+
+  width:42px !important;
+  height:42px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  padding:0 !important;
+
+  border-radius:50% !important;
+
+  border:1px solid rgba(242,195,91,.42) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #173552,
+      #0b2135
+    ) !important;
+
+  color:#f4d277 !important;
+
+  font-size:24px !important;
+  font-weight:500 !important;
+
+  box-shadow:
+    0 8px 22px rgba(0,0,0,.28) !important;
+
+  z-index:20 !important;
+}
+
+#termsModal .teamReportClose:hover{
+  color:#fff !important;
+
+  border-color:#f2c35b !important;
+
+  background:#1b4266 !important;
+
+  transform:rotate(90deg) scale(1.04) !important;
+}
+
+
+/* ---------- CONTENT ---------- */
+
+#termsModal #termsContent{
+  padding:8px 4px 0 !important;
+}
+
+
+/* ---------- MAIN TITLE ---------- */
+
+#termsModal .teamReportTitle{
+  margin:0 55px 26px 0 !important;
+
+  color:#f4c95d !important;
+
+  font-size:25px !important;
+
+  font-weight:950 !important;
+
+  letter-spacing:-.025em !important;
+}
+
+
+/* ---------- T&C HEADING ---------- */
+
+#termsModal #termsContent h3{
+  margin:0 0 28px !important;
+
+  padding-bottom:15px !important;
+
+  border-bottom:1px solid rgba(126,163,202,.20) !important;
+
+  color:#ffffff !important;
+
+  font-size:22px !important;
+
+  font-weight:900 !important;
+
+  letter-spacing:.01em !important;
+}
+
+
+/* ---------- SECTION HEADINGS ---------- */
+
+#termsModal #termsContent h4{
+  margin:25px 0 10px !important;
+
+  color:#f2c35b !important;
+
+  font-size:16px !important;
+
+  font-weight:900 !important;
+
+  line-height:1.35 !important;
+}
+
+
+/* ---------- NORMAL TEXT ---------- */
+
+#termsModal #termsContent p,
+#termsModal #termsContent li{
+  color:#d5e1ed !important;
+
+  font-size:15px !important;
+
+  line-height:1.72 !important;
+}
+
+
+/* ---------- LISTS ---------- */
+
+#termsModal #termsContent ul,
+#termsModal #termsContent ol{
+  margin-top:8px !important;
+
+  padding-left:25px !important;
+}
+
+#termsModal #termsContent li{
+  margin:7px 0 !important;
+}
+
+
+/* ---------- IMPORTANT TEXT ---------- */
+
+#termsModal #termsContent strong{
+  color:#ffffff !important;
+
+  font-weight:850 !important;
+}
+
+
+/* ---------- SCROLLBAR ---------- */
+
+#termsModal .teamReportCard::-webkit-scrollbar{
+  width:9px !important;
+}
+
+#termsModal .teamReportCard::-webkit-scrollbar-track{
+  background:#071525 !important;
+  border-radius:10px !important;
+}
+
+#termsModal .teamReportCard::-webkit-scrollbar-thumb{
+  background:#2b4b69 !important;
+  border-radius:10px !important;
+}
+
+#termsModal .teamReportCard::-webkit-scrollbar-thumb:hover{
+  background:#426b91 !important;
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:650px){
+
+  #termsModal.teamReportModal{
+    padding:10px !important;
+  }
+
+  #termsModal .teamReportCard{
+    width:100% !important;
+    max-width:100% !important;
+    max-height:94vh !important;
+
+    padding:30px 18px 24px !important;
+
+    border-radius:19px !important;
+  }
+
+  #termsModal .teamReportClose{
+    top:11px !important;
+    right:11px !important;
+
+    width:38px !important;
+    height:38px !important;
+  }
+
+  #termsModal .teamReportTitle{
+    font-size:20px !important;
+    margin-right:48px !important;
+    margin-bottom:22px !important;
+  }
+
+  #termsModal #termsContent h3{
+    font-size:18px !important;
+    line-height:1.35 !important;
+  }
+
+  #termsModal #termsContent h4{
+    font-size:15px !important;
+  }
+
+  #termsModal #termsContent p,
+  #termsModal #termsContent li{
+    font-size:13px !important;
+    line-height:1.65 !important;
+  }
+}

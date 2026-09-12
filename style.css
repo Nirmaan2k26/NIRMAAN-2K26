@@ -2609,3 +2609,20 @@ button:hover::before,
   font-size:24px !important;
   line-height:1 !important;
 }
+/* =========================================================
+   FINAL FIX — T&C MODAL MUST STAY HIDDEN UNTIL OPENED
+   ========================================================= */
+
+#termsModal.hidden{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+#termsModal:not(.hidden){
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+}

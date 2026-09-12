@@ -1324,3 +1324,91 @@ input[type="search"]{
     width:100% !important;
   }
 }
+/* =========================================================
+   NIRMAAN 2K26 — PREMIUM MANAGEMENT SECTIONS
+   DESIGN ONLY
+   ========================================================= */
+
+.card:not(.featuredCard){
+  position:relative;
+}
+
+/* Management section titles */
+.card:not(.featuredCard) h2{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* Form labels */
+.card label{
+  display:block;
+  margin-bottom:8px !important;
+  color:#52627e !important;
+  font-size:12px !important;
+  font-weight:850 !important;
+  letter-spacing:.045em !important;
+  text-transform:uppercase !important;
+}
+
+/* Management action area */
+.card .actions,
+.card .buttonRow,
+.card .btnRow{
+  gap:12px !important;
+}
+
+/* Primary action buttons */
+.card button{
+  min-height:48px;
+  padding:0 18px;
+  border:1px solid transparent;
+  box-shadow:0 7px 18px rgba(20,35,70,.08);
+}
+
+/* Management cards get subtle top accent */
+.card:not(.featuredCard)::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:30px;
+  right:30px;
+  height:3px;
+  border-radius:0 0 8px 8px;
+  background:linear-gradient(90deg,#315be8,#e7b94f);
+  opacity:.75;
+}
+
+/* Cleaner separators */
+.card hr{
+  border:0 !important;
+  border-top:1px solid #e6ebf3 !important;
+  margin:22px 0 !important;
+}
+
+/* Better small status / count boxes */
+.card .stat,
+.card .badge,
+.card .pill{
+  border-radius:999px !important;
+  font-weight:800 !important;
+}
+
+/* Management inputs in grids */
+.card .grid2,
+.card .grid3{
+  align-items:end;
+}
+
+/* Action buttons polish */
+.card button:not(.auctionBtn):hover{
+  box-shadow:0 12px 25px rgba(20,35,70,.12);
+}
+
+/* Mobile */
+@media(max-width:650px){
+  .card:not(.featuredCard)::before{
+    left:22px;
+    right:22px;
+  }
+}

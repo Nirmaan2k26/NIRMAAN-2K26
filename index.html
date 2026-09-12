@@ -355,44 +355,45 @@
 
 
   <div id="playerInfo" class="info hidden"></div>
-<div style="
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:10px;
-">
+<div class="auctionControlButtons">
 
   <button
     type="button"
-    class="primary"
+    class="auctionBtn soldBtn"
     onclick="window.handleAuctionSold()"
   >
-    🟢 SOLD
+    <span class="auctionBtnIcon">🔨</span>
+    <span>SOLD</span>
   </button>
 
   <button
     type="button"
+    class="auctionBtn unsoldBtn"
     onclick="window.handleAuctionUnsold()"
   >
-    🔴 UNSOLD
+    <span class="auctionBtnIcon">✕</span>
+    <span>UNSOLD</span>
   </button>
 
   <button
     type="button"
+    class="auctionBtn undoBtn"
     onclick="window.undoAuctionAction()"
   >
-    ↩️ UNDO
+    <span class="auctionBtnIcon">↶</span>
+    <span>UNDO</span>
   </button>
 
   <button
     type="button"
+    class="auctionBtn redoBtn"
     onclick="window.redoAuctionAction()"
   >
-    ↪️ REDO
+    <span class="auctionBtnIcon">↷</span>
+    <span>REDO</span>
   </button>
 
 </div>
-
   <div id="auctionMsg" class="msg"></div>
 
 </section>

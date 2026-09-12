@@ -999,3 +999,24 @@ window.closeTeamPlayers = function(){
   }
 
 }
+/* =========================================================
+   AUCTION BUTTONS — FULL WIDTH FIX
+   ========================================================= */
+
+.auctionControlButtons{
+  width:100% !important;
+  max-width:none !important;
+  box-sizing:border-box !important;
+
+  display:grid !important;
+  grid-template-columns:
+    1.2fr 1.2fr 1fr 1fr !important;
+
+  gap:12px !important;
+}
+
+.auctionControlButtons .auctionBtn{
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}

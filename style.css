@@ -912,3 +912,90 @@ window.closeTeamPlayers = function(){
   }
 
 }
+/* =========================================================
+   NIRMAAN 2K26 — PROFESSIONAL AUCTION CONTROLS
+   ========================================================= */
+
+.auctionControlButtons{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:12px;
+  margin-top:14px;
+}
+
+.auctionControlButtons .auctionBtn{
+  min-height:58px;
+  padding:0 18px;
+  border-radius:13px;
+  border:1px solid #d5dce7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.02em;
+  cursor:pointer;
+  transition:all .18s ease;
+  box-shadow:0 3px 10px rgba(15,23,42,.07);
+}
+
+.auctionBtnIcon{
+  font-size:22px;
+  line-height:1;
+}
+
+/* SOLD */
+.auctionControlButtons .soldBtn{
+  background:#159669;
+  color:#fff;
+  border-color:#159669;
+}
+
+/* UNSOLD */
+.auctionControlButtons .unsoldBtn{
+  background:#fff;
+  color:#b4232c;
+  border-color:#e5a0a5;
+}
+
+/* UNDO + REDO */
+.auctionControlButtons .undoBtn,
+.auctionControlButtons .redoBtn{
+  background:#f8fafc;
+  color:#1e3a5f;
+  border-color:#cbd5e1;
+}
+
+/* Hover */
+.auctionControlButtons .auctionBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(15,23,42,.13);
+}
+
+/* Click */
+.auctionControlButtons .auctionBtn:active{
+  transform:translateY(0);
+}
+
+/* Mobile */
+@media(max-width:700px){
+
+  .auctionControlButtons{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:430px){
+
+  .auctionControlButtons{
+    grid-template-columns:1fr;
+  }
+
+  .auctionControlButtons .auctionBtn{
+    min-height:54px;
+  }
+
+}

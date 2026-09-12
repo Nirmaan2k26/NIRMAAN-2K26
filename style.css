@@ -2197,3 +2197,70 @@ button:hover::before,
 .auctionControlButtons .auctionBtnIcon{
   border-right:1px solid rgba(242,195,91,.38) !important;
 }
+/* =========================================================
+   NIRMAAN 2K26 — T&C PREMIUM READABILITY
+   ========================================================= */
+
+.termsCard,
+.termsConditions,
+.tcCard,
+.tncCard,
+[id*="terms"],
+[id*="Terms"],
+[id*="tnc"],
+[id*="TnC"]{
+  color:#e9f0f8 !important;
+  background:linear-gradient(145deg,#10263e,#0a1b2d) !important;
+  border-color:rgba(242,195,91,.24) !important;
+}
+
+/* T&C headings */
+.termsCard h2,
+.termsCard h3,
+.termsConditions h2,
+.termsConditions h3,
+.tcCard h2,
+.tcCard h3,
+.tncCard h2,
+.tncCard h3{
+  color:#f5c95f !important;
+  font-weight:900 !important;
+}
+
+/* T&C normal text */
+.termsCard p,
+.termsCard li,
+.termsConditions p,
+.termsConditions li,
+.tcCard p,
+.tcCard li,
+.tncCard p,
+.tncCard li{
+  color:#d5e0ec !important;
+  line-height:1.7 !important;
+}
+
+/* Important / numbered points */
+.termsCard strong,
+.termsConditions strong,
+.tcCard strong,
+.tncCard strong{
+  color:#ffffff !important;
+}
+
+/* Links */
+.termsCard a,
+.termsConditions a,
+.tcCard a,
+.tncCard a{
+  color:#78aaff !important;
+}
+
+/* Better separation */
+.termsCard hr,
+.termsConditions hr,
+.tcCard hr,
+.tncCard hr{
+  border:0 !important;
+  border-top:1px solid rgba(137,170,207,.18) !important;
+}

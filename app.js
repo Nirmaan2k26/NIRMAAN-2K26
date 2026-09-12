@@ -1589,35 +1589,50 @@ const ranking =
 
     }
 
+/* 2. TOTAL PERFORMANCE POINTS */
 
-    /* 2. REMAINING BUDGET */
+if(
+  A.totalPoints !==
+  B.totalPoints
+){
 
-    if(
-      A.remainingBudget !==
-      B.remainingBudget
-    ){
+  return (
+    B.totalPoints -
+    A.totalPoints
+  );
 
-      return (
-        B.remainingBudget -
-        A.remainingBudget
-      );
-
-    }
+}
 
 
-    /* 3. TOTAL PERFORMANCE POINTS */
+/* 3. REMAINING BUDGET */
 
-    if(
-      A.totalPoints !==
-      B.totalPoints
-    ){
+if(
+  A.remainingBudget !==
+  B.remainingBudget
+){
 
-      return (
-        B.totalPoints -
-        A.totalPoints
-      );
+  return (
+    B.remainingBudget -
+    A.remainingBudget
+  );
 
-    }
+}
+
+
+/* 4. TOTAL SPENT */
+
+if(
+  A.totalSpent !==
+  B.totalSpent
+){
+
+  return (
+    A.totalSpent -
+    B.totalSpent
+  );
+
+}
+  
 
 
     /* 4. EXACT TIE */

@@ -1246,179 +1246,6 @@ document.addEventListener(
 
   }
 );
-$("playerName").addEventListener("keydown", function(e){
-  if(e.key === "Enter"){
-    $("sellPlayer").click();
-  }
-});
-
-$("bidPrice").addEventListener("keydown", function(e){
-  if(e.key === "Enter"){
-    $("sellPlayer").click();
-  }
-});
-$("sellPlayer").onclick=()=>{
-
- if(state.auctionComplete)
-   return setMsg(
-     "auctionMsg",
-     "🏁 Auction is already complete.",
-     "err"
-   );
-
-
- const p=
-   getPlayer(
-     $("playerName").value
-   );
-
-
- const selectedTeam=
-   $("auctionTeam").value;
-
-
- /*
-    The searchable dropdown now stores only
-    the real team name in option.value.
- */
-
- const t=
-   state.teams.find(
-     x=>x.name===selectedTeam
-   );
-
-
- const bid=
-   Number($("bidPrice").value);
-
-
- if(!p)
-   return setMsg(
-     "auctionMsg",
-     "Select a valid player.",
-     "err"
-   );
-
-
- if(!t)
-   return setMsg(
-     "auctionMsg",
-     "No team is available. Add a team first.",
-     "err"
-   );
-
-
- /*
-    IMPORTANT:
-    Full team remains visible but cannot be used
-    for another purchase.
- */
-
- if(
-   t.players.length>=4 ||
-   Number(t.budget)<=0
- )
-   return setMsg(
-     "auctionMsg",
-     `❌ ${esc(t.name)} is complete and is no longer available for bidding.`,
-     "err"
-   );
-const teamSoldPlayers = state.sold.filter(
-  s => s.team === t.name
-);
-
-const categoryAlreadyTaken = teamSoldPlayers.some(
-  s => String(s.category || "").trim() === String(p.category || "").trim()
-);
-
-if(categoryAlreadyTaken)
-  return setMsg(
-    "auctionMsg",
-    `❌ ${esc(t.name)} already has a ${esc(p.category)}. Only one player from each category is allowed.`,
-    "err"
-  );
-
- if(
-   state.sold.some(
-     s=>String(s.playerId)===String(p.id)
-   )
- )
-   return setMsg(
-     "auctionMsg",
-     "Player already sold.",
-     "err"
-   );
-
-
- if(!bid||bid<p.basePrice)
-   return setMsg(
-     "auctionMsg",
-     "Bid must be at least Base Price.",
-     "err"
-   );
-
-
- if(bid>t.budget)
-   return setMsg(
-     "auctionMsg",
-     "Insufficient team budget.",
-     "err"
-   );
-
-
- t.budget-=bid;
-
- t.spent+=bid;
-
- t.points+=p.points;
-
- t.players.push(p.id);
-
-
- state.sold.push({
-   playerId:p.id,
-   name:p.name,
-   team:t.name,
-   bid,
-   points:p.points,
-   category:p.category
- });
-
-
- /*
-    Save first so every connected tab can
-    immediately read the new state.
- */
-
- save();
-
- render();
-
-
- $("playerName").value="";
- $("bidPrice").value="";
-
- $("playerInfo")
-   .classList.add("hidden");
-
-
- const completedNow=
-   t.players.length>=4 ||
-   Number(t.budget)<=0;
-
-
- setMsg(
-   "auctionMsg",
-
-   completedNow
-
-     ? `${esc(p.name)} SOLD to ${esc(t.name)} for ${money(bid)}. <b>${esc(t.name)} is now complete. It remains visible in the team list but cannot receive another player.</b>`
-
-     : `${esc(p.name)} SOLD to ${esc(t.name)} for ${money(bid)}.`,
-
-   "ok"
- );
-};
 
 
 $("completeAuction").onclick=()=>{
@@ -4717,3 +4544,698 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 
 });
+/* =========================================================
+   NIRMAAN — ONE BY ONE AUCTION SYSTEM
+   SOLD / UNSOLD / UNDO / REDO
+   ========================================================= */
+
+(function(){
+
+  /* Old saved state ma unsold na hoy to create karo */
+  if(!Array.isArray(state.unsold)){
+    state.unsold=[];
+  }
+
+  if(!Array.isArray(state.sold)){
+    state.sold=[];
+  }
+
+  /* -------------------------------------------------------
+     SNAPSHOT
+     ------------------------------------------------------- */
+
+  let undoStack=[];
+  let redoStack=[];
+
+  function cloneData(data){
+    return JSON.parse(JSON.stringify(data));
+  }
+
+  function makeSnapshot(){
+
+    return {
+      sold:cloneData(state.sold || []),
+      unsold:cloneData(state.unsold || []),
+      teams:cloneData(state.teams || []),
+      currentPlayerId:
+        state.currentAuctionPlayerId ?? null
+    };
+
+  }
+
+  function restoreSnapshot(snapshot){
+
+    state.sold=
+      cloneData(snapshot.sold || []);
+
+    state.unsold=
+      cloneData(snapshot.unsold || []);
+
+    state.teams=
+      cloneData(snapshot.teams || []);
+
+    state.currentAuctionPlayerId=
+      snapshot.currentPlayerId ?? null;
+
+    save();
+    render();
+    showCurrentAuctionPlayer();
+
+  }
+
+  /* -------------------------------------------------------
+     PLAYER STATUS
+     ------------------------------------------------------- */
+
+  function isPlayerDone(playerId){
+
+    const id=String(playerId);
+
+    const sold=
+      state.sold.some(
+        s=>String(s.playerId)===id
+      );
+
+    const unsold=
+      state.unsold.some(
+        s=>String(s.playerId)===id
+      );
+
+    return sold || unsold;
+  }
+
+  /* -------------------------------------------------------
+     NEXT AVAILABLE PLAYER
+     Excel order maintain thase.
+     ------------------------------------------------------- */
+
+  function getNextAvailablePlayer(){
+
+    return players.find(
+      p=>p && !isPlayerDone(p.id)
+    ) || null;
+
+  }
+
+  /* -------------------------------------------------------
+     CURRENT PLAYER DISPLAY
+     ------------------------------------------------------- */
+
+  function showCurrentAuctionPlayer(){
+
+    const input=
+      document.getElementById("playerName");
+
+    const info=
+      document.getElementById("playerInfo");
+
+    const dropdown=
+      document.getElementById("playerDropdown");
+
+    if(!input) return;
+
+    let player=
+      players.find(
+        p=>
+          String(p.id)===
+          String(state.currentAuctionPlayerId)
+      );
+
+    /*
+       Current player available na hoy
+       to next available player lo.
+    */
+
+    if(!player || isPlayerDone(player.id)){
+
+      player=
+        getNextAvailablePlayer();
+
+      state.currentAuctionPlayerId=
+        player
+          ? player.id
+          : null;
+
+    }
+
+    /* No players left */
+
+    if(!player){
+
+      input.value="";
+      input.placeholder="All players completed";
+      input.readOnly=true;
+
+      if(info){
+
+        info.classList.remove("hidden");
+
+        info.innerHTML=`
+          <b>🏁 All players have been SOLD or marked UNSOLD.</b>
+        `;
+
+      }
+
+      if(dropdown){
+
+        dropdown.innerHTML="";
+        dropdown.classList.remove("show");
+
+      }
+
+      return;
+
+    }
+
+    /* Show current player */
+
+    input.value=
+      player.name || "";
+
+    input.readOnly=true;
+
+    input.placeholder=
+      "Current Auction Player";
+
+    if(dropdown){
+
+      dropdown.innerHTML="";
+      dropdown.classList.remove("show");
+
+    }
+
+    if(info){
+
+      info.classList.remove("hidden");
+
+      info.innerHTML=
+        `<b>${esc(player.name)}</b>
+         · Base ${money(player.basePrice)}
+         · ${esc(player.category)}
+         · ${Number(player.points || 0)} Points
+         · ${esc(player.iplTeam || "")}`;
+
+    }
+
+  }
+
+  /* -------------------------------------------------------
+     MOVE TO NEXT PLAYER
+     ------------------------------------------------------- */
+
+  function moveToNextPlayer(){
+
+    const currentIndex=
+      players.findIndex(
+        p=>
+          String(p.id)===
+          String(state.currentAuctionPlayerId)
+      );
+
+    let next=null;
+
+    if(currentIndex>=0){
+
+      for(
+        let i=currentIndex+1;
+        i<players.length;
+        i++
+      ){
+
+        if(!isPlayerDone(players[i].id)){
+
+          next=players[i];
+          break;
+
+        }
+
+      }
+
+    }
+
+    /*
+       Fallback — jo current player na male
+       to first available player.
+    */
+
+    if(!next){
+      next=getNextAvailablePlayer();
+    }
+
+    state.currentAuctionPlayerId=
+      next
+        ? next.id
+        : null;
+
+    showCurrentAuctionPlayer();
+
+  }
+
+  /* -------------------------------------------------------
+     SAVE ACTION
+     ------------------------------------------------------- */
+
+  function saveAuctionAction(before){
+
+    const after=
+      makeSnapshot();
+
+    undoStack.push({
+      before,
+      after
+    });
+
+    /* New action after Undo = Redo clear */
+
+    redoStack=[];
+
+  }
+
+  /* -------------------------------------------------------
+     SOLD
+     ------------------------------------------------------- */
+
+  window.handleAuctionSold=function(){
+
+    if(state.auctionComplete){
+
+      return setMsg(
+        "auctionMsg",
+        "🏁 Auction is already complete.",
+        "err"
+      );
+
+    }
+
+    const player=
+      players.find(
+        p=>
+          String(p.id)===
+          String(state.currentAuctionPlayerId)
+      );
+
+    if(!player){
+
+      return setMsg(
+        "auctionMsg",
+        "🏁 No player is available for auction.",
+        "err"
+      );
+
+    }
+
+    const selectedTeam=
+      $("auctionTeam").value;
+
+    const team=
+      state.teams.find(
+        t=>t.name===selectedTeam
+      );
+
+    const bid=
+      Number($("bidPrice").value);
+
+    if(!team){
+
+      return setMsg(
+        "auctionMsg",
+        "❌ Select a team first.",
+        "err"
+      );
+
+    }
+
+    if(
+      team.players.length>=4 ||
+      Number(team.budget)<=0
+    ){
+
+      return setMsg(
+        "auctionMsg",
+        `❌ ${esc(team.name)} cannot purchase another player.`,
+        "err"
+      );
+
+    }
+
+    const categoryAlreadyTaken=
+      state.sold.some(
+        s=>
+          s.team===team.name &&
+          String(s.category || "").trim()===
+          String(player.category || "").trim()
+      );
+
+    if(categoryAlreadyTaken){
+
+      return setMsg(
+        "auctionMsg",
+        `❌ ${esc(team.name)} already has a ${esc(player.category)}.`,
+        "err"
+      );
+
+    }
+
+    if(!bid || bid<player.basePrice){
+
+      return setMsg(
+        "auctionMsg",
+        "❌ Bid must be at least Base Price.",
+        "err"
+      );
+
+    }
+
+    if(bid>Number(team.budget)){
+
+      return setMsg(
+        "auctionMsg",
+        "❌ Insufficient team budget.",
+        "err"
+      );
+
+    }
+
+    const before=
+      makeSnapshot();
+
+    /* Team update */
+
+    team.budget=
+      Number(team.budget)-bid;
+
+    team.spent=
+      Number(team.spent || 0)+bid;
+
+    team.points=
+      Number(team.points || 0)+
+      Number(player.points || 0);
+
+    /*
+       IMPORTANT:
+       Existing system player ID structure maintain.
+    */
+
+    team.players.push(player.id);
+
+    /* Sold history */
+
+    state.sold.push({
+
+      playerId:player.id,
+
+      name:player.name,
+
+      team:team.name,
+
+      bid:bid,
+
+      points:Number(player.points || 0),
+
+      category:player.category
+
+    });
+
+    /* Player status */
+
+    player.status="Sold";
+    player.soldTeam=team.name;
+    player.soldPrice=bid;
+
+    /* Next player */
+
+    moveToNextPlayer();
+
+    saveAuctionAction(before);
+
+    save();
+    render();
+    showCurrentAuctionPlayer();
+
+    $("bidPrice").value="";
+
+    setMsg(
+      "auctionMsg",
+      `🟢 ${esc(player.name)} SOLD to ${esc(team.name)} for ${money(bid)}.`,
+      "ok"
+    );
+
+  };
+
+
+  /* -------------------------------------------------------
+     UNSOLD
+     ------------------------------------------------------- */
+
+  window.handleAuctionUnsold=function(){
+
+    if(state.auctionComplete){
+
+      return setMsg(
+        "auctionMsg",
+        "🏁 Auction is already complete.",
+        "err"
+      );
+
+    }
+
+    const player=
+      players.find(
+        p=>
+          String(p.id)===
+          String(state.currentAuctionPlayerId)
+      );
+
+    if(!player){
+
+      return setMsg(
+        "auctionMsg",
+        "🏁 No player is available for auction.",
+        "err"
+      );
+
+    }
+
+    const before=
+      makeSnapshot();
+
+    /* Add to UNSOLD history */
+
+    state.unsold.push({
+
+      playerId:player.id,
+
+      name:player.name,
+
+      points:Number(player.points || 0),
+
+      category:player.category,
+
+      iplTeam:player.iplTeam || ""
+
+    });
+
+    player.status="Unsold";
+    player.soldTeam="";
+    player.soldPrice=0;
+
+    /* Automatically next */
+
+    moveToNextPlayer();
+
+    saveAuctionAction(before);
+
+    save();
+    render();
+    showCurrentAuctionPlayer();
+
+    $("bidPrice").value="";
+
+    setMsg(
+      "auctionMsg",
+      `🔴 ${esc(player.name)} marked UNSOLD.`,
+      "ok"
+    );
+
+  };
+
+
+  /* -------------------------------------------------------
+     UNDO
+     ------------------------------------------------------- */
+
+  window.undoAuctionAction=function(){
+
+    if(!undoStack.length){
+
+      return setMsg(
+        "auctionMsg",
+        "↩️ Nothing to undo.",
+        "err"
+      );
+
+    }
+
+    const action=
+      undoStack.pop();
+
+    redoStack.push(action);
+
+    restoreSnapshot(
+      action.before
+    );
+
+    setMsg(
+      "auctionMsg",
+      "↩️ Last auction action undone.",
+      "ok"
+    );
+
+  };
+
+
+  /* -------------------------------------------------------
+     REDO
+     ------------------------------------------------------- */
+
+  window.redoAuctionAction=function(){
+
+    if(!redoStack.length){
+
+      return setMsg(
+        "auctionMsg",
+        "↪️ Nothing to redo.",
+        "err"
+      );
+
+    }
+
+    const action=
+      redoStack.pop();
+
+    undoStack.push(action);
+
+    restoreSnapshot(
+      action.after
+    );
+
+    setMsg(
+      "auctionMsg",
+      "↪️ Last undone action restored.",
+      "ok"
+    );
+
+  };
+
+
+  /* -------------------------------------------------------
+     EXCEL UPLOAD / REPLACE PACHI CURRENT PLAYER
+     ------------------------------------------------------- */
+
+  const excelInput=
+    document.getElementById("excelFile");
+
+  if(excelInput){
+
+    excelInput.addEventListener(
+      "change",
+      function(){
+
+        setTimeout(
+          function(){
+
+            /*
+               New Excel upload thay tyare
+               current player reset.
+            */
+
+            const current=
+              players.find(
+                p=>
+                  !isPlayerDone(p.id)
+              );
+
+            state.currentAuctionPlayerId=
+              current
+                ? current.id
+                : null;
+
+            undoStack=[];
+            redoStack=[];
+
+            save();
+            render();
+            showCurrentAuctionPlayer();
+
+          },
+          300
+        );
+
+      }
+    );
+
+  }
+
+
+  /* -------------------------------------------------------
+     RESET AUCTION
+     ------------------------------------------------------- */
+
+  const originalResetAuction=
+    $("resetAuction")?.onclick;
+
+  if($("resetAuction")){
+
+    $("resetAuction").addEventListener(
+      "click",
+      function(){
+
+        setTimeout(
+          function(){
+
+            state.unsold=[];
+
+            const first=
+              getNextAvailablePlayer();
+
+            state.currentAuctionPlayerId=
+              first
+                ? first.id
+                : null;
+
+            undoStack=[];
+            redoStack=[];
+
+            save();
+            render();
+            showCurrentAuctionPlayer();
+
+          },
+          100
+        );
+
+      }
+    );
+
+  }
+
+
+  /* -------------------------------------------------------
+     START
+     ------------------------------------------------------- */
+
+  if(!state.currentAuctionPlayerId){
+
+    const first=
+      getNextAvailablePlayer();
+
+    state.currentAuctionPlayerId=
+      first
+        ? first.id
+        : null;
+
+  }
+
+  showCurrentAuctionPlayer();
+
+})();

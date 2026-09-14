@@ -3057,3 +3057,21 @@ button:hover::before,
     grid-template-columns:repeat(2, minmax(0,1fr)) !important;
   }
 }
+/* =========================================================
+   AUCTION BUTTON — REMOVE DUPLICATE EMOJIS
+   ========================================================= */
+
+.featuredCard .auctionControlButtons .auctionBtnIcon{
+  font-size:0 !important;
+  line-height:0 !important;
+  color:transparent !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* Keep ONLY the premium CSS icon */
+.featuredCard .auctionControlButtons .auctionBtnIcon::before{
+  color:#fff !important;
+}

@@ -3195,3 +3195,62 @@ button:hover::before,
     0 18px 35px rgba(150,20,40,.35),
     0 0 20px rgba(242,195,91,.08) !important;
 }
+/* =========================================================
+   AUCTION ENTRY — MATCH ALL INPUTS TO BID PRICE
+   ========================================================= */
+
+.featuredCard #playerName,
+.featuredCard #auctionTeamSearch,
+.featuredCard #bidPrice{
+  width:100% !important;
+  min-height:58px !important;
+  box-sizing:border-box !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #122b42 0%,
+      #091b2d 100%
+    ) !important;
+
+  color:#f4f7fb !important;
+
+  border:1px solid rgba(242,195,91,.42) !important;
+  border-radius:14px !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    0 8px 22px rgba(0,0,0,.18) !important;
+
+  font-size:16px !important;
+  font-weight:700 !important;
+}
+
+/* Player / Team placeholder */
+.featuredCard #playerName::placeholder,
+.featuredCard #auctionTeamSearch::placeholder,
+.featuredCard #bidPrice::placeholder{
+  color:#7189a4 !important;
+  opacity:1 !important;
+}
+
+/* Focus = premium gold glow */
+.featuredCard #playerName:focus,
+.featuredCard #auctionTeamSearch:focus,
+.featuredCard #bidPrice:focus{
+  outline:none !important;
+
+  border-color:#f2c35b !important;
+
+  box-shadow:
+    0 0 0 4px rgba(242,195,91,.08),
+    0 12px 30px rgba(0,0,0,.25) !important;
+}
+
+/* Bid amount stays the visual highlight */
+.featuredCard #bidPrice{
+  color:#f6cf69 !important;
+  font-size:20px !important;
+  font-weight:900 !important;
+  border-color:rgba(242,195,91,.62) !important;
+}

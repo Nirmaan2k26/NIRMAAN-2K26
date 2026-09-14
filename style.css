@@ -4419,11 +4419,11 @@ body[data-ui-active="team-management"] [data-ui-view="settings"]{
   left:15px;
   top:0;
   border-radius:50%;
-  background:conic-gradient(
+background:conic-gradient(
     from 270deg,
-    #ffc533 0deg 150deg,
-    transparent 150deg 180deg
-  );
+    #ffc533 0deg var(--progress-angle, 0deg),
+    transparent var(--progress-angle, 0deg) 180deg
+);
 
   -webkit-mask:
     radial-gradient(

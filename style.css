@@ -4355,3 +4355,196 @@ body[data-ui-active="team-management"] [data-ui-view="reports"],
 body[data-ui-active="team-management"] [data-ui-view="settings"]{
     display:none !important;
 }
+/* ===== DASHBOARD PLAYER PROGRESS ===== */
+
+.dashboardPlayerArea{
+  display:grid;
+  grid-template-columns:1.35fr 1fr;
+  gap:18px;
+  margin-top:18px;
+}
+
+.auctionProgressCard,
+.currentPlayerCard{
+  background:linear-gradient(145deg,#0b2948,#071b31);
+  border:1px solid rgba(120,170,220,.35);
+  border-radius:20px;
+  padding:22px;
+  box-sizing:border-box;
+  min-height:330px;
+}
+
+.dashboardCardTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:#fff;
+  font-weight:800;
+  letter-spacing:.06em;
+  font-size:16px;
+}
+
+.progressRound{
+  padding:8px 14px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:20px;
+  font-size:12px;
+  color:#dbeafe;
+}
+
+.progressCircle{
+  --progress:0.8333;
+  position:relative;
+  width:330px;
+  height:175px;
+  margin:28px auto 0;
+  overflow:hidden;
+}
+
+.progressCircle::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:
+    conic-gradient(
+      from 270deg,
+      #ffc533 0deg,
+      #ffc533 calc(var(--progress) * 180deg),
+      #3b4d63 calc(var(--progress) * 180deg),
+      #3b4d63 180deg,
+      transparent 180deg
+    );
+  -webkit-mask:
+    radial-gradient(
+      circle,
+      transparent 0 62%,
+      #000 63% 100%
+    );
+  mask:
+    radial-gradient(
+      circle,
+      transparent 0 62%,
+      #000 63% 100%
+    );
+}
+
+.progressValue{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:18px;
+  text-align:center;
+  z-index:2;
+}
+
+.progressValue strong{
+  display:block;
+  color:#fff;
+  font-size:42px;
+  line-height:1;
+}
+
+.progressValue span{
+  display:block;
+  margin-top:8px;
+  color:#9fc0df;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.08em;
+}
+
+.progressBottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-top:2px;
+}
+
+.progressBottom div{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.progressBottom div:last-child{
+  text-align:right;
+}
+
+.progressBottom strong{
+  color:#fff;
+  font-size:22px;
+}
+
+.progressBottom span{
+  color:#9fc0df;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.06em;
+}
+
+
+/* ===== CURRENT PLAYER ===== */
+
+.currentPlayerContent{
+  margin-top:28px;
+  padding:24px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#171f55,#101a43);
+  border:1px solid rgba(120,130,255,.25);
+}
+
+.currentPlayerIcon{
+  width:52px;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:#30206c;
+  font-size:25px;
+  margin-bottom:18px;
+}
+
+.currentPlayerContent h2{
+  margin:0 0 20px;
+  color:#fff;
+  font-size:28px;
+}
+
+.currentPlayerDetails{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  border-top:1px solid rgba(255,255,255,.15);
+  padding-top:18px;
+}
+
+.currentPlayerDetails span{
+  color:#9fc0df;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+}
+
+.currentPlayerDetails b{
+  display:block;
+  margin-top:7px;
+  color:#fff;
+  font-size:19px;
+  letter-spacing:0;
+}
+
+
+/* ===== MOBILE ===== */
+
+@media(max-width:850px){
+  .dashboardPlayerArea{
+    grid-template-columns:1fr;
+  }
+
+  .progressCircle{
+    width:290px;
+    height:155px;
+  }
+}

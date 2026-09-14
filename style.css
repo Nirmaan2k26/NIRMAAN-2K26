@@ -4287,3 +4287,111 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
     z-index:10001 !important;
   }
 }
+/* =========================================================
+   NIRMAAN 2K26 — PREMIUM SIDEBAR LAYOUT
+   DESIGN PRESERVED — LAYOUT FIX ONLY
+   ========================================================= */
+
+:root{
+  --sidebar-width:250px;
+}
+
+/* Main content */
+.wrap{
+  width:calc(100% - var(--sidebar-width)) !important;
+  max-width:none !important;
+
+  margin-left:var(--sidebar-width) !important;
+  margin-right:0 !important;
+
+  padding:28px 32px 50px !important;
+  box-sizing:border-box !important;
+}
+
+/* Sidebar */
+.nirmaanSidebar{
+  position:fixed !important;
+
+  left:0 !important;
+  top:0 !important;
+  bottom:0 !important;
+
+  width:var(--sidebar-width) !important;
+  height:100vh !important;
+
+  box-sizing:border-box !important;
+
+  z-index:9999 !important;
+
+  overflow-y:auto !important;
+}
+
+/* Everything inside main area */
+.wrap > *{
+  width:100% !important;
+  max-width:none !important;
+  box-sizing:border-box !important;
+}
+
+/* Top bar */
+.nirmaanTopbar{
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+/* Hero */
+.simpleNirmanHero{
+  width:100% !important;
+  max-width:none !important;
+
+  margin-left:0 !important;
+  margin-right:0 !important;
+
+  box-sizing:border-box !important;
+}
+
+/* Cards */
+.card{
+  width:100% !important;
+  max-width:none !important;
+  box-sizing:border-box !important;
+}
+
+/* Dashboard */
+.uiDashboardView{
+  width:100% !important;
+  max-width:none !important;
+}
+
+/* Prevent horizontal overflow */
+html,
+body{
+  overflow-x:hidden !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:800px){
+
+  :root{
+    --sidebar-width:270px;
+  }
+
+  .wrap{
+    width:100% !important;
+    margin-left:0 !important;
+    padding:18px 14px 35px !important;
+  }
+
+  .nirmaanSidebar{
+    transform:translateX(-100%) !important;
+    transition:transform .25s ease !important;
+  }
+
+  .nirmaanSidebar.mobileOpen{
+    transform:translateX(0) !important;
+  }
+
+}

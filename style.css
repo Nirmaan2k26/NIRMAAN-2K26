@@ -3004,3 +3004,56 @@ button:hover::before,
 @media(max-width:520px){
   .featuredCard .auctionControlButtons{grid-template-columns:1fr!important}
 }
+/* =========================================================
+   AUCTION BUTTONS — RESPONSIVE SINGLE ROW
+   ========================================================= */
+
+.featuredCard .auctionControlButtons{
+  width:100% !important;
+
+  display:grid !important;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr)) !important;
+
+  gap:clamp(7px, 1vw, 14px) !important;
+
+  margin-top:14px !important;
+}
+
+.featuredCard .auctionControlButtons .auctionBtn{
+  width:100% !important;
+
+  min-width:0 !important;
+
+  height:clamp(48px, 4.5vw, 62px) !important;
+  min-height:0 !important;
+
+  padding:0 !important;
+
+  border-radius:clamp(9px, .9vw, 14px) !important;
+
+  font-size:clamp(11px, 1vw, 14px) !important;
+}
+
+/* Icon automatically scales with screen */
+.featuredCard .auctionControlButtons .auctionBtnIcon{
+  width:clamp(38px, 4vw, 56px) !important;
+  min-width:clamp(38px, 4vw, 56px) !important;
+
+  font-size:clamp(17px, 1.7vw, 25px) !important;
+}
+
+/* Keep text centered */
+.featuredCard .auctionControlButtons .auctionBtn > span:last-child{
+  flex:1 !important;
+  text-align:center !important;
+  padding-right:clamp(6px, 1vw, 14px) !important;
+}
+
+/* Only small mobile screens get 2 x 2 */
+@media(max-width:520px){
+  .featuredCard .auctionControlButtons{
+    grid-template-columns:repeat(2, minmax(0,1fr)) !important;
+  }
+}

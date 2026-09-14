@@ -1022,52 +1022,128 @@
 </div>
 
 <script>
-/* ===== NIRMAAN SIDEBAR NAVIGATION — UI ONLY =====
-   Does not touch auction/player/storage logic. It only switches visible sections.
-*/
+/* ===== NIRMAAN SIDEBAR NAVIGATION ===== */
 (function(){
-  const items = Array.from(document.querySelectorAll("[data-ui-nav]"));
-  const views = Array.from(document.querySelectorAll("[data-ui-view]"));
-  const quicks = Array.from(document.querySelectorAll("[data-ui-go]"));
+
+  const items = Array.from(
+    document.querySelectorAll("[data-ui-nav]")
+  );
+
+  const views = Array.from(
+    document.querySelectorAll("[data-ui-view]")
+  );
+
   const body = document.body;
 
   function showView(viewName){
-    views.forEach(el => {
-el.style.display =
-  el.getAttribute("data-ui-view") === viewName ? "" : "none";
+
+    views.forEach(function(el){
+
+      const isActive =
+        el.getAttribute("data-ui-view") === viewName;
+
+      if(isActive){
+
+        /* Force visible */
+        el.style.setProperty(
+          "display",
+          el.tagName === "HEADER" ? "flex" : "block",
+          "important"
+        );
+
+      }else{
+
+        /* Force hidden */
+        el.style.setProperty(
+          "display",
+          "none",
+          "important"
+        );
+
+      }
+
     });
 
-    items.forEach(btn => {
-      btn.classList.toggle("active", btn.getAttribute("data-ui-nav") === viewName);
+    /* Active sidebar button */
+    items.forEach(function(btn){
+
+      btn.classList.toggle(
+        "active",
+        btn.getAttribute("data-ui-nav") === viewName
+      );
+
     });
 
-    body.setAttribute("data-ui-active", viewName);
-    window.scrollTo({top:0, behavior:"smooth"});
+    body.setAttribute(
+      "data-ui-active",
+      viewName
+    );
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
   }
 
-  items.forEach(btn => btn.addEventListener("click", function(){
-    showView(this.getAttribute("data-ui-nav"));
-  }));
 
-  quicks.forEach(btn => btn.addEventListener("click", function(){
-    showView(this.getAttribute("data-ui-go"));
-  }));
+  /* Sidebar buttons */
+  items.forEach(function(btn){
 
-  const mobileBtn = document.getElementById("mobileMenuBtn");
-  const sidebar = document.getElementById("nirmaanSidebar");
+    btn.addEventListener("click",function(){
+
+      const viewName =
+        this.getAttribute("data-ui-nav");
+
+      showView(viewName);
+
+    });
+
+  });
+
+
+  /* Mobile menu */
+  const mobileBtn =
+    document.getElementById("mobileMenuBtn");
+
+  const sidebar =
+    document.getElementById("nirmaanSidebar");
+
   if(mobileBtn && sidebar){
-    mobileBtn.addEventListener("click", function(){
-      sidebar.classList.toggle("mobileOpen");
+
+    mobileBtn.addEventListener(
+      "click",
+      function(){
+
+        sidebar.classList.toggle(
+          "mobileOpen"
+        );
+
+      }
+    );
+
+    items.forEach(function(btn){
+
+      btn.addEventListener(
+        "click",
+        function(){
+
+          sidebar.classList.remove(
+            "mobileOpen"
+          );
+
+        }
+      );
+
     });
-    items.forEach(btn => btn.addEventListener("click", function(){
-      sidebar.classList.remove("mobileOpen");
-    }));
+
   }
 
-  /* Dashboard is the first screen after admin login. */
+
+  /* Start on Dashboard */
   showView("dashboard");
+
 })();
-  <script>
+</script>
 /* =========================================================
    DASHBOARD — LIVE PLAYER PROGRESS
    ========================================================= */

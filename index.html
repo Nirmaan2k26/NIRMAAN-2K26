@@ -1067,6 +1067,253 @@ el.style.display =
   /* Dashboard is the first screen after admin login. */
   showView("dashboard");
 })();
+  <script>
+/* =========================================================
+   DASHBOARD — LIVE PLAYER PROGRESS
+   ========================================================= */
+
+(function(){
+
+  function updatePlayerDashboard(){
+
+    try{
+
+      const players =
+        JSON.parse(
+          localStorage.getItem("aa_players_fixed_excel_v2") || "[]"
+        );
+
+      const state =
+        JSON.parse(
+          localStorage.getItem("aa_state_fixed_excel_v2") ||
+          '{"teams":[],"sold":[],"unsold":[],"currentAuctionPlayerId":null}'
+        );
+
+      const sold =
+        Array.isArray(state.sold)
+          ? state.sold
+          : [];
+
+      const unsold =
+        Array.isArray(state.unsold)
+          ? state.unsold
+          : [];
+
+      const total =
+        players.length;
+
+      const soldCount =
+        sold.length;
+
+      const completedCount =
+        soldCount + unsold.length;
+
+      const remaining =
+        Math.max(
+          0,
+          total - completedCount
+        );
+
+      const percentage =
+        total > 0
+          ? Math.round((soldCount / total) * 100)
+          : 0;
+
+      /* -----------------------------------------
+         SOLD / TOTAL
+         ----------------------------------------- */
+
+      const soldEl =
+        document.getElementById(
+          "dashboardSoldCount"
+        );
+
+      if(soldEl){
+        soldEl.textContent =
+          soldCount + " / " + total;
+      }
+
+      /* -----------------------------------------
+         PERCENTAGE
+         ----------------------------------------- */
+
+      const percentEl =
+        document.getElementById(
+          "dashboardProgressPercent"
+        );
+
+      if(percentEl){
+        percentEl.textContent =
+          percentage + "%";
+      }
+
+      /* -----------------------------------------
+         REMAINING PLAYERS
+         ----------------------------------------- */
+
+      const remainingEl =
+        document.getElementById(
+          "dashboardRemainingCount"
+        );
+
+      if(remainingEl){
+        remainingEl.textContent =
+          remaining;
+      }
+
+      /* -----------------------------------------
+         SEMICIRCLE
+         ----------------------------------------- */
+
+      const circle =
+        document.querySelector(
+          ".progressCircle"
+        );
+
+      if(circle){
+
+        const angle =
+          total > 0
+            ? (soldCount / total) * 180
+            : 0;
+
+        circle.style.setProperty(
+          "--progress-angle",
+          angle + "deg"
+        );
+      }
+
+      /* -----------------------------------------
+         CURRENT PLAYER
+         ----------------------------------------- */
+
+      let currentPlayer = null;
+
+      if(
+        state.currentAuctionPlayerId !== null &&
+        state.currentAuctionPlayerId !== undefined
+      ){
+
+        currentPlayer =
+          players.find(
+            p =>
+              String(p.id) ===
+              String(
+                state.currentAuctionPlayerId
+              )
+          );
+      }
+
+      /* If current player is not found,
+         find first player which is not completed */
+
+      if(!currentPlayer){
+
+        currentPlayer =
+          players.find(p => {
+
+            const done =
+              sold.some(
+                s =>
+                  String(s.playerId) ===
+                  String(p.id)
+              ) ||
+              unsold.some(
+                u =>
+                  String(u.playerId) ===
+                  String(p.id)
+              );
+
+            return !done;
+
+          }) || null;
+      }
+
+      const nameEl =
+        document.getElementById(
+          "dashboardCurrentPlayer"
+        );
+
+      const baseEl =
+        document.getElementById(
+          "dashboardCurrentBasePrice"
+        );
+
+      const categoryEl =
+        document.getElementById(
+          "dashboardCurrentCategory"
+        );
+
+      if(currentPlayer){
+
+        if(nameEl){
+          nameEl.textContent =
+            currentPlayer.name || "—";
+        }
+
+        if(baseEl){
+
+          const base =
+            Number(
+              currentPlayer.basePrice || 0
+            );
+
+          baseEl.textContent =
+            "₹" +
+            base.toLocaleString("en-IN");
+        }
+
+        if(categoryEl){
+          categoryEl.textContent =
+            currentPlayer.category || "—";
+        }
+
+      }else{
+
+        if(nameEl){
+          nameEl.textContent =
+            "All Players Completed";
+        }
+
+        if(baseEl){
+          baseEl.textContent =
+            "₹0";
+        }
+
+        if(categoryEl){
+          categoryEl.textContent =
+            "—";
+        }
+      }
+
+    }catch(error){
+
+      console.error(
+        "Dashboard player update error:",
+        error
+      );
+
+    }
+
+  }
+
+  /* First load */
+  updatePlayerDashboard();
+
+  /* Live update */
+  setInterval(
+    updatePlayerDashboard,
+    500
+  );
+
+  /* Cross-browser realtime update */
+  window.addEventListener(
+    "nirmaan-realtime-update",
+    updatePlayerDashboard
+  );
+
+})();
+</script>
 </script>
 
 </body>

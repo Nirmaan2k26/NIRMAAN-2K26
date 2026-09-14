@@ -4341,3 +4341,17 @@ table{max-width:100% !important}
   .dashboardWelcome{padding:20px !important}
   .card,.teamCard,.teamPanel{padding:20px !important}
 }
+/* ===== FINAL TEAM MANAGEMENT OPEN FIX ===== */
+
+body[data-ui-active="team-management"] .card[data-ui-view="team-management"]{
+    display:block !important;
+}
+
+body[data-ui-active="team-management"] [data-ui-view="dashboard"],
+body[data-ui-active="team-management"] [data-ui-view="live-auction"],
+body[data-ui-active="team-management"] [data-ui-view="team-standings"],
+body[data-ui-active="team-management"] [data-ui-view="player-list"],
+body[data-ui-active="team-management"] [data-ui-view="reports"],
+body[data-ui-active="team-management"] [data-ui-view="settings"]{
+    display:none !important;
+}

@@ -3254,3 +3254,492 @@ button:hover::before,
   font-weight:900 !important;
   border-color:rgba(242,195,91,.62) !important;
 }
+
+
+/* =========================================================
+   NIRMAAN 2K26 — SIDEBAR DASHBOARD UI
+   UI/UX ONLY: existing IDs, functions, storage and logic untouched.
+   ========================================================= */
+
+:root{
+  --dash-bg:#020d1c;
+  --dash-panel:#071a31;
+  --dash-panel2:#0a2340;
+  --dash-blue:#1475e8;
+  --dash-blue2:#0c4ca5;
+  --dash-gold:#f2c34f;
+  --dash-text:#f5f8ff;
+  --dash-muted:#8fa8c9;
+  --dash-line:rgba(91,156,230,.34);
+}
+
+html,body{background:var(--dash-bg)!important;color:var(--dash-text)!important}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 80% 10%,rgba(20,117,232,.10),transparent 28rem),
+    radial-gradient(circle at 40% 80%,rgba(242,195,79,.035),transparent 24rem),
+    #020d1c!important;
+}
+
+.wrap{
+  width:calc(100% - 255px)!important;
+  max-width:none!important;
+  margin:0 0 0 255px!important;
+  padding:0 28px 30px!important;
+}
+
+.nirmaanSidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:255px;
+  z-index:99990;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(26,101,190,.13),transparent 18rem),
+    linear-gradient(180deg,#031329 0%,#041a33 55%,#031225 100%);
+  border-right:1px solid rgba(49,128,214,.38);
+  box-shadow:18px 0 50px rgba(0,0,0,.18);
+}
+
+.sidebarBrand{
+  min-height:190px;
+  padding:32px 18px 24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border-bottom:1px solid rgba(74,140,209,.14);
+}
+
+.sidebarTrophy{
+  font-size:50px;
+  line-height:1;
+  margin-bottom:14px;
+  filter:drop-shadow(0 8px 15px rgba(242,195,79,.20));
+}
+
+.sidebarBrandTitle{
+  color:#f5cf69;
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:.015em;
+}
+
+.sidebarBrandSub{
+  margin-top:8px;
+  color:#b8d3f5;
+  font-size:12px;
+  letter-spacing:.30em;
+  font-weight:700;
+}
+
+.sidebarNav{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  padding:30px 0;
+}
+
+.sidebarNavItem{
+  position:relative;
+  width:100%;
+  min-height:62px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:0 28px;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#c8dcf7!important;
+  box-shadow:none!important;
+  font-size:16px;
+  font-weight:700;
+  text-align:left;
+  transform:none!important;
+}
+
+.sidebarNavItem:hover{
+  background:rgba(20,117,232,.13)!important;
+  box-shadow:none!important;
+  color:#fff!important;
+}
+
+.sidebarNavItem.active{
+  color:#fff!important;
+  background:linear-gradient(90deg,rgba(14,102,216,.96),rgba(14,78,163,.84))!important;
+  box-shadow:inset 4px 0 0 #42a5ff,0 10px 28px rgba(0,91,190,.18)!important;
+}
+
+.sidebarNavItem.active::after{
+  content:"";
+  position:absolute;
+  right:-1px;
+  top:0;
+  bottom:0;
+  border-right:8px solid #1475e8;
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+}
+
+.sidebarIcon{
+  width:28px;
+  min-width:28px;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+  color:#d7e9ff;
+  filter:drop-shadow(0 3px 5px rgba(0,0,0,.2));
+}
+
+.sidebarLabel{white-space:nowrap}
+
+.sidebarMotto{
+  margin-top:auto;
+  padding:24px 10px 30px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  color:#b9d2f0;
+  font-size:11px;
+  letter-spacing:.28em;
+}
+
+.sidebarMotto i{
+  display:block;
+  width:58px;
+  height:3px;
+  margin-top:9px;
+  background:linear-gradient(90deg,transparent,#f2c34f,transparent);
+}
+
+.nirmaanTopbar{
+  height:94px;
+  margin:0 -28px 26px;
+  padding:0 34px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(70,137,211,.30);
+  background:linear-gradient(180deg,#04172f,#03142a);
+}
+
+.topbarTitle{
+  color:#cfe2fb;
+  font-size:19px;
+  letter-spacing:.08em;
+  font-weight:600;
+}
+
+.topbarRight{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  color:#dce9fb;
+}
+
+.topLive{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 20px;
+  border:1px solid #00d78a;
+  border-radius:999px;
+  color:#35e7a2;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+
+.topLive i,.dashboardLiveBadge i{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#00e494;
+  box-shadow:0 0 0 5px rgba(0,228,148,.10);
+}
+
+.topDivider{
+  width:1px;height:30px;background:rgba(119,164,211,.24);
+}
+
+.topDate{
+  font-size:13px;
+  color:#9eb8d9;
+  letter-spacing:.10em;
+}
+
+.topAvatar{
+  width:52px;height:52px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#7895b7,#294a72);
+  border:1px solid rgba(205,229,255,.35);
+  font-size:20px;font-weight:900;
+}
+
+.simpleNirmanHero{
+  max-width:none!important;
+  margin:0 0 20px!important;
+  min-height:420px;
+  border-color:rgba(242,195,79,.68)!important;
+}
+
+.uiDashboardView{
+  display:block;
+  margin-bottom:20px;
+}
+
+.dashboardWelcome{
+  min-height:125px;
+  padding:25px 30px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  background:linear-gradient(135deg,#071b34,#06152a);
+  border:1px solid var(--dash-line);
+  border-radius:22px;
+  box-shadow:0 15px 45px rgba(0,0,0,.20);
+}
+
+.dashboardWelcome h2{
+  margin:4px 0 6px;
+  color:#fff!important;
+  font-size:26px!important;
+  font-weight:950!important;
+}
+
+.dashboardLiveBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 15px;
+  border:1px solid rgba(0,228,148,.35);
+  border-radius:999px;
+  color:#52e8b0;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.dashboardQuickGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:14px;
+}
+
+.dashboardQuickCard{
+  min-height:105px;
+  display:grid;
+  grid-template-columns:52px 1fr auto;
+  align-items:center;
+  gap:14px;
+  padding:18px 20px;
+  border:1px solid var(--dash-line)!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#071c35,#092747)!important;
+  color:#fff!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.16)!important;
+  text-align:left;
+}
+
+.dashboardQuickCard:hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(46,151,255,.65)!important;
+}
+
+.dashboardQuickCard .quickIcon{
+  width:48px;height:48px;
+  display:grid;place-items:center;
+  border-radius:14px;
+  background:rgba(20,117,232,.15);
+  font-size:25px;
+}
+
+.dashboardQuickCard b{display:block;font-size:15px}
+.dashboardQuickCard small{display:block;margin-top:4px;color:#8faed1}
+.dashboardQuickCard strong{font-size:24px;color:#8db8e7}
+
+body[data-ui-active] [data-ui-view]{display:none!important}
+body[data-ui-active="dashboard"] [data-ui-view="dashboard"],
+body[data-ui-active="live-auction"] [data-ui-view="live-auction"],
+body[data-ui-active="team-standings"] [data-ui-view="team-standings"],
+body[data-ui-active="player-list"] [data-ui-view="player-list"],
+body[data-ui-active="reports"] [data-ui-view="reports"],
+body[data-ui-active="settings"] [data-ui-view="settings"]{display:block!important}
+
+body[data-ui-active] header[data-ui-view]{display:none!important}
+body[data-ui-active="dashboard"] header[data-ui-view="dashboard"]{display:flex!important}
+
+body[data-ui-active] .uiDashboardView{display:none!important}
+body[data-ui-active="dashboard"] .uiDashboardView{display:block!important}
+
+[data-ui-view]{scroll-margin-top:20px}
+
+.card,.teamCard,.teamPanel{
+  background:
+    radial-gradient(circle at 92% 10%,rgba(53,136,226,.07),transparent 20rem),
+    linear-gradient(145deg,#071c35,#06172b)!important;
+  border:1px solid rgba(76,139,207,.36)!important;
+  border-radius:24px!important;
+  color:#f4f8ff!important;
+  box-shadow:0 16px 45px rgba(0,0,0,.22)!important;
+}
+
+.card h2,.teamCard h2,.teamPanel h2{
+  color:#f7f9ff!important;
+  font-size:30px!important;
+  font-weight:950!important;
+}
+
+.sectionKicker{
+  color:#91afd1!important;
+  font-size:12px!important;
+  letter-spacing:.20em!important;
+}
+
+.muted{color:#8da6c7!important}
+
+.card input,.card select,
+.featuredCard .grid3 input,
+#teamSummarySearch,#soldHistorySearch{
+  background:#06182d!important;
+  color:#eef6ff!important;
+  border:1px solid rgba(68,139,218,.52)!important;
+  border-radius:15px!important;
+}
+
+.card input::placeholder{color:#7595ba!important}
+
+.featuredCard .grid3 input{
+  height:68px!important;
+  font-size:17px!important;
+  font-weight:700!important;
+}
+
+.featuredCard #playerInfo{
+  background:linear-gradient(90deg,#092957,#071f40)!important;
+  border-color:rgba(47,132,230,.55)!important;
+  color:#eef6ff!important;
+  min-height:78px;
+  border-radius:15px!important;
+}
+
+.auctionControlButtons .auctionBtn{
+  height:74px!important;
+  border-radius:15px!important;
+  border-color:rgba(242,195,79,.8)!important;
+  font-size:18px!important;
+}
+
+.tableWrap{
+  background:#06182b!important;
+  border-color:rgba(76,139,207,.30)!important;
+}
+
+table{
+  background:#06182b!important;
+  color:#edf5ff!important;
+}
+
+th{
+  background:#0c2948!important;
+  color:#a7c2e3!important;
+}
+
+th,td{border-bottom-color:rgba(87,140,193,.18)!important}
+tbody tr:hover{background:rgba(25,102,175,.12)!important}
+
+.info,.bigMsg{
+  background:#09264a!important;
+  border-color:rgba(52,135,227,.42)!important;
+  color:#e9f3ff!important;
+}
+
+.winnerCard{background:linear-gradient(145deg,#0b223c,#07192d)!important}
+.winnerCard #winnerPosterSection{
+  background:#f4f7fb!important;
+}
+
+.dangerCard{
+  background:linear-gradient(145deg,#071c35,#06172b)!important;
+}
+
+.siteFooter{
+  color:#7895b7!important;
+}
+
+.siteFooter b{color:#e7c36a!important}
+
+.nirmaanMobileTop{display:none}
+
+@media(max-width:900px){
+  .nirmaanSidebar{width:82px}
+  .wrap{
+    width:calc(100% - 82px)!important;
+    margin-left:82px!important;
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+  .nirmaanTopbar{margin-left:-18px;margin-right:-18px;padding:0 20px}
+  .sidebarBrandTitle,.sidebarBrandSub,.sidebarLabel,.sidebarMotto{display:none}
+  .sidebarBrand{min-height:115px;padding:18px 8px}
+  .sidebarTrophy{font-size:38px}
+  .sidebarNavItem{justify-content:center;padding:0}
+  .sidebarIcon{font-size:23px}
+  .dashboardQuickGrid{grid-template-columns:1fr}
+  .topDate{display:none}
+}
+
+@media(max-width:650px){
+  .nirmaanSidebar{
+    transform:translateX(-100%);
+    transition:transform .22s ease;
+    width:245px;
+  }
+  .nirmaanSidebar.mobileOpen{transform:translateX(0)}
+  .sidebarBrandTitle,.sidebarBrandSub,.sidebarLabel,.sidebarMotto{display:block}
+  .sidebarBrand{min-height:170px}
+  .sidebarNavItem{justify-content:flex-start;padding:0 25px}
+  .sidebarIcon{font-size:22px}
+  .nirmaanMobileTop{
+    position:sticky;
+    top:0;
+    z-index:99980;
+    height:62px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 14px;
+    background:#03162b;
+    border-bottom:1px solid rgba(73,137,208,.28);
+  }
+  .mobileBrand{font-weight:950;color:#fff;letter-spacing:.04em}
+  .mobileBrand b{color:#f2c34f}
+  .mobileMenuBtn{
+    width:42px;height:42px;min-height:42px;
+    padding:0;
+    border-radius:11px!important;
+    background:#0b3156!important;
+    color:#fff!important;
+    border:1px solid rgba(90,157,228,.42)!important;
+  }
+  .wrap{
+    width:100%!important;
+    margin:0!important;
+    padding:14px!important;
+  }
+  .nirmaanTopbar{display:none}
+  .simpleNirmanHero{min-height:0!important}
+  .dashboardWelcome{align-items:flex-start;flex-direction:column;padding:22px}
+  .dashboardQuickCard{grid-template-columns:45px 1fr auto}
+  .card h2,.teamCard h2,.teamPanel h2{font-size:25px!important}
+}
+

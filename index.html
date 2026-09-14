@@ -113,9 +113,60 @@
   </div>
 </div>
 
+
+<!-- ===== NIRMAAN DASHBOARD SIDEBAR / UI ONLY ===== -->
+<aside class="nirmaanSidebar" id="nirmaanSidebar" aria-label="Main navigation">
+  <div class="sidebarBrand">
+    <div class="sidebarTrophy">🏆</div>
+    <div class="sidebarBrandTitle">NIRMAAN 2K26</div>
+    <div class="sidebarBrandSub">AUCTION CLASH</div>
+  </div>
+
+  <nav class="sidebarNav">
+    <button type="button" class="sidebarNavItem active" data-ui-nav="dashboard">
+      <span class="sidebarIcon">⌂</span><span class="sidebarLabel">Dashboard</span>
+    </button>
+    <button type="button" class="sidebarNavItem" data-ui-nav="live-auction">
+      <span class="sidebarIcon">🔨</span><span class="sidebarLabel">Live Auction</span>
+    </button>
+    <button type="button" class="sidebarNavItem" data-ui-nav="team-standings">
+      <span class="sidebarIcon">▥</span><span class="sidebarLabel">Team Standings</span>
+    </button>
+    <button type="button" class="sidebarNavItem" data-ui-nav="player-list">
+      <span class="sidebarIcon">♟</span><span class="sidebarLabel">Player List</span>
+    </button>
+    <button type="button" class="sidebarNavItem" data-ui-nav="reports">
+      <span class="sidebarIcon">▤</span><span class="sidebarLabel">Reports</span>
+    </button>
+    <button type="button" class="sidebarNavItem" data-ui-nav="settings">
+      <span class="sidebarIcon">⚙</span><span class="sidebarLabel">Settings</span>
+    </button>
+  </nav>
+
+  <div class="sidebarMotto">
+    <span>BID</span><span>BUILD</span><span>BELONG</span>
+    <i></i>
+  </div>
+</aside>
+
+<div class="nirmaanMobileTop">
+  <div class="mobileBrand">NIRMAAN <b>2K26</b></div>
+  <button type="button" class="mobileMenuBtn" id="mobileMenuBtn" aria-label="Open menu">☰</button>
+</div>
+
 <div class="wrap">
 
-<header class="hero simpleNirmanHero">
+<div class="nirmaanTopbar">
+  <div class="topbarTitle">NIRMAAN 2K26 — AUCTION CLASH</div>
+  <div class="topbarRight">
+    <span class="topLive"><i></i> LIVE</span>
+    <span class="topDivider"></span>
+    <span class="topDate">AUCTION CONTROL</span>
+    <span class="topAvatar">Y</span>
+  </div>
+</div>
+
+<header class="hero simpleNirmanHero" data-ui-view="dashboard">
 
   <div class="simpleHeroBg" aria-hidden="true"></div>
 
@@ -163,7 +214,31 @@
 
 </header>
 
-<section class="card">
+
+<section class="uiDashboardView" data-ui-view="dashboard">
+  <div class="dashboardWelcome">
+    <div>
+      <div class="sectionKicker">CONTROL CENTER</div>
+      <h2>Welcome to NIRMAAN 2K26</h2>
+      <p class="muted">Choose a section from the sidebar to manage the auction portal.</p>
+    </div>
+    <div class="dashboardLiveBadge"><i></i> SYSTEM READY</div>
+  </div>
+  <div class="dashboardQuickGrid">
+    <button type="button" class="dashboardQuickCard" data-ui-go="live-auction">
+      <span class="quickIcon">🔨</span><span><b>Live Auction</b><small>Open auction controls</small></span><strong>→</strong>
+    </button>
+    <button type="button" class="dashboardQuickCard" data-ui-go="team-standings">
+      <span class="quickIcon">📊</span><span><b>Team Standings</b><small>View live team summary</small></span><strong>→</strong>
+    </button>
+    <button type="button" class="dashboardQuickCard" data-ui-go="player-list">
+      <span class="quickIcon">👤</span><span><b>Player List</b><small>Manage master player data</small></span><strong>→</strong>
+    </button>
+  </div>
+</section>
+
+
+<section class="card" data-ui-view="player-list">
 
   <div class="sectionKicker">
     01 • MASTER DATA
@@ -201,7 +276,7 @@
 </section>
 
 
-<section class="card">
+<section class="card" data-ui-view="settings">
 
   <div class="sectionKicker">
     02 • TEAMS
@@ -280,7 +355,7 @@
 </section>
 
 
-<section class="card featuredCard">
+<section class="card featuredCard" data-ui-view="live-auction">
 
   <div class="sectionKicker">
     03 • LIVE AUCTION
@@ -399,7 +474,7 @@
 </section>
 
 
-<section class="card">
+<section class="card" data-ui-view="team-standings">
 
   <div class="sectionKicker">
     04 • LIVE STANDINGS
@@ -447,7 +522,7 @@
 </section>
 
 
-<section class="card">
+<section class="card" data-ui-view="settings">
 
   <div class="sectionKicker">
     05 • CONTROL ROOM
@@ -462,7 +537,7 @@
 </section>
 
 
-<section class="card winnerCard">
+<section class="card winnerCard" data-ui-view="reports">
 
   <div class="sectionKicker">
     06 • FINAL RESULT
@@ -522,7 +597,7 @@
 </section>
 
 
-<section class="card">
+<section class="card" data-ui-view="reports">
 
   <div class="sectionKicker">
     07 • AUDIT TRAIL
@@ -584,7 +659,7 @@
 </section>
 
 
-<section class="card dangerCard">
+<section class="card dangerCard" data-ui-view="settings">
 
   <div>
 
@@ -896,5 +971,53 @@
 
   </div>
 </div>
+
+<script>
+/* ===== NIRMAAN SIDEBAR NAVIGATION — UI ONLY =====
+   Does not touch auction/player/storage logic. It only switches visible sections.
+*/
+(function(){
+  const items = Array.from(document.querySelectorAll("[data-ui-nav]"));
+  const views = Array.from(document.querySelectorAll("[data-ui-view]"));
+  const quicks = Array.from(document.querySelectorAll("[data-ui-go]"));
+  const body = document.body;
+
+  function showView(viewName){
+    views.forEach(el => {
+      el.hidden = el.getAttribute("data-ui-view") !== viewName;
+    });
+
+    items.forEach(btn => {
+      btn.classList.toggle("active", btn.getAttribute("data-ui-nav") === viewName);
+    });
+
+    body.setAttribute("data-ui-active", viewName);
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  items.forEach(btn => btn.addEventListener("click", function(){
+    showView(this.getAttribute("data-ui-nav"));
+  }));
+
+  quicks.forEach(btn => btn.addEventListener("click", function(){
+    showView(this.getAttribute("data-ui-go"));
+  }));
+
+  const mobileBtn = document.getElementById("mobileMenuBtn");
+  const sidebar = document.getElementById("nirmaanSidebar");
+  if(mobileBtn && sidebar){
+    mobileBtn.addEventListener("click", function(){
+      sidebar.classList.toggle("mobileOpen");
+    });
+    items.forEach(btn => btn.addEventListener("click", function(){
+      sidebar.classList.remove("mobileOpen");
+    }));
+  }
+
+  /* Dashboard is the first screen after admin login. */
+  showView("dashboard");
+})();
+</script>
+
 </body>
 </html>

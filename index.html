@@ -987,7 +987,8 @@
 
   function showView(viewName){
     views.forEach(el => {
-      el.hidden = el.getAttribute("data-ui-view") !== viewName;
+el.style.display =
+  el.getAttribute("data-ui-view") === viewName ? "" : "none";
     });
 
     items.forEach(btn => {

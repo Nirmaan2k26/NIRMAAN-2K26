@@ -4100,3 +4100,25 @@ tbody tr:hover{background:rgba(25,102,175,.12)!important}
 [data-ui-view][hidden]{
   display: none !important;
 }
+/* ===== FINAL SIDEBAR VIEW FIX ===== */
+
+body[data-ui-active] [data-ui-view]{
+  display:none !important;
+}
+
+body[data-ui-active="dashboard"] header[data-ui-view="dashboard"]{
+  display:flex !important;
+}
+
+body[data-ui-active="dashboard"] .uiDashboardView{
+  display:block !important;
+}
+
+body[data-ui-active="live-auction"] [data-ui-view="live-auction"],
+body[data-ui-active="team-standings"] [data-ui-view="team-standings"],
+body[data-ui-active="team-management"] [data-ui-view="team-management"],
+body[data-ui-active="player-list"] [data-ui-view="player-list"],
+body[data-ui-active="reports"] [data-ui-view="reports"],
+body[data-ui-active="settings"] [data-ui-view="settings"]{
+  display:block !important;
+}

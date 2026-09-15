@@ -232,13 +232,31 @@
 
       <div class="progressCircleWrap">
 
-<div class="progressCircle">
+ <div class="progressCircle">
+
+  <svg class="auctionProgressSvg"
+       viewBox="0 0 360 200"
+       aria-hidden="true">
+
+    <path
+      class="auctionArcBase"
+      d="M 30 180 A 150 150 0 0 1 330 180"
+    />
+
+    <path
+      class="auctionArcProgress"
+      id="auctionArcProgress"
+      d="M 30 180 A 150 150 0 0 1 330 180"
+    />
+
+  </svg>
+
   <div class="progressCircleInner">
     <strong id="dashboardRemainingDisplay">0 / 0</strong>
     <span>PLAYERS REMAINING</span>
   </div>
+
 </div>
-        
       </div>
 <div class="progressBottom">
 

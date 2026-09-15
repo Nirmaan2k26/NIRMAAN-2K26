@@ -1153,6 +1153,238 @@
 
 </script>
 </script>
+<script>
+(function () {
 
+  function updatePlayerDashboard() {
+
+    try {
+
+      const players = JSON.parse(
+        localStorage.getItem("aa_players_fixed_excel_v2") || "[]"
+      );
+
+      const state = JSON.parse(
+        localStorage.getItem("aa_state_fixed_excel_v2") ||
+        '{"teams":[],"sold":[],"unsold":[],"currentAuctionPlayerId":null}'
+      );
+
+      const sold = Array.isArray(state.sold) ? state.sold : [];
+      const unsold = Array.isArray(state.unsold) ? state.unsold : [];
+
+      const total = players.length;
+      const soldCount = sold.length;
+      const completedCount = sold.length + unsold.length;
+
+      const remaining = Math.max(
+        0,
+        total - completedCount
+      );
+
+      const percentage =
+        total > 0
+          ? Math.round((completedCount / total) * 100)
+          : 0;
+
+
+      /* =========================
+         SOLD COUNT
+         ========================= */
+
+      const soldEl =
+        document.getElementById("dashboardSoldCount");
+
+      if (soldEl) {
+        soldEl.textContent =
+          soldCount + " / " + total;
+      }
+
+
+      /* =========================
+         PERCENTAGE
+         ========================= */
+
+      const percentEl =
+        document.getElementById("dashboardProgressPercent");
+
+      if (percentEl) {
+        percentEl.textContent =
+          percentage + "%";
+      }
+
+
+      /* =========================
+         REMAINING PLAYERS
+         ========================= */
+
+      const remainingEl =
+        document.getElementById("dashboardRemainingCount");
+
+      if (remainingEl) {
+        remainingEl.textContent =
+          remaining;
+      }
+
+
+      /* =========================
+         PROGRESS ARC
+         ========================= */
+
+      const circle =
+        document.querySelector(".progressCircle");
+
+      if (circle) {
+
+        const angle =
+          total > 0
+            ? (completedCount / total) * 180
+            : 0;
+
+        circle.style.setProperty(
+          "--progress-angle",
+          angle + "deg"
+        );
+      }
+
+
+      /* =========================
+         CURRENT PLAYER
+         ========================= */
+
+      let currentPlayer = null;
+
+
+      if (
+        state.currentAuctionPlayerId !== null &&
+        state.currentAuctionPlayerId !== undefined
+      ) {
+
+        currentPlayer = players.find(
+          p =>
+            String(p.id) ===
+            String(state.currentAuctionPlayerId)
+        );
+
+      }
+
+
+      /* Fallback: first incomplete player */
+
+      if (!currentPlayer) {
+
+        currentPlayer = players.find(function (p) {
+
+          const playerId = String(p.id);
+
+          const isSold = sold.some(
+            s =>
+              String(s.playerId) === playerId
+          );
+
+          const isUnsold = unsold.some(
+            u =>
+              String(u.playerId) === playerId
+          );
+
+          return !isSold && !isUnsold;
+
+        }) || null;
+
+      }
+
+
+      const nameEl =
+        document.getElementById(
+          "dashboardCurrentPlayer"
+        );
+
+      const baseEl =
+        document.getElementById(
+          "dashboardCurrentBasePrice"
+        );
+
+      const categoryEl =
+        document.getElementById(
+          "dashboardCurrentCategory"
+        );
+
+
+      if (currentPlayer) {
+
+        if (nameEl) {
+          nameEl.textContent =
+            currentPlayer.name || "—";
+        }
+
+        if (baseEl) {
+
+          const base =
+            Number(currentPlayer.basePrice || 0);
+
+          baseEl.textContent =
+            "₹" +
+            base.toLocaleString("en-IN");
+
+        }
+
+        if (categoryEl) {
+          categoryEl.textContent =
+            currentPlayer.category || "—";
+        }
+
+      } else {
+
+        if (nameEl) {
+          nameEl.textContent =
+            "All Players Completed";
+        }
+
+        if (baseEl) {
+          baseEl.textContent = "₹0";
+        }
+
+        if (categoryEl) {
+          categoryEl.textContent = "—";
+        }
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Dashboard live data error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* First update */
+  updatePlayerDashboard();
+
+
+  /* Live update */
+  setInterval(
+    updatePlayerDashboard,
+    500
+  );
+
+
+  /* Cross-tab update */
+  window.addEventListener(
+    "storage",
+    updatePlayerDashboard
+  );
+
+
+  window.addEventListener(
+    "nirmaan-realtime-update",
+    updatePlayerDashboard
+  );
+
+})();
+</script>
 </body>
 </html>

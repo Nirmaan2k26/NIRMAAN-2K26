@@ -1263,26 +1263,45 @@ if (unsoldEl) {
       }
 
 
-      /* =========================
-         PROGRESS ARC
-         ========================= */
+   /* =========================
+   PROGRESS ARC
+   ========================= */
 
-      const circle =
-        document.querySelector(".progressCircle");
+const circle =
+  document.querySelector(".progressCircle");
 
-      if (circle) {
+if (circle) {
 
-        const angle =
-          total > 0
-            ? (completedCount / total) * 180
-            : 0;
+  const angle =
+    total > 0
+      ? (completedCount / total) * 180
+      : 0;
 
-        circle.style.setProperty(
-          "--progress-angle",
-          angle + "deg"
-        );
-      }
+  circle.style.setProperty(
+    "--progress-angle",
+    angle + "deg"
+  );
 
+  const auctionArcProgress =
+    document.getElementById("auctionArcProgress");
+
+  if (auctionArcProgress) {
+
+    const circumference =
+      Math.PI * 150;
+
+    const progressRatio =
+      total > 0
+        ? completedCount / total
+        : 0;
+
+    auctionArcProgress.style.strokeDasharray =
+      circumference + " " + circumference;
+
+    auctionArcProgress.style.strokeDashoffset =
+      circumference * (1 - progressRatio);
+  }
+}
 
       /* =========================
          CURRENT PLAYER

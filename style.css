@@ -4656,15 +4656,6 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
 
 
 /* ===== PROGRESS ===== */
-
-.progressCircleWrap{
-  flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:18px 0 8px;
-}
-
 .progressCircle{
   position:relative;
 
@@ -4672,6 +4663,7 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
   height:140px;
 
   overflow:hidden;
+
   border-radius:280px 280px 0 0;
 
   background:
@@ -4681,36 +4673,27 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
       #40536a var(--progress-angle,0deg) 180deg,
       transparent 180deg
     );
+
+  /* Make it a ring instead of a filled slice */
+  -webkit-mask:
+    radial-gradient(
+      ellipse 100% 100% at 50% 100%,
+      transparent 0 68%,
+      #000 69% 100%
+    );
+
+  mask:
+    radial-gradient(
+      ellipse 100% 100% at 50% 100%,
+      transparent 0 68%,
+      #000 69% 100%
+    );
 }
 
 .progressCircle::after{
-  content:"";
-
-  position:absolute;
-
-  left:14px;
-  right:14px;
-  top:14px;
-  bottom:0;
-
-  background:#0b2948;
-
-  border-radius:260px 260px 0 0;
+  display:none;
 }
 
-.progressCircleInner{
-  position:absolute;
-  z-index:2;
-
-  inset:0;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  align-items:center;
-
-  padding-bottom:22px;
-}
 
 .progressCircleInner strong{
   font-size:34px;

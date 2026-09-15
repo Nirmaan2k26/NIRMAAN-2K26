@@ -1214,7 +1214,16 @@
         percentEl.textContent =
           percentage + "%";
       }
+/* =========================
+   UNSOLD PLAYERS
+   ========================= */
 
+const unsoldEl =
+  document.getElementById("dashboardUnsoldCount");
+
+if (unsoldEl) {
+  unsoldEl.textContent = unsold.length;
+}
 
       /* =========================
          REMAINING PLAYERS

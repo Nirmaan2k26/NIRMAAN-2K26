@@ -4980,7 +4980,9 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
   text-align:right !important;
   align-items:flex-end !important;
 }
-/* ===== FINAL CIRCLE OVERRIDE ===== */
+/* =========================================================
+   NIRMAAN — FINAL AUCTION PROGRESS SEMICIRCLE
+   ========================================================= */
 
 .progressCircle{
   position:relative !important;
@@ -4989,53 +4991,31 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
   margin:20px auto 0 !important;
   overflow:hidden !important;
   background:transparent !important;
-  border-radius:0 !important;
-  -webkit-mask:none !important;
-  mask:none !important;
+  border:0 !important;
 }
 
-
-/* GREY SEMICIRCLE */
+/* GREY BASE SEMICIRCLE */
 .progressCircle::before{
   content:"" !important;
   position:absolute !important;
-
   width:340px !important;
   height:340px !important;
-
   left:10px !important;
   top:0 !important;
 
   border-radius:50% !important;
+  border:18px solid #40536a !important;
+  box-sizing:border-box !important;
 
-  background:#40536a !important;
-
-  -webkit-mask:
-    radial-gradient(
-      circle,
-      transparent 0 88%,
-      #000 89% 100%
-    ) !important;
-
-  mask:
-    radial-gradient(
-      circle,
-      transparent 0 88%,
-      #000 89% 100%
-    ) !important;
-
-  z-index:1 !important;
+  background:transparent !important;
 }
 
-
-/* YELLOW PROGRESS */
+/* YELLOW LIVE PROGRESS */
 .progressCircle::after{
   content:"" !important;
   position:absolute !important;
-
   width:340px !important;
   height:340px !important;
-
   left:10px !important;
   top:0 !important;
 
@@ -5046,28 +5026,27 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
       from 270deg,
       #ffc533 0deg var(--progress-angle,0deg),
       transparent var(--progress-angle,0deg) 180deg,
-      transparent 180deg
+      transparent 180deg 360deg
     ) !important;
 
   -webkit-mask:
     radial-gradient(
       circle,
-      transparent 0 88%,
-      #000 89% 100%
+      transparent 0 89%,
+      #000 90% 100%
     ) !important;
 
   mask:
     radial-gradient(
       circle,
-      transparent 0 88%,
-      #000 89% 100%
+      transparent 0 89%,
+      #000 90% 100%
     ) !important;
 
   z-index:2 !important;
 }
 
-
-/* NUMBER MUST STAY VISIBLE */
+/* CENTER NUMBER */
 .progressCircleInner{
   position:absolute !important;
   left:0 !important;
@@ -5079,19 +5058,21 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
   display:flex !important;
   flex-direction:column !important;
   align-items:center !important;
-
-  -webkit-mask:none !important;
-  mask:none !important;
+  justify-content:flex-end !important;
 }
 
 .progressCircleInner strong{
   color:#fff !important;
   font-size:34px !important;
+  line-height:1 !important;
 }
 
 .progressCircleInner span{
+  margin-top:8px !important;
   color:#9fc0df !important;
   font-size:12px !important;
+  font-weight:900 !important;
+  letter-spacing:.10em !important;
 }
 /* ===== FINAL WORKING AUCTION PROGRESS CIRCLE ===== */
 

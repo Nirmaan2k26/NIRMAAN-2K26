@@ -5450,3 +5450,68 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
   z-index:10 !important;
   background:transparent !important;
 }
+/* ===== SVG AUCTION PROGRESS CIRCLE ===== */
+
+.progressCircle{
+  position:relative !important;
+  width:360px !important;
+  height:200px !important;
+  margin:20px auto 0 !important;
+  overflow:hidden !important;
+  background:transparent !important;
+  border:0 !important;
+}
+
+.auctionProgressSvg{
+  position:absolute !important;
+  left:0 !important;
+  top:0 !important;
+  width:360px !important;
+  height:200px !important;
+  overflow:visible !important;
+}
+
+/* GREY BASE ARC */
+.auctionArcBase{
+  fill:none !important;
+  stroke:#40536a !important;
+  stroke-width:18 !important;
+  stroke-linecap:butt !important;
+}
+
+/* GOLDEN ARC */
+.auctionArcProgress{
+  fill:none !important;
+  stroke:#ffc533 !important;
+  stroke-width:18 !important;
+  stroke-linecap:butt !important;
+  stroke-dasharray:471.24 !important;
+  stroke-dashoffset:471.24 !important;
+}
+
+/* CENTER TEXT */
+.progressCircleInner{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:20px !important;
+  z-index:10 !important;
+  background:transparent !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+}
+
+.progressCircleInner strong{
+  color:#fff !important;
+  font-size:34px !important;
+  line-height:1 !important;
+}
+
+.progressCircleInner span{
+  margin-top:8px !important;
+  color:#9fc0df !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  letter-spacing:.10em !important;
+}

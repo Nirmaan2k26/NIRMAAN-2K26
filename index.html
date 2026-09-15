@@ -232,31 +232,32 @@
 
       <div class="progressCircleWrap">
 
-        <div class="progressCircle">
-          <div class="progressCircleInner">
-            <strong id="dashboardSoldCount">0 / 0</strong>
-            <span>PLAYERS SOLD</span>
-          </div>
-        </div>
-
+<div class="progressCircle">
+  <div class="progressCircleInner">
+    <strong id="dashboardRemainingDisplay">0 / 0</strong>
+    <span>PLAYERS REMAINING</span>
+  </div>
+</div>
+        
       </div>
+<div class="progressBottom">
 
-      <div class="progressBottom">
+  <div>
+    <strong id="dashboardSoldCount">0</strong>
+    <span>SOLD</span>
+  </div>
 
-        <div>
-          <strong id="dashboardProgressPercent">0%</strong>
-          <span>COMPLETED</span>
-        </div>
- <div>
+  <div>
+    <strong id="dashboardProgressPercent">0%</strong>
+    <span>COMPLETED</span>
+  </div>
+
+  <div>
     <strong id="dashboardUnsoldCount">0</strong>
     <span>UNSOLD</span>
   </div>
-        <div>
-          <strong id="dashboardRemainingCount">0</strong>
-          <span>PLAYERS REMAINING</span>
-        </div>
 
-      </div>
+</div>
 
     </div>
 
@@ -1194,14 +1195,20 @@
          SOLD COUNT
          ========================= */
 
-      const soldEl =
-        document.getElementById("dashboardSoldCount");
+ const remainingDisplayEl =
+  document.getElementById("dashboardRemainingDisplay");
 
-      if (soldEl) {
-        soldEl.textContent =
-          soldCount + " / " + total;
-      }
+if (remainingDisplayEl) {
+  remainingDisplayEl.textContent =
+    remaining + " / " + total;
+}
 
+const soldEl =
+  document.getElementById("dashboardSoldCount");
+
+if (soldEl) {
+  soldEl.textContent = soldCount;
+}
 
       /* =========================
          PERCENTAGE

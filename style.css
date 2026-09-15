@@ -4953,3 +4953,30 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
   }
 
 }
+/* ===== PROGRESS BOTTOM — 3 ITEMS IN ONE ROW ===== */
+
+.progressBottom{
+  display:grid !important;
+  grid-template-columns:1fr 1fr 1fr !important;
+  gap:20px !important;
+  align-items:end !important;
+  border-top:1px solid rgba(255,255,255,.10) !important;
+  padding-top:18px !important;
+}
+
+.progressBottom > div{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:5px !important;
+  text-align:left !important;
+}
+
+.progressBottom > div:nth-child(2){
+  text-align:center !important;
+  align-items:center !important;
+}
+
+.progressBottom > div:nth-child(3){
+  text-align:right !important;
+  align-items:flex-end !important;
+}

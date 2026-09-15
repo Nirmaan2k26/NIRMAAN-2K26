@@ -5303,3 +5303,64 @@ body[data-ui-active="settings"] [data-ui-view="settings"]{
   z-index:10 !important;
   background:transparent !important;
 }
+/* ===== FINAL SEMICIRCLE FIX ===== */
+
+.progressCircle{
+  position:relative !important;
+  width:360px !important;
+  height:180px !important;
+  margin:20px auto 0 !important;
+  overflow:hidden !important;
+  background:transparent !important;
+  border:18px solid #40536a !important;
+  border-bottom:0 !important;
+  border-radius:360px 360px 0 0 !important;
+  box-sizing:border-box !important;
+}
+
+/* GOLDEN ARC */
+.progressCircle::before{
+  content:"" !important;
+  position:absolute !important;
+  width:324px !important;
+  height:324px !important;
+  left:0 !important;
+  top:0 !important;
+  border-radius:50% !important;
+
+  background:conic-gradient(
+    from 270deg,
+    #ffc533 0deg var(--progress-angle,0deg),
+    transparent var(--progress-angle,0deg) 180deg,
+    transparent 180deg 360deg
+  ) !important;
+
+  -webkit-mask:radial-gradient(
+    circle,
+    transparent 0 84%,
+    #000 85% 100%
+  ) !important;
+
+  mask:radial-gradient(
+    circle,
+    transparent 0 84%,
+    #000 85% 100%
+  ) !important;
+
+  z-index:2 !important;
+}
+
+/* OLD AFTER OFF */
+.progressCircle::after{
+  content:none !important;
+}
+
+/* TEXT */
+.progressCircleInner{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:20px !important;
+  z-index:10 !important;
+  background:transparent !important;
+}

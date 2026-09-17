@@ -402,7 +402,7 @@ function choosePlayer(id){
 
  if(!p)return;
 
-
+state.currentAuctionPlayerId = p.id;
  const input=
    document.getElementById("playerName");
 
@@ -4640,27 +4640,34 @@ document.addEventListener("DOMContentLoaded", function(){
   /* -------------------------------------------------------
      CURRENT PLAYER DISPLAY
      ------------------------------------------------------- */
+function showCurrentAuctionPlayer(){
 
-  function showCurrentAuctionPlayer(){
+  const input =
+    document.getElementById("playerName");
 
-    const input=
-      document.getElementById("playerName");
+  const info =
+    document.getElementById("playerInfo");
 
-    const info=
-      document.getElementById("playerInfo");
+  const dropdown =
+    document.getElementById("playerDropdown");
 
-    const dropdown=
-      document.getElementById("playerDropdown");
+  if(!input) return;
 
-    if(!input) return;
+  /* NO AUTOMATIC PLAYER */
+  input.value = "";
+  input.readOnly = false;
+  input.placeholder = "Search & Select Player";
 
-    let player=
-      players.find(
-        p=>
-          String(p.id)===
-          String(state.currentAuctionPlayerId)
-      );
+  if(info){
+    info.classList.add("hidden");
+    info.innerHTML = "";
+  }
 
+  if(dropdown){
+    dropdown.innerHTML = "";
+    dropdown.classList.remove("show");
+  }
+}
     /*
        Current player available na hoy
        to next available player lo.

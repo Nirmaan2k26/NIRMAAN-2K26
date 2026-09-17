@@ -2209,8 +2209,8 @@ function loadState(){
 
   renderTeamSelect();
 
+if(document.activeElement?.id !== "finalTeamSearch")
   renderGlobalFinalResult();
-
   if(authenticated)
     renderTeam();
 }

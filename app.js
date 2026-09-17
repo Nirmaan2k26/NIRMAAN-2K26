@@ -5022,18 +5022,6 @@ function moveToNextPlayer(){
      EXCEL UPLOAD / REPLACE PACHI CURRENT PLAYER
      ------------------------------------------------------- */
 
-  const excelInput=
-    document.getElementById("excelFile");
-
-  if(excelInput){
-
-    excelInput.addEventListener(
-      "change",
-      function(){
-
-        setTimeout(
-          function(){
-
        
 
   /* -------------------------------------------------------

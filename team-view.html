@@ -2591,7 +2591,9 @@ const ranking = getFinalRanking();
     "<h2>🏆 Winner Celebration</h2>"+
     "<p>Congratulations to our Champions!</p>"+
     "<h3>🏆 Final Ranking</h3>"+
-
+"<div class='finalRankingSearchWrap'>"+
+"<input id='finalTeamSearch' type='text' placeholder='🔎 Search Team...' autocomplete='off' oninput='filterFinalRanking(this.value)'>"+
+"</div>"+
     ranking
       .map((x,i)=>
         `<div class="rank">
@@ -3264,7 +3266,42 @@ window.addEventListener(
   "nirmaan-realtime-update",
   loadState
 );
-  
+  /* =========================================================
+   FINAL RANKING TEAM SEARCH
+   ========================================================= */
+
+function filterFinalRanking(searchText){
+
+  const query =
+    String(searchText || "")
+      .trim()
+      .toLowerCase();
+
+  const rankingRows =
+    document.querySelectorAll(
+      "#globalFinalResultContent .winnerBox .rank"
+    );
+
+  rankingRows.forEach(row => {
+
+    const nameElement =
+      row.querySelectorAll("b")[1];
+
+    const teamName =
+      nameElement
+        ? nameElement.textContent
+            .trim()
+            .toLowerCase()
+        : "";
+
+    if(!query || teamName.includes(query)){
+      row.style.display = "";
+    }else{
+      row.style.display = "none";
+    }
+
+  });
+}
 </script>
 
 

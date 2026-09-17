@@ -4673,17 +4673,7 @@ function showCurrentAuctionPlayer(){
        to next available player lo.
     */
 
-    if(!player || isPlayerDone(player.id)){
-
-      player=
-        getNextAvailablePlayer();
-
-      state.currentAuctionPlayerId=
-        player
-          ? player.id
-          : null;
-
-    }
+   
 
     /* No players left */
 
@@ -4749,54 +4739,13 @@ function showCurrentAuctionPlayer(){
   /* -------------------------------------------------------
      MOVE TO NEXT PLAYER
      ------------------------------------------------------- */
+function moveToNextPlayer(){
 
-  function moveToNextPlayer(){
+  state.currentAuctionPlayerId = null;
 
-    const currentIndex=
-      players.findIndex(
-        p=>
-          String(p.id)===
-          String(state.currentAuctionPlayerId)
-      );
+}
 
-    let next=null;
-
-    if(currentIndex>=0){
-
-      for(
-        let i=currentIndex+1;
-        i<players.length;
-        i++
-      ){
-
-        if(!isPlayerDone(players[i].id)){
-
-          next=players[i];
-          break;
-
-        }
-
-      }
-
-    }
-
-    /*
-       Fallback — jo current player na male
-       to first available player.
-    */
-
-    if(!next){
-      next=getNextAvailablePlayer();
-    }
-
-    state.currentAuctionPlayerId=
-      next
-        ? next.id
-        : null;
-
-    showCurrentAuctionPlayer();
-
-  }
+ 
 
   /* -------------------------------------------------------
      SAVE ACTION
@@ -5151,38 +5100,7 @@ function showCurrentAuctionPlayer(){
         setTimeout(
           function(){
 
-            /*
-               New Excel upload thay tyare
-               current player reset.
-            */
-
-            const current=
-              players.find(
-                p=>
-                  !isPlayerDone(p.id)
-              );
-
-            state.currentAuctionPlayerId=
-              current
-                ? current.id
-                : null;
-
-            undoStack=[];
-            redoStack=[];
-
-            save();
-            render();
-            showCurrentAuctionPlayer();
-
-          },
-          300
-        );
-
-      }
-    );
-
-  }
-
+       
 
   /* -------------------------------------------------------
      RESET AUCTION
@@ -5200,15 +5118,7 @@ function showCurrentAuctionPlayer(){
         setTimeout(
           function(){
 
-            state.unsold=[];
 
-            const first=
-              getNextAvailablePlayer();
-
-            state.currentAuctionPlayerId=
-              first
-                ? first.id
-                : null;
 
             undoStack=[];
             redoStack=[];

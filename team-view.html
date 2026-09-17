@@ -1729,6 +1729,40 @@ body{
 #globalFinalResultContent .winnerBox::-webkit-scrollbar-thumb:hover{
   background:#3da1ff;
 }
+  /* ===== FINAL RANKING SEARCH ===== */
+
+.finalRankingSearchWrap{
+  width:100%;
+  margin:12px 0 16px;
+}
+
+#finalTeamSearch{
+  width:100% !important;
+  height:48px !important;
+  box-sizing:border-box !important;
+  padding:0 16px !important;
+
+  background:#ffffff !important;
+  color:#071a3a !important;
+
+  border:1.5px solid #218cff !important;
+  border-radius:12px !important;
+
+  font-size:15px !important;
+  font-weight:600 !important;
+
+  outline:none !important;
+  box-shadow:0 5px 18px rgba(7,26,58,.10) !important;
+}
+
+#finalTeamSearch::placeholder{
+  color:#718096 !important;
+}
+
+#finalTeamSearch:focus{
+  border-color:#0d5fbd !important;
+  box-shadow:0 0 0 4px rgba(33,140,255,.15) !important;
+}
 </style>
 </head>
 
@@ -2565,7 +2599,14 @@ const ranking = getFinalRanking();
     "<h2>🏆 Winner Celebration</h2>"+
     "<p>Congratulations to our Champions!</p>"+
     "<h3>🏆 Final Ranking</h3>"+
-
+<div class="finalRankingSearchWrap">
+  <input
+    id="finalTeamSearch"
+    type="text"
+    placeholder="🔎 Search Team..."
+    autocomplete="off"
+  >
+</div>
     ranking
       .map((x,i)=>
         `<div class="rank">

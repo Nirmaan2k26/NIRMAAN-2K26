@@ -1702,6 +1702,33 @@ body{
   color:#b00000 !important;
   font-weight:700 !important;
 }
+  /* ===== FINAL RANKING SCROLL ===== */
+
+#globalFinalResultContent .winnerBox{
+  max-height:75vh !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  scrollbar-width:thin;
+  scrollbar-color:#218cff #071a3a;
+}
+
+#globalFinalResultContent .winnerBox::-webkit-scrollbar{
+  width:9px;
+}
+
+#globalFinalResultContent .winnerBox::-webkit-scrollbar-track{
+  background:#071a3a;
+  border-radius:10px;
+}
+
+#globalFinalResultContent .winnerBox::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,#218cff,#0d5fbd);
+  border-radius:10px;
+}
+
+#globalFinalResultContent .winnerBox::-webkit-scrollbar-thumb:hover{
+  background:#3da1ff;
+}
 </style>
 </head>
 

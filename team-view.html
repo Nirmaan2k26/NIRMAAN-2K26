@@ -1725,55 +1725,6 @@ body{
 .finalRankingSearchWrap{
   position:sticky !important;
   top:0 !important;
-  z-index:1000 !important;
-
-  width:100% !important;
-  box-sizing:border-box !important;
-
-  margin:0 0 16px !important;
-  padding:10px 0 12px !important;
-
-  background:#fff9e9 !important;
-}
-
-#finalTeamSearch{
-  display:block !important;
-  width:100% !important;
-  height:48px !important;
-  box-sizing:border-box !important;
-
-  padding:0 16px !important;
-
-  background:#ffffff !important;
-  color:#071a3a !important;
-
-  border:1.5px solid #218cff !important;
-  border-radius:12px !important;
-
-  font-size:15px !important;
-  font-weight:600 !important;
-
-  outline:none !important;
-
-  pointer-events:auto !important;
-  user-select:text !important;
-  cursor:text !important;
-
-  position:relative !important;
-  z-index:1001 !important;
-}
-
-#finalTeamSearch::placeholder{
-  color:#718096 !important;
-}
-
-#finalTeamSearch:focus{
-  border-color:#0d5fbd !important;
-  box-shadow:0 0 0 4px rgba(33,140,255,.15) !important;
-}
-.finalRankingSearchWrap{
-  position:sticky !important;
-  top:0 !important;
   z-index:50 !important;
   background:#fff9e9 !important;
   padding:8px 0 10px !important;
@@ -2641,12 +2592,13 @@ const ranking = getFinalRanking();
     "<div class='winnerBox'>"+
     "<h2>🏆 Winner Celebration</h2>"+
     "<p>Congratulations to our Champions!</p>"+
-    "<h3>🏆 Final Ranking</h3>"+
+   
+ "<h3>🏆 Final Ranking</h3>"+
 "<div class='finalRankingSearchWrap'>"+
 "<input id='finalTeamSearch' type='text' placeholder='🔎 Search Team...' autocomplete='off' oninput='filterFinalRanking(this.value)'>"+
 "</div>"+
-    ranking
-      .map((x,i)=>
+"<div class='finalRankingList'>"+
+ranking.map((x,i)=>
         `<div class="rank">
           <b>
             ${

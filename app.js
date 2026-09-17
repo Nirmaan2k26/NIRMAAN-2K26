@@ -1671,29 +1671,72 @@ $("resumeAuction").onclick=()=>{
  );
 };
 
-
 $("resetAuction").onclick=()=>{
 
- if(
-   confirm(
-     "Reset teams and sold history? Player master Excel remains safe."
-   )
- ){
+  if(
+    confirm(
+      "⚠️ RESET ALL AUCTION DATA?\n\n" +
+      "Teams, players, sold history, unsold history, auction progress and results will be cleared.\n\n" +
+      "You will need to upload a NEW Player Excel and Team Excel again.\n\n" +
+      "Continue?"
+    )
+  ){
 
-   state={
-     teams:[],
-     sold:[],
-     auctionComplete:false,
-     resultVisibleToTeams:false
-   };
+    /* RESET ALL AUCTION DATA */
 
-   save();
+    players = [];
 
-   render();
+    state = {
+      teams:[],
+      sold:[],
+      unsold:[],
+      auctionComplete:false,
+      resultVisibleToTeams:false,
+      currentAuctionPlayerId:null,
+      finalRanking:[]
+    };
 
-   $("winnerBox")
-     .classList.add("hidden");
- }
+    /* Remove saved Player + Auction data */
+
+    localStorage.removeItem(PLAYER_KEY);
+    localStorage.removeItem(STATE_KEY);
+
+    /* Save completely fresh state */
+
+    save();
+
+    render();
+
+    /* Clear inputs */
+
+    if($("excelFile"))
+      $("excelFile").value="";
+
+    if($("teamExcelFile"))
+      $("teamExcelFile").value="";
+
+    if($("playerName"))
+      $("playerName").value="";
+
+    if($("bidPrice"))
+      $("bidPrice").value="";
+
+    if($("winnerBox"))
+      $("winnerBox")
+        .classList.add("hidden");
+
+    if($("playerInfo"))
+      $("playerInfo")
+        .classList.add("hidden");
+
+    showCurrentAuctionPlayer();
+
+    setMsg(
+      "auctionMsg",
+      "🗑️ All auction data cleared. Upload NEW Player Excel and Team Excel to start a fresh auction.",
+      "ok"
+    );
+  }
 };
 
 

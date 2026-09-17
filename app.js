@@ -4668,73 +4668,7 @@ function showCurrentAuctionPlayer(){
     dropdown.classList.remove("show");
   }
 }
-    /*
-       Current player available na hoy
-       to next available player lo.
-    */
-
-   
-
-    /* No players left */
-
-    if(!player){
-
-      input.value="";
-      input.placeholder="All players completed";
-      input.readOnly=true;
-
-      if(info){
-
-        info.classList.remove("hidden");
-
-        info.innerHTML=`
-          <b>🏁 All players have been SOLD or marked UNSOLD.</b>
-        `;
-
-      }
-
-      if(dropdown){
-
-        dropdown.innerHTML="";
-        dropdown.classList.remove("show");
-
-      }
-
-      return;
-
-    }
-
-    /* Show current player */
-
-    input.value=
-      player.name || "";
-
-    input.readOnly=true;
-
-    input.placeholder=
-      "Current Auction Player";
-
-    if(dropdown){
-
-      dropdown.innerHTML="";
-      dropdown.classList.remove("show");
-
-    }
-
-    if(info){
-
-      info.classList.remove("hidden");
-
-      info.innerHTML=
-        `<b>${esc(player.name)}</b>
-         · Base ${money(player.basePrice)}
-         · ${esc(player.category)}
-         · ${Number(player.points || 0)} Points
-         · ${esc(player.iplTeam || "")}`;
-
-    }
-
-  }
+ 
 
   /* -------------------------------------------------------
      MOVE TO NEXT PLAYER

@@ -5230,19 +5230,7 @@ function showCurrentAuctionPlayer(){
   /* -------------------------------------------------------
      START
      ------------------------------------------------------- */
-
-  if(!state.currentAuctionPlayerId){
-
-    const first=
-      getNextAvailablePlayer();
-
-    state.currentAuctionPlayerId=
-      first
-        ? first.id
-        : null;
-
-  }
-
-  showCurrentAuctionPlayer();
+showCurrentAuctionPlayer();
+  
 
 })();

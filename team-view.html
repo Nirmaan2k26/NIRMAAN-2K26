@@ -1683,34 +1683,43 @@ body{
 .teamReportMissing *{
   color:#a40000 !important;
 }
- 
-  /* ===== FINAL RANKING SCROLL ===== */
+ /* ===== FINAL RANKING PROPER SCROLL ===== */
 
-#globalFinalResultContent .winnerBox{
+#globalFinalResultContent{
   max-height:75vh !important;
   overflow-y:auto !important;
   overflow-x:hidden !important;
-  scrollbar-width:thin;
-  scrollbar-color:#218cff #071a3a;
+  padding-right:6px !important;
 }
 
-#globalFinalResultContent .winnerBox::-webkit-scrollbar{
+#globalFinalResultContent .winnerBox{
+  max-height:none !important;
+  overflow:visible !important;
+}
+
+#globalFinalResultContent::-webkit-scrollbar{
   width:9px;
 }
 
-#globalFinalResultContent .winnerBox::-webkit-scrollbar-track{
-  background:#071a3a;
+#globalFinalResultContent::-webkit-scrollbar-track{
+  background:#e8eef6;
   border-radius:10px;
 }
 
-#globalFinalResultContent .winnerBox::-webkit-scrollbar-thumb{
-  background:linear-gradient(180deg,#218cff,#0d5fbd);
+#globalFinalResultContent::-webkit-scrollbar-thumb{
+  background:#218cff;
   border-radius:10px;
 }
 
-#globalFinalResultContent .winnerBox::-webkit-scrollbar-thumb:hover{
-  background:#3da1ff;
+#globalFinalResultContent::-webkit-scrollbar-thumb:hover{
+  background:#0d5fbd;
 }
+
+#globalFinalResultContent{
+  scrollbar-width:thin;
+  scrollbar-color:#218cff #e8eef6;
+}
+  
   /* ===== FINAL RANKING SEARCH ===== */
 
 .finalRankingSearchWrap{

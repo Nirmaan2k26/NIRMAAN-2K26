@@ -1762,7 +1762,35 @@ user-select:text !important;
   border-color:#0d5fbd !important;
   box-shadow:0 0 0 4px rgba(33,140,255,.15) !important;
 }
- 
+ @media(max-width:600px){
+
+  #mobileTeamSuggestions{
+    position:relative !important;
+    width:100% !important;
+    margin-top:6px !important;
+    background:#ffffff !important;
+    border:1px solid #218cff !important;
+    border-radius:10px !important;
+    overflow:hidden !important;
+    z-index:99999 !important;
+    box-shadow:0 8px 20px rgba(0,0,0,.15) !important;
+  }
+
+  #mobileTeamSuggestions div{
+    padding:12px 14px !important;
+    font-size:14px !important;
+    font-weight:700 !important;
+    color:#071a3a !important;
+    background:#ffffff !important;
+    border-bottom:1px solid #e5edf7 !important;
+    cursor:pointer !important;
+  }
+
+  #mobileTeamSuggestions div:last-child{
+    border-bottom:none !important;
+  }
+
+}
 </style>
 </head>
 
@@ -2601,7 +2629,7 @@ const ranking = getFinalRanking();
    
  "<h3>🏆 Final Ranking</h3>"+
 "<div class='finalRankingSearchWrap'>"+
-"<input id='finalTeamSearch' type='text' placeholder='🔎 Search Team...' autocomplete='off' oninput='filterFinalRanking(this.value)'>"+
+"<input id='finalTeamSearch' type='text' placeholder='🔎 Search Team...' autocomplete='off' oninput='fioninput='filterFinalRanking(this.value); showMobileTeamSuggestions(this.value)'lterFinalRanking(this.value)'>"+
 "</div>"+
 "<div class='finalRankingList'>"+
 ranking.map((x,i)=>
@@ -3310,6 +3338,63 @@ function filterFinalRanking(searchText){
     }
 
   });
+}
+  function showMobileTeamSuggestions(searchText){
+
+  const query = String(searchText || "").trim().toLowerCase();
+
+  const input = document.getElementById("finalTeamSearch");
+  if(!input) return;
+
+  let box = document.getElementById("mobileTeamSuggestions");
+
+  if(!box){
+    box = document.createElement("div");
+    box.id = "mobileTeamSuggestions";
+    input.parentElement.appendChild(box);
+  }
+
+  box.innerHTML = "";
+
+  if(!query){
+    box.style.display = "none";
+    return;
+  }
+
+  const rows = document.querySelectorAll(
+    "#globalFinalResultContent .winnerBox .rank"
+  );
+
+  rows.forEach(row => {
+
+    const nameElement = row.querySelectorAll("b")[1];
+
+    if(!nameElement) return;
+
+    const teamName = nameElement.textContent.trim();
+
+    if(teamName.toLowerCase().includes(query)){
+
+      const item = document.createElement("div");
+
+      item.textContent = teamName;
+
+      item.onclick = function(){
+
+        input.value = teamName;
+
+        filterFinalRanking(teamName);
+
+        box.style.display = "none";
+      };
+
+      box.appendChild(item);
+    }
+
+  });
+
+  box.style.display =
+    box.children.length ? "block" : "none";
 }
 </script>
 

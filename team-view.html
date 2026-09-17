@@ -3339,18 +3339,27 @@ function filterFinalRanking(searchText){
 
   });
 }
-  function showMobileTeamSuggestions(searchText){
 
-  const query = String(searchText || "").trim().toLowerCase();
+function showMobileTeamSuggestions(searchText){
 
-  const input = document.getElementById("finalTeamSearch");
+  const query =
+    String(searchText || "")
+      .trim()
+      .toLowerCase();
+
+  const input =
+    document.getElementById("finalTeamSearch");
+
   if(!input) return;
 
-  let box = document.getElementById("mobileTeamSuggestions");
+  let box =
+    document.getElementById("mobileTeamSuggestions");
 
   if(!box){
     box = document.createElement("div");
     box.id = "mobileTeamSuggestions";
+
+    input.parentElement.style.position = "relative";
     input.parentElement.appendChild(box);
   }
 
@@ -3361,32 +3370,44 @@ function filterFinalRanking(searchText){
     return;
   }
 
-  const rows = document.querySelectorAll(
-    "#globalFinalResultContent .winnerBox .rank"
-  );
+  const teams =
+    Array.isArray(state.teams)
+      ? state.teams
+      : [];
 
-  rows.forEach(row => {
+  teams.forEach(team => {
 
-    const nameElement = row.querySelectorAll("b")[1];
+    const teamName =
+      String(team.name || "").trim();
 
-    if(!nameElement) return;
+    if(!teamName) return;
 
-    const teamName = nameElement.textContent.trim();
+    if(
+      teamName
+        .toLowerCase()
+        .includes(query)
+    ){
 
-    if(teamName.toLowerCase().includes(query)){
-
-      const item = document.createElement("div");
+      const item =
+        document.createElement("div");
 
       item.textContent = teamName;
 
-      item.onclick = function(){
+      item.addEventListener(
+        "pointerdown",
+        function(e){
 
-        input.value = teamName;
+          e.preventDefault();
 
-        filterFinalRanking(teamName);
+          input.value = teamName;
 
-        box.style.display = "none";
-      };
+          filterFinalRanking(teamName);
+
+          box.style.display = "none";
+
+          input.focus();
+        }
+      );
 
       box.appendChild(item);
     }
@@ -3394,9 +3415,10 @@ function filterFinalRanking(searchText){
   });
 
   box.style.display =
-    box.children.length ? "block" : "none";
+    box.children.length > 0
+      ? "block"
+      : "none";
 }
-
 
 </script>
 
